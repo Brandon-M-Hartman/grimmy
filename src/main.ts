@@ -1,4 +1,4 @@
-import { Application } from "pixi.js";
+import { Application, Assets } from "pixi.js";
 import { Token } from './token';
 
 (async () => {
@@ -10,6 +10,13 @@ import { Token } from './token';
 
 	// Append the application canvas to the document body
 	document.getElementById("pixi-container")!.appendChild(app.canvas);
+
+	// Load fonts
+	Assets.addBundle('fonts', [
+        { alias: 'IMFell', src: 'assets/fonts/imfell.ttf' },
+		{ alias: 'Trade Gothic', src: 'assets/fonts/trade_gothic.otf' },
+    ]);
+	await Assets.loadBundle('fonts');
 
 	let draggingToken:Token | null = null;	
 

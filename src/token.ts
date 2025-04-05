@@ -16,6 +16,7 @@ export class Token extends Container {
 		this.dragOffset = new Point();
 
 		(async () => {
+
 			const backgroundImage = await Assets.load("assets/token/background.png");
 			const background:Sprite = new Sprite(backgroundImage);
 			background.anchor.set(0.5);
@@ -41,7 +42,7 @@ export class Token extends Container {
 
 			const blurFilter1 = new BlurFilter();
 			shadow.filters = [blurFilter1];
-			shadow.alpha = 0.1;
+			shadow.alpha = 0.2;
 			
 			
 			this.container = new Container();
@@ -57,10 +58,9 @@ export class Token extends Container {
 			const text = "MONK";
 
 			const radius = 105;
-			const fontSize = 28;
 			const fontStyle = {
-				fontFamily: 'Tahoma',
-				fontSize: fontSize,
+				fontFamily: 'IMFell',
+				fontSize: 28,
 				fill: 0x000000,
 			};
 
