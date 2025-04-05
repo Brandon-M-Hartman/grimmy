@@ -66,7 +66,7 @@ export class Token extends Container {
 
 			const characters: Text[] = [];
 			let totalArcLength = 0;
-			let characterSpacing = 1.25;
+			const characterSpacing = 1.25;
 
 			for (let i = 0; i < text.length; i++) {
 				const char = new Text({ text: text[i], style: fontStyle});

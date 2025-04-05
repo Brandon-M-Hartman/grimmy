@@ -20,7 +20,7 @@ import { Token } from './token';
 		}
 	});
 
-	var token:Token = new Token();
+	const token:Token = new Token();
 	token.position.set(app.screen.width / 2, app.screen.height / 2);
 
 	token.eventMode = 'static';
@@ -39,7 +39,7 @@ import { Token } from './token';
 	app.stage.addChild(token);
 
 	// Listen for animate update
-	app.ticker.add((_time) => {
+	app.ticker.add(() => {
 		
 	});
 })();
