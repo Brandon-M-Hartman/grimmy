@@ -16,21 +16,21 @@ export class Token extends Container {
 		this.dragOffset = new Point();
 
 		(async () => {
-			const backgroundImage = await Assets.load("/assets/token/background.png");
+			const backgroundImage = await Assets.load("assets/token/background.png");
 			const background:Sprite = new Sprite(backgroundImage);
 			background.anchor.set(0.5);
 
-			const iconImage = await Assets.load("/assets/token/monk.webp");
+			const iconImage = await Assets.load("assets/token/monk.webp");
 			const icon:Sprite = new Sprite(iconImage);
 			icon.anchor.set(0.5);
 			icon.scale = 0.4;
 			
-			const remindersTopImage = await Assets.load("/assets/token/top-1.webp");
+			const remindersTopImage = await Assets.load("assets/token/top-1.webp");
 			const remindersTop:Sprite = new Sprite(remindersTopImage);
 			remindersTop.anchor.set(0.5);
 			remindersTop.scale = 0.515;
 
-			const remindersRightImage = await Assets.load("/assets/token/right-1.webp");
+			const remindersRightImage = await Assets.load("assets/token/right-1.webp");
 			const remindersRight:Sprite = new Sprite(remindersRightImage);
 			remindersRight.anchor.set(0.5);
 			remindersRight.scale = 0.515;
