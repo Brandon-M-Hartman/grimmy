@@ -14,36 +14,54 @@ export class Token extends Container {
 		this.container = new Container();
 		this.dragging = false;
 		this.dragOffset = new Point();
+		
+		Assets.add({
+			alias: 'icon',
+			src: 'assets/token/monk.webp',
+			data: { scaleMode: 'linear' },
+		});
+		Assets.add({
+			alias: 'background',
+			src: 'assets/token/background.png',
+			data: { scaleMode: 'linear' },
+		});
+		Assets.add({
+			alias: 'remindersTop',
+			src: 'assets/token/top-1.webp',
+			data: { scaleMode: 'linear' },
+		});
+		Assets.add({
+			alias: 'remindersRight',
+			src: 'assets/token/right-1.webp',
+			data: { scaleMode: 'linear' },
+		});
 
-		(async () => {
+		const texturesPromise = Assets.load(['icon', 'background', 'remindersTop', 'remindersRight']);
 
-			const backgroundImage = await Assets.load("assets/token/background.png");
-			const background:Sprite = new Sprite(backgroundImage);
+		texturesPromise.then((textures) => {
+
+			const background:Sprite = Sprite.from(textures.background);
 			background.anchor.set(0.5);
 
-			const iconImage = await Assets.load("assets/token/monk.webp");
-			const icon:Sprite = new Sprite(iconImage);
+			const icon:Sprite = Sprite.from(textures.icon);
 			icon.anchor.set(0.5);
 			icon.scale = 0.4;
 			
-			const remindersTopImage = await Assets.load("assets/token/top-1.webp");
-			const remindersTop:Sprite = new Sprite(remindersTopImage);
+			const remindersTop:Sprite = Sprite.from(textures.remindersTop);
 			remindersTop.anchor.set(0.5);
 			remindersTop.scale = 0.515;
 
-			const remindersRightImage = await Assets.load("assets/token/right-1.webp");
-			const remindersRight:Sprite = new Sprite(remindersRightImage);
+			const remindersRight:Sprite = Sprite.from(textures.remindersRight);
 			remindersRight.anchor.set(0.5);
 			remindersRight.scale = 0.515;
 
 			const shadow:Graphics = new Graphics();
-			shadow.circle(0, 0, 128);
+			shadow.circle(0, 0, 120);
 			shadow.fill(0x000000);
 
 			const blurFilter1 = new BlurFilter();
 			shadow.filters = [blurFilter1];
-			shadow.alpha = 0.2;
-			
+			shadow.alpha = 0.3;
 			
 			this.container = new Container();
 
@@ -96,15 +114,15 @@ export class Token extends Container {
 
 				currentAngle -= charArc;
 			}
-		})();
+		});
 	}
 
 	pickup(position:Point): void {
 		this.dragging = true;
 		this.dragOffset = new Point(this.position.x - position.x, this.position.y - position.y);
 		gsap.to(this.container, {
-			duration: 0.2,
-			y: -25,
+			duration: 0.35,
+			y: -15,
 			rotation: -0.1,
 			ease: "power2.out",
 		});

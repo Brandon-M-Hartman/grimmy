@@ -1,4 +1,4 @@
-import { Application, Assets } from "pixi.js";
+import { Application, Assets, TexturePool } from "pixi.js";
 import { TownSquare } from "./townsquare";
 
 (async () => {
@@ -6,7 +6,15 @@ import { TownSquare } from "./townsquare";
 	const app = new Application();
 
 	// Initialize the application
-	await app.init({ background: "#1099bb", resizeTo: window });
+	await app.init({ 
+		background: "#1099bb", 
+		resizeTo: window, 
+		resolution: window.devicePixelRatio || 1,
+		autoDensity: true,
+		antialias: true,
+	});
+
+	TexturePool.textureOptions.scaleMode = 'linear';
 
 	// Append the application canvas to the document body
 	document.getElementById("pixi-container")!.appendChild(app.canvas);
