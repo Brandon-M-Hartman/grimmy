@@ -99,9 +99,9 @@ export class Token extends Container {
 		})();
 	}
 
-	pickup(e:PointerEvent): void {
+	pickup(position:Point): void {
 		this.dragging = true;
-		this.dragOffset = new Point(this.position.x - e.x, this.position.y - e.y);
+		this.dragOffset = new Point(this.position.x - position.x, this.position.y - position.y);
 		gsap.to(this.container, {
 			duration: 0.2,
 			y: -25,
@@ -110,9 +110,9 @@ export class Token extends Container {
 		});
 	}
 
-	drag(e:PointerEvent): void {
-		this.position.x = e.x + this.dragOffset.x;
-		this.position.y = e.y + this.dragOffset.y;
+	drag(position:Point): void {
+		this.position.x = position.x + this.dragOffset.x;
+		this.position.y = position.y + this.dragOffset.y;
 	}
 
 	drop(): void {

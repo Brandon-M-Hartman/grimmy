@@ -10,6 +10,8 @@
     "dev": "webpack serve --mode=development"
   },
   "dependencies": {
+    "@pixi/core": "^7.4.3",
+    "@pixi/math-extras": "^7.4.3",
     "ajv": "^8.17.1",
     "ajv-keywords": "^5.1.0",
     "gsap": "^3.12.7",
