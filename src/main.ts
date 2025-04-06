@@ -7,7 +7,7 @@ import { TownSquare } from "./townsquare";
 
 	// Initialize the application
 	await app.init({ 
-		background: "#1099bb", 
+		backgroundAlpha: 0,
 		resizeTo: window, 
 		resolution: window.devicePixelRatio || 1,
 		autoDensity: true,
