@@ -9,8 +9,7 @@ export class Token extends Container {
 
 	constructor() {
 		super();
-		console.log("Token created");
-
+		
 		this.container = new Container();
 		this.dragging = false;
 		this.dragOffset = new Point();
@@ -45,7 +44,6 @@ export class Token extends Container {
 
 			const icon:Sprite = Sprite.from(textures.icon);
 			icon.anchor.set(0.5);
-			icon.scale = 0.4;
 			
 			const remindersTop:Sprite = Sprite.from(textures.remindersTop);
 			remindersTop.anchor.set(0.5);

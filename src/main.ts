@@ -1,4 +1,4 @@
-import { Application, Assets, TexturePool } from "pixi.js";
+import { Application, Assets } from "pixi.js";
 import { TownSquare } from "./townsquare";
 
 (async () => {
@@ -14,9 +14,6 @@ import { TownSquare } from "./townsquare";
 		antialias: true,
 	});
 
-	TexturePool.textureOptions.scaleMode = 'linear';
-
-	// Append the application canvas to the document body
 	document.getElementById("pixi-container")!.appendChild(app.canvas);
 
 	// Load fonts
@@ -26,37 +23,27 @@ import { TownSquare } from "./townsquare";
     ]);
 	await Assets.loadBundle('fonts');
 
+	// Create town square
 	const townSquare:TownSquare = new TownSquare();
 	townSquare.position.set(app.screen.width / 2, app.screen.height / 2);
-	townSquare.scale = 0.5;
+	townSquare.scale = 1.0;
 	app.stage.addChild(townSquare);
 
-	// let draggingToken:Token | null = null;	
-
+	// Global events
 	app.canvas.addEventListener('pointermove', (e) => {
 		townSquare.onPointerMove(e);
 	});
 
-	// const token:Token = new Token();
-	// token.position.set(app.screen.width / 2, app.screen.height / 2);
+	app.canvas.addEventListener('wheel', (e) => {
+		boardScale += 0.1 * (e.deltaY < 0 ? 1 : -1);
+	});
 
-	// token.eventMode = 'static';
-	// token.cursor = 'pointer';
-	// token.on('pointerdown', (e) => {
-	// 	draggingToken = token;
-	// 	draggingToken.pickup(e);
-	// 	console.log('picked up token');
-	// }).on('pointerup', () => {
-	// 	draggingToken?.drop();
-	// 	draggingToken = null;
-	// 	console.log('dropped token');
-	// });
-
-	// // Add the token to the stage
-	// app.stage.addChild(token);
+	let boardScale:number = 1.0
 
 	// Listen for animate update
 	app.ticker.add(() => {
-		
+		// Scale town square
+		townSquare.scale.x += (boardScale - townSquare.scale.x) * 0.1;
+		townSquare.scale.y += (boardScale - townSquare.scale.y) * 0.1;
 	});
 })();
