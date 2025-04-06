@@ -3,16 +3,12 @@ import gsap from 'gsap';
 
 export class Token extends Container {
 
-	container:Container;
-	dragging:boolean;
-	dragOffset:Point;
+	container:Container = new Container();
+	dragging:boolean = false;
+	dragOffset:Point = new Point();
 
 	constructor() {
 		super();
-		
-		this.container = new Container();
-		this.dragging = false;
-		this.dragOffset = new Point();
 		
 		Assets.add({
 			alias: 'icon',
@@ -118,10 +114,11 @@ export class Token extends Container {
 	pickup(position:Point): void {
 		this.dragging = true;
 		this.dragOffset = new Point(this.position.x - position.x, this.position.y - position.y);
+		gsap.killTweensOf(this.container);
 		gsap.to(this.container, {
 			duration: 0.35,
-			y: -15,
-			rotation: -0.1,
+			y: -25,
+			rotation: -0.05,
 			ease: "power2.out",
 		});
 	}
@@ -133,6 +130,7 @@ export class Token extends Container {
 
 	drop(): void {
 		this.dragging = false;
+		gsap.killTweensOf(this.container);
 		gsap.to(this.container, {
 			duration: 0.2,
 			y: 0,

@@ -8,6 +8,7 @@ export class TownSquare extends Container {
 	background:Container = new Container();
 	tokens:Container = new Container();
 	draggedElement:Token | null = null
+	draggingBoard:boolean = false;
 
 	constructor() {
 		super();
@@ -16,6 +17,7 @@ export class TownSquare extends Container {
 		this.addChild(this.tokens);
 
 		this.setupTilingBackground();
+		this.addToken();
 		this.addToken();
 		this.addToken();
 	}

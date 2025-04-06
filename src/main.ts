@@ -38,7 +38,7 @@ import { TownSquare } from "./townsquare";
 		boardScale += 0.1 * (e.deltaY < 0 ? 1 : -1);
 	});
 
-	let boardScale:number = 1.0
+	let boardScale:number = 0.65;
 
 	// Listen for animate update
 	app.ticker.add(() => {
