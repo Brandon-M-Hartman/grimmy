@@ -25,6 +25,7 @@ export class TownSquare extends Container {
 		token.on('pointerdown', (e) => {
 			const finalPoint:Point = new Point(e.x, e.y).multiplyScalar(1/this.scale.x).subtract(this.position);
 			token.pickup(finalPoint);
+			this.swapChildren(token, this.getChildAt(this.children.length - 1));
 			this.draggedElement = token;
 		}).on('pointerup', () => {
 			token.drop();
