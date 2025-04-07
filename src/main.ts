@@ -55,6 +55,7 @@ import { TownSquare } from "./townsquare";
 
 	app.canvas.addEventListener('wheel', (e) => {
 		boardScale += 0.1 * (e.deltaY < 0 ? 1 : -1);
+		boardScale = Math.max(Math.min(boardScale, 1.0), 0.2);
 	});
 
 	let boardScale:number = 0.65;
