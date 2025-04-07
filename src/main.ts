@@ -1,4 +1,4 @@
-import { Application, Assets } from "pixi.js";
+import { Application, Assets, Point } from "pixi.js";
 import { TownSquare } from "./townsquare";
 
 (async () => {
@@ -15,6 +15,7 @@ import { TownSquare } from "./townsquare";
 	});
 
 	document.getElementById("pixi-container")!.appendChild(app.canvas);
+	app.stage.eventMode = 'static';
 
 	// Load fonts
 	Assets.addBundle('fonts', [
@@ -30,15 +31,35 @@ import { TownSquare } from "./townsquare";
 	app.stage.addChild(townSquare);
 
 	// Global events
-	app.canvas.addEventListener('pointermove', (e) => {
-		townSquare.onPointerMove(e);
+	app.stage.addEventListener('pointermove', (e) => {
+		if (draggingBoard)
+		{
+			var deltaX:number = e.x - lastDragPoint.x;
+			var deltaY:number = e.y - lastDragPoint.y;
+			townSquare.position.x += deltaX;
+			townSquare.position.y += deltaY;
+			lastDragPoint.set(e.x, e.y);
+		}
+		else 
+			townSquare.onPointerMove(e);
 	});
 
-	app.canvas.addEventListener('wheel', (e) => {
+	app.stage.addEventListener('pointerdown', (e) => {
+		draggingBoard = true;
+		lastDragPoint.set(e.x, e.y);
+	});
+
+	app.stage.addEventListener('pointerup', () => {
+		draggingBoard = false;
+	});
+
+	app.stage.addEventListener('wheel', (e) => {
 		boardScale += 0.1 * (e.deltaY < 0 ? 1 : -1);
 	});
 
 	let boardScale:number = 0.65;
+	let draggingBoard:boolean = false;
+	let lastDragPoint:Point = new Point();
 
 	// Listen for animate update
 	app.ticker.add(() => {

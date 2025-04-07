@@ -7,7 +7,7 @@ export class TownSquare extends Container {
 
 	background:Container = new Container();
 	tokens:Container = new Container();
-	draggedElement:Token | null = null
+	selectedToken:Token | null = null
 	draggingBoard:boolean = false;
 
 	constructor() {
@@ -32,16 +32,22 @@ export class TownSquare extends Container {
 			const finalPoint:Point = new Point(e.x, e.y).multiplyScalar(1/this.scale.x).subtract(this.position);
 			token.pickup(finalPoint);
 			this.tokens.swapChildren(token, this.tokens.getChildAt(this.tokens.children.length - 1));
-			this.draggedElement = token;
-		}).on('pointerup', () => {
+			this.selectedToken = token;
+			e.stopPropagation();
+		}).on('pointerup', (e) => {
 			token.drop();
-			this.draggedElement = null;
+			this.selectedToken = null;
+			e.stopPropagation();
 		});
 	}
 
 	onPointerMove(e:PointerEvent):void {
 		const finalPoint:Point = new Point(e.x, e.y).multiplyScalar(1/this.scale.x).subtract(this.position);
-		if (this.draggedElement) this.draggedElement.drag(finalPoint);
+		if (this.selectedToken) this.selectedToken.drag(finalPoint);
+	}
+
+	hasSelectedToken():boolean {
+		return this.selectedToken != null;
 	}
 
 	async setupTilingBackground():Promise<void> {
