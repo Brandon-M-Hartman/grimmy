@@ -1,0 +1,14 @@
+{
+    "monk": {
+        "name": "monk",
+        "description": "You are the monk!"
+    },
+    "slayer": {
+        "name": "slayer",
+        "description": "You are the slayer!"
+    },
+    "chef": {
+        "name": "chef",
+        "description": "You are the chef!"
+    }
+}

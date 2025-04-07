@@ -1,5 +1,7 @@
 import { Assets, BlurFilter, Container, Graphics, Point, Sprite, Text } from "pixi.js";
 import gsap from 'gsap';
+import { RoleData, RoleId } from "./role";
+import data from '../data/roles.json';
 
 export class Token extends Container {
 
@@ -7,12 +9,16 @@ export class Token extends Container {
 	dragging:boolean = false;
 	dragOffset:Point = new Point();
 
-	constructor() {
+	constructor(roleId:RoleId) {
 		super();
+
+		const roleData:RoleData = data;
+		const role = roleData[roleId];
+		console.log(role);
 		
 		Assets.add({
-			alias: 'icon',
-			src: 'assets/token/monk.webp',
+			alias: role.name + '-icon',
+			src: 'assets/token/' + role.name +'.webp',
 			data: { scaleMode: 'linear' },
 		});
 		Assets.add({
@@ -31,14 +37,14 @@ export class Token extends Container {
 			data: { scaleMode: 'linear' },
 		});
 
-		const texturesPromise = Assets.load(['icon', 'background', 'remindersTop', 'remindersRight']);
+		const texturesPromise = Assets.load([role.name + '-icon', 'background', 'remindersTop', 'remindersRight']);
 
 		texturesPromise.then((textures) => {
 
 			const background:Sprite = Sprite.from(textures.background);
 			background.anchor.set(0.5);
 
-			const icon:Sprite = Sprite.from(textures.icon);
+			const icon:Sprite = Sprite.from(textures[role.name + '-icon']);
 			icon.anchor.set(0.5);
 			
 			const remindersTop:Sprite = Sprite.from(textures.remindersTop);
@@ -67,7 +73,7 @@ export class Token extends Container {
 			this.container.addChild(remindersTop);
 			this.container.addChild(remindersRight);
 
-			const text = "MONK";
+			const text = role.name.toUpperCase();
 
 			const radius = 105;
 			const fontStyle = {

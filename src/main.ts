@@ -34,8 +34,8 @@ import { TownSquare } from "./townsquare";
 	app.canvas.addEventListener('pointermove', (e) => {
 		if (draggingBoard)
 		{
-			var deltaX:number = e.x - lastDragPoint.x;
-			var deltaY:number = e.y - lastDragPoint.y;
+			const deltaX:number = e.x - lastDragPoint.x;
+			const deltaY:number = e.y - lastDragPoint.y;
 			townSquare.position.x += deltaX;
 			townSquare.position.y += deltaY;
 			lastDragPoint.set(e.x, e.y);
@@ -60,7 +60,7 @@ import { TownSquare } from "./townsquare";
 
 	let boardScale:number = 0.65;
 	let draggingBoard:boolean = false;
-	let lastDragPoint:Point = new Point();
+	const lastDragPoint:Point = new Point();
 
 	// Listen for animate update
 	app.ticker.add(() => {
