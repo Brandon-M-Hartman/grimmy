@@ -31,7 +31,7 @@ import { TownSquare } from "./townsquare";
 	app.stage.addChild(townSquare);
 
 	// Global events
-	app.stage.addEventListener('pointermove', (e) => {
+	app.canvas.addEventListener('pointermove', (e) => {
 		if (draggingBoard)
 		{
 			var deltaX:number = e.x - lastDragPoint.x;
@@ -44,16 +44,16 @@ import { TownSquare } from "./townsquare";
 			townSquare.onPointerMove(e);
 	});
 
-	app.stage.addEventListener('pointerdown', (e) => {
-		draggingBoard = true;
+	app.canvas.addEventListener('pointerdown', (e) => {
+		if (!townSquare.hasSelectedToken()) draggingBoard = true;
 		lastDragPoint.set(e.x, e.y);
 	});
 
-	app.stage.addEventListener('pointerup', () => {
+	app.canvas.addEventListener('pointerup', () => {
 		draggingBoard = false;
 	});
 
-	app.stage.addEventListener('wheel', (e) => {
+	app.canvas.addEventListener('wheel', (e) => {
 		boardScale += 0.1 * (e.deltaY < 0 ? 1 : -1);
 	});
 
@@ -65,6 +65,9 @@ import { TownSquare } from "./townsquare";
 	app.ticker.add(() => {
 		// Scale town square
 		townSquare.scale.x += (boardScale - townSquare.scale.x) * 0.1;
-		townSquare.scale.y += (boardScale - townSquare.scale.y) * 0.1;
+		townSquare.scale.y += (boardScale - townSquare.scale.y) * 0.1;		
+		document.getElementById("app")!.style.backgroundPositionX = townSquare.position.x.toString() + 'px';
+		document.getElementById("app")!.style.backgroundPositionY = townSquare.position.y.toString() + 'px';
+		document.getElementById("app")!.style.backgroundSize = (townSquare.scale.x * 50).toString() + '%';
 	});
 })();

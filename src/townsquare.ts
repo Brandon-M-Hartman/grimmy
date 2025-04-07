@@ -1,5 +1,5 @@
 import '@pixi/math-extras';
-import { Assets, Container, Texture, TilingSprite } from "pixi.js";
+import { Container } from "pixi.js";
 import { Token } from "./token";
 import { Point } from '@pixi/core';
 
@@ -16,7 +16,6 @@ export class TownSquare extends Container {
 		this.addChild(this.background);
 		this.addChild(this.tokens);
 
-		this.setupTilingBackground();
 		this.addToken();
 		this.addToken();
 		this.addToken();
@@ -48,17 +47,5 @@ export class TownSquare extends Container {
 
 	hasSelectedToken():boolean {
 		return this.selectedToken != null;
-	}
-
-	async setupTilingBackground():Promise<void> {
-		const texture:Texture = await Assets.load('assets/felt.jpg');
-		const tilingBackground = new TilingSprite({
-			texture,
-			width: 3200,
-			height: 3200,
-		});
-		tilingBackground.position = new Point(-2000, -2000);
-		tilingBackground.scale = 1.25;
-		this.background.addChild(tilingBackground);
 	}
 }
