@@ -1,5 +1,6 @@
 import { Application, Assets, Point } from "pixi.js";
 import { TownSquare } from "./townsquare";
+import "hammerjs";
 
 (async () => {
 	// Create a new application
@@ -32,25 +33,27 @@ import { TownSquare } from "./townsquare";
 
 	// Global events
 	app.canvas.addEventListener('pointermove', (e) => {
-		if (draggingBoard)
-		{
-			const deltaX:number = e.x - lastDragPoint.x;
-			const deltaY:number = e.y - lastDragPoint.y;
-			townSquare.position.x += deltaX;
-			townSquare.position.y += deltaY;
-			lastDragPoint.set(e.x, e.y);
-		}
-		else 
-			townSquare.onPointerMove(e);
+		if (draggingBoard) {}
+		// if (draggingBoard)
+		// {
+		// 	const deltaX:number = e.x - lastDragPoint.x;
+		// 	const deltaY:number = e.y - lastDragPoint.y;
+		// 	townSquare.position.x += deltaX;
+		// 	townSquare.position.y += deltaY;
+		// 	lastDragPoint.set(e.x, e.y);
+		// }
+		// else 
+		// 	townSquare.onPointerMove(e);
+		townSquare.onPointerMove(e);
 	});
 
-	app.canvas.addEventListener('pointerdown', (e) => {
-		if (!townSquare.hasSelectedToken()) draggingBoard = true;
-		lastDragPoint.set(e.x, e.y);
+	app.canvas.addEventListener('pointerdown', () => {
+		lastDragPoint.set(townSquare.position.x, townSquare.position.y);
 	});
 
 	app.canvas.addEventListener('pointerup', () => {
 		draggingBoard = false;
+		townSquare.cancelMove();
 	});
 
 	app.canvas.addEventListener('wheel', (e) => {
@@ -66,9 +69,35 @@ import { TownSquare } from "./townsquare";
 	app.ticker.add(() => {
 		// Scale town square
 		townSquare.scale.x += (boardScale - townSquare.scale.x) * 0.1;
-		townSquare.scale.y += (boardScale - townSquare.scale.y) * 0.1;		
+		townSquare.scale.y += (boardScale - townSquare.scale.y) * 0.1;
+		// Scale the rest of the board
 		document.getElementById("app")!.style.backgroundPositionX = townSquare.position.x.toString() + 'px';
 		document.getElementById("app")!.style.backgroundPositionY = townSquare.position.y.toString() + 'px';
-		document.getElementById("app")!.style.backgroundSize = (townSquare.scale.x * 50).toString() + '%';
+		document.getElementById("app")!.style.backgroundSize = (townSquare.scale.x * 40).toString() + '%';
+	});
+
+	var hammertime = new Hammer(app.canvas);
+	hammertime.get('pinch').set({ enable: true });
+	hammertime.get('press').set({ enable: true });
+	
+	let lastScale:number = boardScale;
+	hammertime.on('pinchstart', () => {
+		townSquare.interactionEnabled = false;
+	});
+	hammertime.on('pinch', (e) => {
+		boardScale = lastScale * e.scale;
+		boardScale = Math.max(Math.min(boardScale, 1.0), 0.2);
+	});
+	hammertime.on('pinchend', () => {
+		lastScale = boardScale;
+		townSquare.interactionEnabled = true;
+	});
+	hammertime.on('panmove', (e) => {
+		if (!townSquare.hasSelectedToken())
+		{
+			townSquare.position.x = lastDragPoint.x + e.deltaX;
+			townSquare.position.y = lastDragPoint.y + e.deltaY;
+		}
+		townSquare.cancelMove();
 	});
 })();
