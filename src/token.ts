@@ -1,13 +1,18 @@
-import { Assets, BlurFilter, Container, Graphics, Point, Sprite, Text } from "pixi.js";
+import { Assets, BlurFilter, Container, Graphics, Sprite, Text } from "pixi.js";
 import gsap from 'gsap';
 import { RoleData, RoleId } from "./role";
 import data from '../data/roles.json';
+import '@pixi/math-extras';
+import { Point } from '@pixi/core';
+//import { TownSquare } from "./townsquare";
 
 export class Token extends Container {
 
 	container:Container = new Container();
 	dragging:boolean = false;
 	dragOffset:Point = new Point();
+	mousePos:Point = Point.prototype;
+	mouseDown:boolean = false;
 
 	constructor(roleId:RoleId) {
 		super();
@@ -15,6 +20,8 @@ export class Token extends Container {
 		const roleData:RoleData = data;
 		const role = roleData[roleId];
 		console.log(role);
+
+		this.addEvents();
 		
 		Assets.add({
 			alias: role.name + '-icon',
@@ -117,9 +124,37 @@ export class Token extends Container {
 		});
 	}
 
-	pickup(position:Point): void {
+	addEvents():void {
+		const DRAG_THRESHOLD:number = 12;
+
+		this.on('pointerdown', (e) => {
+			console.log("pressed token");
+			this.mousePos.set(e.x, e.y);
+			this.mouseDown = true;
+			e.stopPropagation();
+		});
+
+		this.on('globalpointermove', (e) => {
+			if (this.mouseDown && !this.dragging) {
+				const deltaX = e.x - this.mousePos.x;
+				const deltaY = e.y - this.mousePos.y;
+				if (Math.abs(deltaX) > DRAG_THRESHOLD || Math.abs(deltaY) > DRAG_THRESHOLD) {
+					this.pickup(new Point(e.x, e.y));
+				}
+			}
+		});
+
+		this.on('pointerup', () => {
+			this.mouseDown = false;
+			this.drop();
+		});
+	}
+
+	pickup(pos:Point):void {
+		this.emit('dragstart');
 		this.dragging = true;
-		this.dragOffset = new Point(this.position.x - position.x, this.position.y - position.y);
+		const globalPos:Point = this.getGlobalPosition();
+		this.dragOffset = new Point(globalPos.x - pos.x, globalPos.y - pos.y);
 		gsap.killTweensOf(this.container);
 		gsap.to(this.container, {
 			duration: 0.35,
@@ -129,12 +164,13 @@ export class Token extends Container {
 		});
 	}
 
-	drag(position:Point): void {
-		this.position.x = position.x + this.dragOffset.x;
-		this.position.y = position.y + this.dragOffset.y;
+	drag(pos:Point):void {
+		this.position.x = pos.x + this.dragOffset.x;
+		this.position.y = pos.y + this.dragOffset.y;
 	}
 
-	drop(): void {
+	drop():void {
+		this.emit('dragend');
 		this.dragging = false;
 		gsap.killTweensOf(this.container);
 		gsap.to(this.container, {

@@ -29,31 +29,23 @@ import "hammerjs";
 	const townSquare:TownSquare = new TownSquare();
 	townSquare.position.set(app.screen.width / 2, app.screen.height / 2);
 	townSquare.scale = 1.0;
+	townSquare.on('tokendragstart', () => {
+		draggingBoard = false;
+	});
 	app.stage.addChild(townSquare);
 
 	// Global events
-	app.canvas.addEventListener('pointermove', (e) => {
-		if (draggingBoard) {}
-		// if (draggingBoard)
-		// {
-		// 	const deltaX:number = e.x - lastDragPoint.x;
-		// 	const deltaY:number = e.y - lastDragPoint.y;
-		// 	townSquare.position.x += deltaX;
-		// 	townSquare.position.y += deltaY;
-		// 	lastDragPoint.set(e.x, e.y);
-		// }
-		// else 
-		// 	townSquare.onPointerMove(e);
+	app.stage.addEventListener('globalpointermove', (e) => {
 		townSquare.onPointerMove(e);
 	});
 
 	app.canvas.addEventListener('pointerdown', () => {
 		lastDragPoint.set(townSquare.position.x, townSquare.position.y);
+		draggingBoard = true;
 	});
 
 	app.canvas.addEventListener('pointerup', () => {
 		draggingBoard = false;
-		townSquare.cancelMove();
 	});
 
 	app.canvas.addEventListener('wheel', (e) => {
@@ -61,7 +53,7 @@ import "hammerjs";
 		boardScale = Math.max(Math.min(boardScale, 1.0), 0.2);
 	});
 
-	let boardScale:number = 0.65;
+	let boardScale:number = 0.6;
 	let draggingBoard:boolean = false;
 	const lastDragPoint:Point = new Point();
 
@@ -82,7 +74,7 @@ import "hammerjs";
 	
 	let lastScale:number = boardScale;
 	hammertime.on('pinchstart', () => {
-		townSquare.interactionEnabled = false;
+		// do nothing right now
 	});
 	hammertime.on('pinch', (e) => {
 		boardScale = lastScale * e.scale;
@@ -90,14 +82,11 @@ import "hammerjs";
 	});
 	hammertime.on('pinchend', () => {
 		lastScale = boardScale;
-		townSquare.interactionEnabled = true;
 	});
 	hammertime.on('panmove', (e) => {
-		if (!townSquare.hasSelectedToken())
-		{
+		if (draggingBoard) {
 			townSquare.position.x = lastDragPoint.x + e.deltaX;
 			townSquare.position.y = lastDragPoint.y + e.deltaY;
 		}
-		townSquare.cancelMove();
 	});
 })();
