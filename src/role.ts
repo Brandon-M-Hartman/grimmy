@@ -12,6 +12,10 @@ export enum Role {
 export interface RoleInfo {
     name: string;
     description: string;
+    top: number;
+    left: number;
+    right: number;
+    setup: boolean;
 }
 
 export type RoleData = Record<Role, RoleInfo>;

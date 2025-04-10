@@ -34,17 +34,41 @@ export class Token extends Container {
 			data: { scaleMode: 'linear' },
 		});
 		Assets.add({
-			alias: 'remindersTop',
-			src: 'assets/token/top-1.webp',
-			data: { scaleMode: 'linear' },
-		});
-		Assets.add({
-			alias: 'remindersRight',
-			src: 'assets/token/right-1.webp',
+			alias: 'setup',
+			src: 'assets/token/setup.webp',
 			data: { scaleMode: 'linear' },
 		});
 
-		const texturesPromise = Assets.load(['icon.' + type, 'background', 'remindersTop', 'remindersRight']);
+		if (role.top > 0) {
+			Assets.add({
+				alias: 'reminders.top.' + type,
+				src: 'assets/token/top-' + role.top + '.webp',
+				data: { scaleMode: 'linear' },
+			});
+		}
+
+		if (role.left > 0) {
+			Assets.add({
+				alias: 'reminders.left.' + type,
+				src: 'assets/token/left-' + role.left + '.webp',
+				data: { scaleMode: 'linear' },
+			});
+		}
+
+		if (role.right > 0) {
+			Assets.add({
+				alias: 'reminders.right.' + type,
+				src: 'assets/token/right-' + role.right + '.webp',
+				data: { scaleMode: 'linear' },
+			});
+		}
+
+		var textures:Array<string> = ['icon.' + type, 'background', 'setup'];
+		if (role.top > 0) textures.push('reminders.top.' + type);
+		if (role.left > 0) textures.push('reminders.left.' + type);
+		if (role.right > 0) textures.push('reminders.right.' + type);
+
+		const texturesPromise = Assets.load(textures);
 
 		texturesPromise.then((textures) => {
 
@@ -53,14 +77,6 @@ export class Token extends Container {
 
 			const icon:Sprite = Sprite.from(textures['icon.' + type]);
 			icon.anchor.set(0.5);
-			
-			const remindersTop:Sprite = Sprite.from(textures.remindersTop);
-			remindersTop.anchor.set(0.5);
-			remindersTop.scale = 0.515;
-
-			const remindersRight:Sprite = Sprite.from(textures.remindersRight);
-			remindersRight.anchor.set(0.5);
-			remindersRight.scale = 0.515;
 
 			const shadow:Graphics = new Graphics();
 			shadow.circle(0, 0, 120);
@@ -77,8 +93,34 @@ export class Token extends Container {
 
 			this.container.addChild(background);
 			this.container.addChild(icon);
-			this.container.addChild(remindersTop);
-			this.container.addChild(remindersRight);
+			
+			if (role.top > 0) {
+				const remindersTop:Sprite = Sprite.from(textures['reminders.top.' + type]);
+				remindersTop.anchor.set(0.5);
+				remindersTop.scale = 0.515;
+				this.container.addChild(remindersTop);
+			}
+
+			if (role.left > 0) {
+				const remindersLeft:Sprite = Sprite.from(textures['reminders.left.' + type]);
+				remindersLeft.anchor.set(0.5);
+				remindersLeft.scale = 0.515;
+				this.container.addChild(remindersLeft);
+			}
+
+			if (role.right > 0) {
+				const remindersRight:Sprite = Sprite.from(textures['reminders.right.' + type]);
+				remindersRight.anchor.set(0.5);
+				remindersRight.scale = 0.515;
+				this.container.addChild(remindersRight);
+			}
+
+			if (role.setup) {
+				const remindersSetup:Sprite = Sprite.from(textures['setup']);
+				remindersSetup.anchor.set(0.5);
+				remindersSetup.scale = 0.515;
+				this.container.addChild(remindersSetup);
+			}
 
 			const text = role.name.toUpperCase();
 

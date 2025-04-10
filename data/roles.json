@@ -1,34 +1,66 @@
 {
     "monk": {
         "name": "monk",
-        "description": "You are the monk!"
+        "description": "You are the monk!",
+        "top": 1,
+        "left": 0,
+        "right": 1,
+        "setup": false
     },
     "slayer": {
         "name": "slayer",
-        "description": "You are the slayer!"
+        "description": "You are the slayer!",
+        "top": 1,
+        "left": 0,
+        "right": 0,
+        "setup": false
     },
     "chef": {
         "name": "chef",
-        "description": "You are the chef!"
+        "description": "You are the chef!",
+        "top": 0,
+        "left": 1,
+        "right": 0,
+        "setup": false
     },
     "imp": {
         "name": "imp",
-        "description": "You are the imp!"
+        "description": "You are the imp!",
+        "top": 1,
+        "left": 1,
+        "right": 1,
+        "setup": false
     },
     "poisoner": {
         "name": "poisoner",
-        "description": "You are the poisoner!"
+        "description": "You are the poisoner!",
+        "top": 1,
+        "left": 1,
+        "right": 1,
+        "setup": false
     },
     "spy": {
         "name": "spy",
-        "description": "You are the spy!"
+        "description": "You are the spy!",
+        "top": 0,
+        "left": 1,
+        "right": 1,
+        "setup": false
     },
     "baron": {
         "name": "baron",
-        "description": "You are the baron!"
+        "description": "You are the baron!",
+        "top": 0,
+        "left": 0,
+        "right": 0,
+        "setup": true
     },
     "scarletwoman": {
         "name": "scarlet woman",
-        "description": "You are the scarlet_woman!"
+        "description": "You are the scarlet_woman!",
+        "top": 1,
+        "left": 0,
+        "right": 1,
+        "setup": false
     }
 }
