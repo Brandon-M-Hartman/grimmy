@@ -1,6 +1,6 @@
-import { Application, Assets, Point } from "pixi.js";
+import { Application, Assets } from "pixi.js";
+import { Viewport } from "pixi-viewport";
 import { TownSquare } from "./townsquare";
-import "hammerjs";
 
 (async () => {
 	// Create a new application
@@ -24,15 +24,27 @@ import "hammerjs";
 		{ alias: 'Trade Gothic', src: 'assets/fonts/trade_gothic.otf' },
     ]);
 	await Assets.loadBundle('fonts');
+	
+	// create viewport
+	const viewport = new Viewport({
+		screenWidth: window.innerWidth,
+		screenHeight: window.innerHeight,
+		worldWidth: 1000,
+		worldHeight: 1000,
+		stopPropagation: true,
+		disableOnContextMenu: true,
+		events: app.renderer.events,
+	});
+	viewport.drag({ wheel: false }).pinch().decelerate().clampZoom({ minScale: 0.3, maxScale: 1.0 });
+	app.stage.addChild(viewport);
 
 	// Create town square
-	const townSquare:TownSquare = new TownSquare();
-	townSquare.position.set(app.screen.width / 2, app.screen.height / 2);
-	townSquare.scale = 1.0;
+	const townSquare:TownSquare = new TownSquare(viewport);
+	townSquare.position.set(app.screen.width/2, app.screen.height/2);
 	townSquare.on('tokendragstart', () => {
-		draggingBoard = false;
+		viewport.drag({ wheel: false });
 	});
-	app.stage.addChild(townSquare);
+	viewport.addChild(townSquare);
 
 	// Global events
 	app.stage.addEventListener('globalpointermove', (e) => {
@@ -40,53 +52,40 @@ import "hammerjs";
 	});
 
 	app.canvas.addEventListener('pointerdown', () => {
-		lastDragPoint.set(townSquare.position.x, townSquare.position.y);
-		draggingBoard = true;
+		//
 	});
 
 	app.canvas.addEventListener('pointerup', () => {
-		draggingBoard = false;
+		// 
 	});
 
 	app.canvas.addEventListener('wheel', (e) => {
-		boardScale += 0.1 * (e.deltaY < 0 ? 1 : -1);
-		boardScale = Math.max(Math.min(boardScale, 1.0), 0.2);
+		targetBoardScale += 0.1 * (e.deltaY < 0 ? 1 : -1);
+		targetBoardScale = Math.max(Math.min(targetBoardScale, 1.0), 0.3);
 	});
 
-	let boardScale:number = 0.6;
-	let draggingBoard:boolean = false;
-	const lastDragPoint:Point = new Point();
+	viewport.on('pinch-start', () => {
+		pinchZooming = true;
+		townSquare.disableInteraction();
+	});
+	viewport.on('pinch-end', () => {
+		townSquare.enableInteractions();
+	});
+
+	let boardScale:number = 1.0;
+	let targetBoardScale:number = 0.6;
+	let pinchZooming:boolean = false;
 
 	// Listen for animate update
 	app.ticker.add(() => {
-		// Scale town square
-		townSquare.scale.x += (boardScale - townSquare.scale.x) * 0.1;
-		townSquare.scale.y += (boardScale - townSquare.scale.y) * 0.1;
-		// Scale the rest of the board
-		document.getElementById("app")!.style.backgroundPositionX = townSquare.position.x.toString() + 'px';
-		document.getElementById("app")!.style.backgroundPositionY = townSquare.position.y.toString() + 'px';
-		document.getElementById("app")!.style.backgroundSize = (townSquare.scale.x * 40).toString() + '%';
-	});
-
-	var hammertime = new Hammer(app.canvas);
-	hammertime.get('pinch').set({ enable: true });
-	hammertime.get('press').set({ enable: true });
-	
-	let lastScale:number = boardScale;
-	hammertime.on('pinchstart', () => {
-		// do nothing right now
-	});
-	hammertime.on('pinch', (e) => {
-		boardScale = lastScale * e.scale;
-		boardScale = Math.max(Math.min(boardScale, 1.0), 0.2);
-	});
-	hammertime.on('pinchend', () => {
-		lastScale = boardScale;
-	});
-	hammertime.on('panmove', (e) => {
-		if (draggingBoard) {
-			townSquare.position.x = lastDragPoint.x + e.deltaX;
-			townSquare.position.y = lastDragPoint.y + e.deltaY;
+		// Scale board
+		if (!pinchZooming) {
+			boardScale += (targetBoardScale - boardScale) * 0.1;
+			viewport.setZoom(boardScale, true);
 		}
+		// Scale the board background
+		document.getElementById("app")!.style.backgroundPositionX = viewport.position.x.toString() + 'px';
+		document.getElementById("app")!.style.backgroundPositionY = viewport.position.y.toString() + 'px';
+		document.getElementById("app")!.style.backgroundSize = (viewport.scale.x * 40).toString() + '%';
 	});
 })();

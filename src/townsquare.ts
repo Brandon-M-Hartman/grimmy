@@ -3,15 +3,20 @@ import { Container } from "pixi.js";
 import { Token } from "./token";
 import { Point } from '@pixi/core';
 import { RoleId } from './role';
+import { Viewport } from 'pixi-viewport';
 
 export class TownSquare extends Container {
+	static interactionsPermitted:boolean = true;
+
 	background:Container = new Container();
 	tokens:Container = new Container();
-	draggingToken:Token | null = null
-	draggingBoard:boolean = false;
+	draggingToken:Token | null = null;
+	viewport:Viewport;
 
-	constructor() {
+	constructor(viewport:Viewport) {
 		super();
+
+		this.viewport = viewport;
 
 		this.addChild(this.background);
 		this.addChild(this.tokens);
@@ -28,6 +33,7 @@ export class TownSquare extends Container {
 		token.eventMode = 'static';
 		token.cursor = 'pointer';
 		token.on('dragstart', () => {
+			if (!TownSquare.interactionsPermitted) return;
 			this.draggingToken = token;
 			this.emit('tokendragstart');
 		});
@@ -37,7 +43,17 @@ export class TownSquare extends Container {
 	}
 
 	onPointerMove(e:PointerEvent):void {
-		const finalPoint:Point = new Point(e.x, e.y).subtract(this.position).multiplyScalar(1/this.scale.x);
-		if (this.draggingToken) this.draggingToken.drag(finalPoint);
+		const p:Point = this.toLocal(new Point(e.x, e.y));
+		//const finalPoint:Point = new Point(e.x, e.y).subtract(new Point(this.viewport.width, this.viewport.height)).multiplyScalar(1/this.viewport.scale.x);
+		if (this.draggingToken) this.draggingToken.drag(p);
+	}
+
+	enableInteractions():void {
+		TownSquare.interactionsPermitted = true;
+	}
+
+	disableInteraction():void {
+		if (this.draggingToken) this.draggingToken.drop();
+		TownSquare.interactionsPermitted = false;
 	}
 }

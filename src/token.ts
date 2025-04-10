@@ -4,6 +4,7 @@ import { RoleData, RoleId } from "./role";
 import data from '../data/roles.json';
 import '@pixi/math-extras';
 import { Point } from '@pixi/core';
+import { TownSquare } from "./townsquare";
 //import { TownSquare } from "./townsquare";
 
 export class Token extends Container {
@@ -131,11 +132,10 @@ export class Token extends Container {
 			console.log("pressed token");
 			this.mousePos.set(e.x, e.y);
 			this.mouseDown = true;
-			e.stopPropagation();
 		});
 
 		this.on('globalpointermove', (e) => {
-			if (this.mouseDown && !this.dragging) {
+			if (this.mouseDown && !this.dragging && TownSquare.interactionsPermitted) {
 				const deltaX = e.x - this.mousePos.x;
 				const deltaY = e.y - this.mousePos.y;
 				if (Math.abs(deltaX) > DRAG_THRESHOLD || Math.abs(deltaY) > DRAG_THRESHOLD) {
