@@ -2,7 +2,7 @@ import '@pixi/math-extras';
 import { Container } from "pixi.js";
 import { Token } from "./token";
 import { Point } from '@pixi/core';
-import { RoleId } from './role';
+import { Role } from './role';
 import { Viewport } from 'pixi-viewport';
 
 export class TownSquare extends Container {
@@ -21,12 +21,14 @@ export class TownSquare extends Container {
 		this.addChild(this.background);
 		this.addChild(this.tokens);
 
-		this.addToken("monk");
-		this.addToken("chef");
-		this.addToken("slayer");
+		this.addToken(Role.MONK);
+		this.addToken(Role.CHEF);
+		this.addToken(Role.SCARLET_WOMAN);
+		this.addToken(Role.POISONER);
+		this.addToken(Role.IMP);
 	}
 
-	addToken(role:RoleId):void {
+	addToken(role:Role):void {
 		const token:Token = new Token(role);
 		this.tokens.addChild(token);
 

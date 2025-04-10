@@ -1,11 +1,10 @@
 import { Assets, BlurFilter, Container, Graphics, Sprite, Text } from "pixi.js";
 import gsap from 'gsap';
-import { RoleData, RoleId } from "./role";
+import { RoleData, Role } from "./role";
 import data from '../data/roles.json';
 import '@pixi/math-extras';
 import { Point } from '@pixi/core';
 import { TownSquare } from "./townsquare";
-//import { TownSquare } from "./townsquare";
 
 export class Token extends Container {
 
@@ -15,18 +14,18 @@ export class Token extends Container {
 	mousePos:Point = Point.prototype;
 	mouseDown:boolean = false;
 
-	constructor(roleId:RoleId) {
+	constructor(type:Role) {
 		super();
 
 		const roleData:RoleData = data;
-		const role = roleData[roleId];
-		console.log(role);
+		const role = roleData[type];
+		console.log(type);
 
 		this.addEvents();
 		
 		Assets.add({
-			alias: role.name + '-icon',
-			src: 'assets/token/' + role.name +'.webp',
+			alias: 'icon.' + type,
+			src: 'assets/token/' + type +'.webp',
 			data: { scaleMode: 'linear' },
 		});
 		Assets.add({
@@ -45,14 +44,14 @@ export class Token extends Container {
 			data: { scaleMode: 'linear' },
 		});
 
-		const texturesPromise = Assets.load([role.name + '-icon', 'background', 'remindersTop', 'remindersRight']);
+		const texturesPromise = Assets.load(['icon.' + type, 'background', 'remindersTop', 'remindersRight']);
 
 		texturesPromise.then((textures) => {
 
 			const background:Sprite = Sprite.from(textures.background);
 			background.anchor.set(0.5);
 
-			const icon:Sprite = Sprite.from(textures[role.name + '-icon']);
+			const icon:Sprite = Sprite.from(textures['icon.' + type]);
 			icon.anchor.set(0.5);
 			
 			const remindersTop:Sprite = Sprite.from(textures.remindersTop);

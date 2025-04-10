@@ -1,8 +1,17 @@
-export type RoleId = "monk" | "slayer" | "chef";
+export enum Role {
+    MONK = "monk",
+    SLAYER = "slayer",
+    CHEF = "chef",
+    IMP = "imp",
+    POISONER = "poisoner",
+    SPY = "spy",
+    BARON = "baron",
+    SCARLET_WOMAN = "scarletwoman"
+}
 
-export interface Role {
+export interface RoleInfo {
     name: string;
     description: string;
 }
 
-export type RoleData = Record<RoleId, Role>;
+export type RoleData = Record<Role, RoleInfo>;

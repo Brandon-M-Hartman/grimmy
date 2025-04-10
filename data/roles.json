@@ -10,5 +10,25 @@
     "chef": {
         "name": "chef",
         "description": "You are the chef!"
+    },
+    "imp": {
+        "name": "imp",
+        "description": "You are the imp!"
+    },
+    "poisoner": {
+        "name": "poisoner",
+        "description": "You are the poisoner!"
+    },
+    "spy": {
+        "name": "spy",
+        "description": "You are the spy!"
+    },
+    "baron": {
+        "name": "baron",
+        "description": "You are the baron!"
+    },
+    "scarletwoman": {
+        "name": "scarlet woman",
+        "description": "You are the scarlet_woman!"
     }
 }
