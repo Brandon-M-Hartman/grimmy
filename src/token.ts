@@ -132,10 +132,11 @@ export class Token extends Container {
 			console.log("pressed token");
 			this.mousePos.set(e.x, e.y);
 			this.mouseDown = true;
+			this.emit('focusstart');
 		});
 
 		this.on('globalpointermove', (e) => {
-			if (this.mouseDown && !this.dragging && TownSquare.interactionsPermitted) {
+			if (this.mouseDown && !this.dragging && TownSquare.enabled) {
 				const deltaX = e.x - this.mousePos.x;
 				const deltaY = e.y - this.mousePos.y;
 				if (Math.abs(deltaX) > DRAG_THRESHOLD || Math.abs(deltaY) > DRAG_THRESHOLD) {
@@ -147,6 +148,7 @@ export class Token extends Container {
 		this.on('pointerup', () => {
 			this.mouseDown = false;
 			this.drop();
+			this.emit('focusend');
 		});
 	}
 

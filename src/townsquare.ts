@@ -6,7 +6,7 @@ import { RoleId } from './role';
 import { Viewport } from 'pixi-viewport';
 
 export class TownSquare extends Container {
-	static interactionsPermitted:boolean = true;
+	static enabled:boolean = true;
 
 	background:Container = new Container();
 	tokens:Container = new Container();
@@ -33,12 +33,18 @@ export class TownSquare extends Container {
 		token.eventMode = 'static';
 		token.cursor = 'pointer';
 		token.on('dragstart', () => {
-			if (!TownSquare.interactionsPermitted) return;
+			if (!TownSquare.enabled) return;
 			this.draggingToken = token;
 			this.emit('tokendragstart');
 		});
 		token.on('dragend', () => {
 			this.draggingToken = null;
+		});
+		token.on('focusstart', () => {
+			this.emit('focused');
+		});
+		token.on('focusend', () => {
+			this.emit('focuslost');
 		});
 	}
 
@@ -48,12 +54,12 @@ export class TownSquare extends Container {
 		if (this.draggingToken) this.draggingToken.drag(p);
 	}
 
-	enableInteractions():void {
-		TownSquare.interactionsPermitted = true;
+	enable():void {
+		TownSquare.enabled = true;
 	}
 
-	disableInteraction():void {
+	disable():void {
 		if (this.draggingToken) this.draggingToken.drop();
-		TownSquare.interactionsPermitted = false;
+		TownSquare.enabled = false;
 	}
 }

@@ -41,8 +41,11 @@ import { TownSquare } from "./townsquare";
 	// Create town square
 	const townSquare:TownSquare = new TownSquare(viewport);
 	townSquare.position.set(app.screen.width/2, app.screen.height/2);
-	townSquare.on('tokendragstart', () => {
-		viewport.drag({ wheel: false });
+	townSquare.on('focused', () => {
+		viewport.drag({ wheel: false, pressDrag: false });
+	});
+	townSquare.on('focuslost', () => {
+		viewport.drag({ wheel: false, pressDrag: true });
 	});
 	viewport.addChild(townSquare);
 
@@ -66,10 +69,10 @@ import { TownSquare } from "./townsquare";
 
 	viewport.on('pinch-start', () => {
 		pinchZooming = true;
-		townSquare.disableInteraction();
+		townSquare.disable();
 	});
 	viewport.on('pinch-end', () => {
-		townSquare.enableInteractions();
+		townSquare.enable();
 	});
 
 	let boardScale:number = 1.0;
