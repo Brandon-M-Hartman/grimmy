@@ -35,6 +35,7 @@ export class TownSquare extends Container {
 		token.on('dragstart', () => {
 			if (!TownSquare.enabled) return;
 			this.draggingToken = token;
+			this.tokens.setChildIndex(token, this.tokens.children.length - 1);
 			this.emit('tokendragstart');
 		});
 		token.on('dragend', () => {
