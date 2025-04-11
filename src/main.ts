@@ -1,6 +1,7 @@
 import { Application, Assets } from "pixi.js";
 import { Viewport } from "pixi-viewport";
 import { TownSquare } from "./townsquare";
+import { AssetLoader } from "./assetloader";
 
 (async () => {
 	// Create a new application
@@ -37,6 +38,8 @@ import { TownSquare } from "./townsquare";
 	});
 	viewport.drag({ wheel: false }).pinch().decelerate().clampZoom({ minScale: 0.3, maxScale: 1.0 });
 	app.stage.addChild(viewport);
+
+	await AssetLoader.loadAssets();
 
 	// Create town square
 	const townSquare:TownSquare = new TownSquare(viewport);

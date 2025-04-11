@@ -4,6 +4,8 @@ import { Token } from "./token";
 import { Point } from '@pixi/core';
 import { Role } from './role';
 import { Viewport } from 'pixi-viewport';
+import { PlayerToken } from './playertoken';
+import { ReminderToken } from './remindertoken';
 
 export class TownSquare extends Container {
 	static enabled:boolean = true;
@@ -21,16 +23,42 @@ export class TownSquare extends Container {
 		this.addChild(this.background);
 		this.addChild(this.tokens);
 
-		this.addToken(Role.MONK);
-		this.addToken(Role.CHEF);
-		this.addToken(Role.SLAYER);
-		this.addToken(Role.POISONER);
-		this.addToken(Role.IMP);
-		this.addToken(Role.BARON);
+		this.setupBoard();
 	}
 
-	addToken(role:Role):void {
-		const token:Token = new Token(role);
+	setupBoard():void {
+		this.addPlayerToken(Role.MONK);
+		this.addPlayerToken(Role.CHEF);
+		this.addPlayerToken(Role.SLAYER);
+
+		this.addReminderToken();
+	}
+
+	addPlayerToken(role:Role):void {
+		const token:Token = new PlayerToken(role);
+		this.tokens.addChild(token);
+
+		token.eventMode = 'static';
+		token.cursor = 'pointer';
+		token.on('dragstart', () => {
+			if (!TownSquare.enabled) return;
+			this.draggingToken = token;
+			this.tokens.setChildIndex(token, this.tokens.children.length - 1);
+			this.emit('tokendragstart');
+		});
+		token.on('dragend', () => {
+			this.draggingToken = null;
+		});
+		token.on('focusstart', () => {
+			this.emit('focused');
+		});
+		token.on('focusend', () => {
+			this.emit('focuslost');
+		});
+	}
+
+	addReminderToken():void {
+		const token:Token = new ReminderToken();
 		this.tokens.addChild(token);
 
 		token.eventMode = 'static';
