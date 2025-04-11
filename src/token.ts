@@ -63,7 +63,7 @@ export class Token extends Container {
 			});
 		}
 
-		var textures:Array<string> = ['icon.' + type, 'background', 'setup'];
+		const textures:Array<string> = ['icon.' + type, 'background', 'setup'];
 		if (role.top > 0) textures.push('reminders.top.' + type);
 		if (role.left > 0) textures.push('reminders.left.' + type);
 		if (role.right > 0) textures.push('reminders.right.' + type);
