@@ -13,6 +13,7 @@ export enum Role {
     WASHERWOMAN = "washerwoman",
     MAYOR = "mayor",
     BUTLER = "butler",
+    DRUNK = "drunk",
     IMP = "imp",
     POISONER = "poisoner",
     SPY = "spy",

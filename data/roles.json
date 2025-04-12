@@ -107,6 +107,15 @@
         "setup": false,
         "reminders": ["Master"]
     },
+    "drunk": {
+        "name": "drunk",
+        "description": "undefined",
+        "top": 1,
+        "left": 0,
+        "right": 0,
+        "setup": true,
+        "reminders": ["Drunk"]
+    },
     "imp": {
         "name": "imp",
         "description": "You are the imp!",
