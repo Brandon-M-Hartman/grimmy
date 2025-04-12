@@ -8,28 +8,24 @@ export class AssetLoader {
         Assets.add({
             alias: 'token.background',
             src: 'assets/token/background.png',
-            data: { scaleMode: 'linear' },
         });
         textures.push('token.background');
 
         Assets.add({
             alias: 'right.1',
             src: 'assets/token/right-1.webp',
-            data: { scaleMode: 'linear' },
         });
         textures.push('right.1');
 
         Assets.add({
             alias: 'right.2',
             src: 'assets/token/right-2.webp',
-            data: { scaleMode: 'linear' },
         });
         textures.push('right.2');
 
         Assets.add({
             alias: 'left.1',
             src: 'assets/token/left-1.webp',
-            data: { scaleMode: 'linear' },
         });
         textures.push('left.1');
 
@@ -37,15 +33,13 @@ export class AssetLoader {
             Assets.add({
                 alias: 'top.' + i,
                 src: `assets/token/top-${i}.webp`,
-                data: { scaleMode: 'linear' },
             });
             textures.push('top.' + i);
         }
 
         Assets.add({
 			alias: 'setup',
-			src: 'assets/token/setup.webp',
-			data: { scaleMode: 'linear' },
+			src: 'assets/token/setup.webp'
 		});
         textures.push('setup');
 
@@ -53,8 +47,7 @@ export class AssetLoader {
         for (const key in roles) {
             Assets.add({
                 alias: 'icon.' + key,
-                src: 'assets/token/' + key + '.webp',
-                data: { scaleMode: 'linear' },
+                src: 'assets/token/' + key + '.webp'
             });
             textures.push('icon.' + key);
         }

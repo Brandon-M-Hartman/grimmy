@@ -1,4 +1,4 @@
-import { Application, Assets } from "pixi.js";
+import { Application, Assets, TextureSource } from "pixi.js";
 import { Viewport } from "pixi-viewport";
 import { TownSquare } from "./townsquare";
 import { AssetLoader } from "./assetloader";
@@ -6,6 +6,8 @@ import { AssetLoader } from "./assetloader";
 (async () => {
 	// Create a new application
 	const app = new Application();
+
+	TextureSource.defaultOptions.autoGenerateMipmaps = true;
 
 	// Initialize the application
 	await app.init({ 
