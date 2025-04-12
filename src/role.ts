@@ -27,5 +27,4 @@ export interface RoleInfo {
 }
 
 export type RoleData = Record<Role, RoleInfo>;
-export type ReminderData = { text:string };
 export const roleData:RoleData = json;

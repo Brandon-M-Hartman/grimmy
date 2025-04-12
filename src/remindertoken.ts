@@ -1,5 +1,5 @@
 import { Assets, Sprite } from "pixi.js";
-import { ReminderData, Role, roleData } from "./role";
+import { Role, roleData } from "./role";
 import { Token } from "./token";
 
 export enum Reminder {
@@ -10,14 +10,13 @@ export enum Reminder {
 export class ReminderToken extends Token {
 
     type:Role;
-    data:ReminderData;
+    text:string;
 
     constructor(type:Role, index:number) {
         super();
 
         this.type = type;
-        this.data = roleData[type].reminders[index] as ReminderData;
-        console.log(this.data);
+        this.text = roleData[type].reminders[index] as string;
         
 		this.addSprites();
     }
@@ -33,7 +32,7 @@ export class ReminderToken extends Token {
         icon.scale = 0.5;
         this.container.addChild(icon);
 
-        this.makeText(this.data.text);
+        this.makeText(this.text);
     }
 
     protected getTokenRadius():number {

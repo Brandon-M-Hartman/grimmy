@@ -6,11 +6,7 @@
         "left": 0,
         "right": 1,
         "setup": false,
-        "reminders": [
-            {
-                "text": "Protected"
-            }
-        ]
+        "reminders": ["Protected"]
     },
     "slayer": {
         "name": "slayer",
@@ -19,11 +15,7 @@
         "left": 0,
         "right": 0,
         "setup": false,
-        "reminders": [
-            {
-                "text": "Used Ability"
-            }
-        ]
+        "reminders": ["Used Ability"]
     },
     "chef": {
         "name": "chef",
@@ -41,11 +33,7 @@
         "left": 1,
         "right": 1,
         "setup": false,
-        "reminders": [
-            {
-                "text": "Red Herring"
-            }
-        ]
+        "reminders": ["Red Herring"]
     },
     "empath": {
         "name": "empath",
@@ -63,11 +51,7 @@
         "left": 0,
         "right": 1,
         "setup": false,
-        "reminders": [
-            {
-                "text": "Executed"
-            }
-        ]
+        "reminders": ["Executed"]
     },
     "soldier": {
         "name": "soldier",
@@ -85,14 +69,7 @@
         "left": 1,
         "right": 0,
         "setup": false,
-        "reminders": [
-            {
-                "text": "Minion"
-            },
-            {
-                "text": "Wrong"
-            }
-        ]
+        "reminders": ["Minion", "Wrong"]
     },
     "imp": {
         "name": "imp",
@@ -101,11 +78,7 @@
         "left": 1,
         "right": 1,
         "setup": false,
-        "reminders": [
-            {
-                "text": "Dead"
-            }
-        ]
+        "reminders": ["Dead"]
     },
     "poisoner": {
         "name": "poisoner",
