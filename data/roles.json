@@ -89,6 +89,24 @@
         "setup": false,
         "reminders": ["Minion", "Wrong"]
     },
+    "librarian": {
+        "name": "librarian",
+        "description": "undefined",
+        "top": 2,
+        "left": 1,
+        "right": 0,
+        "setup": false,
+        "reminders": ["Outsider", "Wrong"]
+    },
+    "ravenkeeper": {
+        "name": "ravenkeeper",
+        "description": "undefined",
+        "top": 0,
+        "left": 0,
+        "right": 1,
+        "setup": false,
+        "reminders": []
+    },
     "mayor": {
         "name": "mayor",
         "description": "undefined",
@@ -150,7 +168,7 @@
         "left": 1,
         "right": 1,
         "setup": false,
-        "reminders": []
+        "reminders": ["Poisoned"]
     },
     "spy": {
         "name": "spy",
