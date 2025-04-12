@@ -34,6 +34,19 @@
         "setup": false,
         "reminders": []
     },
+    "fortuneteller": {
+        "name": "fortune teller",
+        "description": "undefined",
+        "top": 1,
+        "left": 1,
+        "right": 1,
+        "setup": false,
+        "reminders": [
+            {
+                "text": "Red Herring"
+            }
+        ]
+    },
     "imp": {
         "name": "imp",
         "description": "You are the imp!",

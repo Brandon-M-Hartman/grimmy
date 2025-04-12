@@ -104,7 +104,7 @@ export class Token extends Container {
 	protected getFontStyle():Object {
 		return {
 			fontFamily: 'IMFell',
-			fontSize: 28,
+			fontSize: 26,
 			fill: 0x000000,
 		};
 	}

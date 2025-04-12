@@ -4,6 +4,7 @@ export enum Role {
     MONK = "monk",
     SLAYER = "slayer",
     CHEF = "chef",
+    FORTUNE_TELLER = "fortuneteller",
     IMP = "imp",
     POISONER = "poisoner",
     SPY = "spy",

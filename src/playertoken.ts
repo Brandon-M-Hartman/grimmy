@@ -25,8 +25,6 @@ export class PlayerToken extends Token {
 		icon.anchor.set(0.5);
 		this.container.addChild(icon);
 
-        this.makeText(this.role.name.toUpperCase());
-
         if (this.role.top > 0) {
         	const remindersTop:Sprite = Sprite.from(Assets.get('top.' + this.role.top));
         	remindersTop.anchor.set(0.5);
@@ -54,6 +52,8 @@ export class PlayerToken extends Token {
         	remindersSetup.scale = 0.515;
         	this.container.addChild(remindersSetup);
         }
+
+        this.makeText(this.role.name.toUpperCase());
     }
 
 }
