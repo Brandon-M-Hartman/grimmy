@@ -98,6 +98,15 @@
         "setup": false,
         "reminders": []
     },
+    "butler": {
+        "name": "butler",
+        "description": "undefined",
+        "top": 1,
+        "left": 1,
+        "right": 2,
+        "setup": false,
+        "reminders": ["Master"]
+    },
     "imp": {
         "name": "imp",
         "description": "You are the imp!",
