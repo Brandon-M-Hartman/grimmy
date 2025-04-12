@@ -47,6 +47,15 @@
             }
         ]
     },
+    "empath": {
+        "name": "empath",
+        "description": "undefined",
+        "top": 0,
+        "left": 1,
+        "right": 1,
+        "setup": false,
+        "reminders": []
+    },
     "imp": {
         "name": "imp",
         "description": "You are the imp!",
