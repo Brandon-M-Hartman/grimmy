@@ -1,3 +1,5 @@
+import json from '../data/roles.json';
+
 export enum Role {
     MONK = "monk",
     SLAYER = "slayer",
@@ -16,6 +18,9 @@ export interface RoleInfo {
     left: number;
     right: number;
     setup: boolean;
+    reminders: Array<Object>;
 }
 
 export type RoleData = Record<Role, RoleInfo>;
+export type ReminderData = { text:string };
+export const roleData:RoleData = json;

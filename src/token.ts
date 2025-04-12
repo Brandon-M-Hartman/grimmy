@@ -110,7 +110,7 @@ export class Token extends Container {
 	}
 
 	protected makeText(text:string):void {
-		const radius:number = this.getTokenRadius() * 2 - 15;
+		const radius:number = this.getTokenRadius() * 2 - 12;
 
 		const characters: Text[] = [];
 		let totalArcLength = 0;

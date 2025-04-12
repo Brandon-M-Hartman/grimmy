@@ -5,7 +5,12 @@
         "top": 1,
         "left": 0,
         "right": 1,
-        "setup": false
+        "setup": false,
+        "reminders": [
+            {
+                "text": "Protected"
+            }
+        ]
     },
     "slayer": {
         "name": "slayer",
@@ -13,7 +18,12 @@
         "top": 1,
         "left": 0,
         "right": 0,
-        "setup": false
+        "setup": false,
+        "reminders": [
+            {
+                "text": "Used Ability"
+            }
+        ]
     },
     "chef": {
         "name": "chef",
@@ -21,7 +31,8 @@
         "top": 0,
         "left": 1,
         "right": 0,
-        "setup": false
+        "setup": false,
+        "reminders": []
     },
     "imp": {
         "name": "imp",
@@ -29,7 +40,12 @@
         "top": 1,
         "left": 1,
         "right": 1,
-        "setup": false
+        "setup": false,
+        "reminders": [
+            {
+                "text": "Dead"
+            }
+        ]
     },
     "poisoner": {
         "name": "poisoner",
@@ -37,7 +53,8 @@
         "top": 1,
         "left": 1,
         "right": 1,
-        "setup": false
+        "setup": false,
+        "reminders": []
     },
     "spy": {
         "name": "spy",
@@ -45,7 +62,8 @@
         "top": 0,
         "left": 1,
         "right": 1,
-        "setup": false
+        "setup": false,
+        "reminders": []
     },
     "baron": {
         "name": "baron",
@@ -53,7 +71,8 @@
         "top": 0,
         "left": 0,
         "right": 0,
-        "setup": true
+        "setup": true,
+        "reminders": []
     },
     "scarletwoman": {
         "name": "scarlet woman",
@@ -61,6 +80,7 @@
         "top": 1,
         "left": 0,
         "right": 1,
-        "setup": false
+        "setup": false,
+        "reminders": []
     }
 }

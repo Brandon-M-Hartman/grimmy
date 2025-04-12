@@ -1,5 +1,4 @@
-import { RoleData, Role, RoleInfo } from "./role";
-import data from '../data/roles.json';
+import { Role, RoleInfo, roleData } from "./role";
 import { Token } from "./token";
 import { Assets, Sprite } from "pixi.js";
 
@@ -13,7 +12,6 @@ export class PlayerToken extends Token {
 
         this.type = type;
 
-        const roleData:RoleData = data;
 		this.role = roleData[type];
 		console.log(this.role);
         
