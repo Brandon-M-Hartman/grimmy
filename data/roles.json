@@ -62,6 +62,15 @@
         "setup": false,
         "reminders": []
     },
+    "virgin": {
+        "name": "virgin",
+        "description": "undefined",
+        "top": 1,
+        "left": 0,
+        "right": 0,
+        "setup": false,
+        "reminders": ["Used Ability"]
+    },
     "investigator": {
         "name": "investigator",
         "description": "undefined",
