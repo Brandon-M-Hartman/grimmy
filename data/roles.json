@@ -56,6 +56,19 @@
         "setup": false,
         "reminders": []
     },
+    "undertaker": {
+        "name": "undertaker",
+        "description": "undefined",
+        "top": 1,
+        "left": 0,
+        "right": 1,
+        "setup": false,
+        "reminders": [
+            {
+                "text": "Executed"
+            }
+        ]
+    },
     "imp": {
         "name": "imp",
         "description": "You are the imp!",

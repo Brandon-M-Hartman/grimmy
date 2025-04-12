@@ -29,8 +29,7 @@ export class TownSquare extends Container {
 	setupBoard():void {
 		this.addPlayerToken(Role.MONK);
 		this.addPlayerToken(Role.CHEF);
-		this.addPlayerToken(Role.SLAYER);
-		this.addPlayerToken(Role.EMPATH);
+		this.addPlayerToken(Role.UNDERTAKER);
 	}
 
 	addPlayerToken(role:Role):void {
