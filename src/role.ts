@@ -10,6 +10,7 @@ export enum Role {
     SOLDIER = "soldier",
     INVESTIGATOR = "investigator",
     VIRGIN = "virgin",
+    WASHERWOMAN = "washerwoman",
     IMP = "imp",
     POISONER = "poisoner",
     SPY = "spy",

@@ -71,6 +71,15 @@
         "setup": false,
         "reminders": ["Used Ability"]
     },
+    "washerwoman": {
+        "name": "washerwoman",
+        "description": "undefined",
+        "top": 2,
+        "left": 1,
+        "right": 0,
+        "setup": false,
+        "reminders": ["Townsfolk", "Wrong"]
+    },
     "investigator": {
         "name": "investigator",
         "description": "undefined",
