@@ -1,4 +1,4 @@
-import { Assets, BlurFilter, Container, Graphics, Sprite, Text } from "pixi.js";
+import { Assets, BlurFilter, Container, Graphics, Sprite, Text, TextStyle } from "pixi.js";
 import gsap from 'gsap';
 import '@pixi/math-extras';
 import { Point } from '@pixi/core';
@@ -101,7 +101,7 @@ export class Token extends Container {
 		return 60;
 	}
 
-	protected getFontStyle():Object {
+	protected getFontStyle():Partial<TextStyle> {
 		return {
 			fontFamily: 'IMFell',
 			fontSize: 26,

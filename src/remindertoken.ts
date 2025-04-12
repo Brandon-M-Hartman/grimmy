@@ -1,4 +1,4 @@
-import { Assets, Sprite } from "pixi.js";
+import { Assets, Sprite, TextStyle } from "pixi.js";
 import { Role, roleData } from "./role";
 import { Token } from "./token";
 
@@ -39,7 +39,7 @@ export class ReminderToken extends Token {
         return 30;
     }
 
-    protected getFontStyle():Object {
+    protected getFontStyle():Partial<TextStyle> {
 		return {
 			fontFamily: 'Trade Gothic',
 			fontSize: 18,

@@ -2,7 +2,7 @@ import { Assets } from "pixi.js";
 import roles from '../data/roles.json';
 
 export class AssetLoader {
-    static loadAssets():Promise<any> {
+    static loadAssets():Promise<Record<string, unknown>> {
         const textures:Array<string> = [];
 
         Assets.add({
@@ -29,7 +29,7 @@ export class AssetLoader {
         });
         textures.push('left.1');
 
-        for (var i = 1; i <= 6; i++) {
+        for (let i = 1; i <= 6; i++) {
             Assets.add({
                 alias: 'top.' + i,
                 src: `assets/token/top-${i}.webp`,

@@ -32,7 +32,7 @@ export interface RoleInfo {
     left: number;
     right: number;
     setup: boolean;
-    reminders: Array<Object>;
+    reminders: Array<string>;
 }
 
 export type RoleData = Record<Role, RoleInfo>;
