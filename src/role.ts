@@ -8,6 +8,7 @@ export enum Role {
     EMPATH = "empath",
     UNDERTAKER = "undertaker",
     SOLDIER = "soldier",
+    INVESTIGATOR = "investigator",
     IMP = "imp",
     POISONER = "poisoner",
     SPY = "spy",

@@ -78,6 +78,22 @@
         "setup": false,
         "reminders": []
     },
+    "investigator": {
+        "name": "investigator",
+        "description": "undefined",
+        "top": 2,
+        "left": 1,
+        "right": 0,
+        "setup": false,
+        "reminders": [
+            {
+                "text": "Minion"
+            },
+            {
+                "text": "Wrong"
+            }
+        ]
+    },
     "imp": {
         "name": "imp",
         "description": "You are the imp!",
