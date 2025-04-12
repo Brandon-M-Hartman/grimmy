@@ -125,6 +125,15 @@
         "setup": false,
         "reminders": []
     },
+    "saint": {
+        "name": "saint",
+        "description": "undefined",
+        "top": 0,
+        "left": 0,
+        "right": 0,
+        "setup": false,
+        "reminders": []
+    },
     "imp": {
         "name": "imp",
         "description": "You are the imp!",

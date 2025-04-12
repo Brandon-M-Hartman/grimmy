@@ -15,6 +15,7 @@ export enum Role {
     BUTLER = "butler",
     DRUNK = "drunk",
     RECLUSE = "recluse",
+    SAINT = "saint",
     IMP = "imp",
     POISONER = "poisoner",
     SPY = "spy",

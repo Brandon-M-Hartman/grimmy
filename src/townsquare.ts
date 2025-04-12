@@ -30,7 +30,7 @@ export class TownSquare extends Container {
 		this.addPlayerToken(Role.MONK);
 		this.addPlayerToken(Role.SOLDIER);
 		this.addPlayerToken(Role.INVESTIGATOR);
-		this.addPlayerToken(Role.RECLUSE);
+		this.addPlayerToken(Role.SAINT);
 	}
 
 	addPlayerToken(role:Role):void {
