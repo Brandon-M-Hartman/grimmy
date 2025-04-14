@@ -2,6 +2,7 @@ import { Application, Assets, TextureSource } from "pixi.js";
 import { Viewport } from "pixi-viewport";
 import { TownSquare } from "./townsquare";
 import { AssetLoader } from "./assetloader";
+import { UI } from "./ui";
 
 (async () => {
 	// Create a new application
@@ -41,11 +42,21 @@ import { AssetLoader } from "./assetloader";
 	viewport.drag({ wheel: false }).pinch().decelerate().clampZoom({ minScale: 0.1, maxScale: 1.0 });
 	app.stage.addChild(viewport);
 
+	// Load UI
+	await UI.loadAssets();
+	const ui = new UI();
+	app.stage.addChild(ui);
+
+	ui.on('recenter', () => {
+		viewport.moveCenter(0, 0);
+		targetBoardScale = 0.6;
+	});
+
+	// load the board assets
 	await AssetLoader.loadAssets();
 
 	// Create town square
 	const townSquare:TownSquare = new TownSquare(viewport);
-	townSquare.position.set(app.screen.width/2, app.screen.height/2);
 	townSquare.on('focused', () => {
 		viewport.drag({ wheel: false, pressDrag: false });
 	});
@@ -53,6 +64,7 @@ import { AssetLoader } from "./assetloader";
 		viewport.drag({ wheel: false, pressDrag: true });
 	});
 	viewport.addChild(townSquare);
+	viewport.moveCenter(0, 0);
 
 	// Global events
 	app.stage.addEventListener('globalpointermove', (e) => {
@@ -96,4 +108,7 @@ import { AssetLoader } from "./assetloader";
 		document.getElementById("app")!.style.backgroundPositionY = viewport.position.y.toString() + 'px';
 		document.getElementById("app")!.style.backgroundSize = (viewport.scale.x * 40).toString() + '%';
 	});
+
+	// Listen for screen resize
+	window.addEventListener('resize', () => ui.resize());
 })();

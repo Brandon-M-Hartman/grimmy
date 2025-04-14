@@ -80,8 +80,6 @@ export class TownSquare extends Container {
 	}
 
 	bindTokenEvents(token:Token):void {
-		token.eventMode = 'static';
-		token.cursor = 'pointer';
 		token.on('dragstart', () => {
 			if (!TownSquare.enabled) return;
 			this.draggingToken = token;

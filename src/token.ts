@@ -16,6 +16,8 @@ export class Token extends Container {
 	constructor() {
 		super();
 
+		this.eventMode = 'static';
+		this.cursor = 'pointer';
 		this.addEvents();
 	}
 
