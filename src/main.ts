@@ -1,4 +1,4 @@
-import { Application, Assets, TextureSource } from "pixi.js";
+import { Application, Assets, Point, TextureSource } from "pixi.js";
 import { Viewport } from "pixi-viewport";
 import { TownSquare } from "./townsquare";
 import { AssetLoader } from "./assetloader";
@@ -39,7 +39,7 @@ import { UI } from "./ui";
 		disableOnContextMenu: true,
 		events: app.renderer.events,
 	});
-	viewport.drag({ wheel: false }).pinch().decelerate().clampZoom({ minScale: 0.1, maxScale: 1.0 });
+	viewport.drag({ wheel: false }).wheel({ smooth: 10 }).pinch().decelerate().clampZoom({ minScale: 0.1, maxScale: 1.0 });
 	app.stage.addChild(viewport);
 
 	// Load UI
@@ -47,10 +47,7 @@ import { UI } from "./ui";
 	const ui = new UI();
 	app.stage.addChild(ui);
 
-	ui.on('recenter', () => {
-		viewport.moveCenter(0, 0);
-		targetBoardScale = 0.6;
-	});
+	ui.on('recenter', () => recenter());
 
 	// load the board assets
 	await AssetLoader.loadAssets();
@@ -101,14 +98,27 @@ import { UI } from "./ui";
 		// Scale board
 		if (!pinchZooming) {
 			boardScale += (targetBoardScale - boardScale) * 0.1;
-			viewport.setZoom(boardScale, true);
+			//viewport.setZoom(boardScale, true);
 		}
 		// Scale the board background
 		document.getElementById("app")!.style.backgroundPositionX = viewport.position.x.toString() + 'px';
 		document.getElementById("app")!.style.backgroundPositionY = viewport.position.y.toString() + 'px';
-		document.getElementById("app")!.style.backgroundSize = (viewport.scale.x * 40).toString() + '%';
+		document.getElementById("app")!.style.backgroundSize = (viewport.scale.x * 650).toString() + 'px';
 	});
 
 	// Listen for screen resize
-	window.addEventListener('resize', () => ui.resize());
+	window.addEventListener('resize', () => {
+		ui.resize();
+		viewport.resize(window.innerWidth, window.innerHeight, 1000, 1000);
+	});
+
+	const recenter = () => {
+		const townCenter:Point = townSquare.getTownCenter();
+		viewport.moveCenter(townCenter.x, townCenter.y);
+		if (window.innerWidth > window.innerHeight) 
+			viewport.fitHeight(townSquare.height * 1.2);
+		else
+			viewport.fitWidth(townSquare.width * 1.2);
+	};
+	recenter();
 })();

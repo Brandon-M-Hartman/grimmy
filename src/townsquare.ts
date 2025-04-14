@@ -99,7 +99,6 @@ export class TownSquare extends Container {
 
 	onPointerMove(e:PointerEvent):void {
 		const p:Point = this.toLocal(new Point(e.x, e.y));
-		//const finalPoint:Point = new Point(e.x, e.y).subtract(new Point(this.viewport.width, this.viewport.height)).multiplyScalar(1/this.viewport.scale.x);
 		if (this.draggingToken) this.draggingToken.drag(p);
 	}
 
@@ -110,5 +109,16 @@ export class TownSquare extends Container {
 	disable():void {
 		if (this.draggingToken) this.draggingToken.drop();
 		TownSquare.enabled = false;
+	}
+
+	getTownCenter():Point {
+		// calculate town center from average position of player tokens
+		let center:Point = new Point();
+		for (let i = 0; i < this.playerTokens.length; i++)
+		{
+			center = center.add(this.playerTokens[i].position);
+		}
+		center = center.multiplyScalar(1/this.playerTokens.length);
+		return center;
 	}
 }
