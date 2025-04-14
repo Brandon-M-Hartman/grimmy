@@ -88,6 +88,9 @@ import { UI } from "./ui";
 	viewport.on('pinch-end', () => {
 		townSquare.enable();
 	});
+	viewport.on('drag-end', () => {
+		updateRecenterButton();
+	});
 
 	let boardScale:number = 1.0;
 	let targetBoardScale:number = 0.6;
@@ -110,6 +113,7 @@ import { UI } from "./ui";
 	window.addEventListener('resize', () => {
 		ui.resize();
 		viewport.resize(window.innerWidth, window.innerHeight, 1000, 1000);
+		updateRecenterButton();
 	});
 
 	const recenter = () => {
@@ -119,6 +123,11 @@ import { UI } from "./ui";
 			viewport.fitHeight(townSquare.height * 1.2);
 		else
 			viewport.fitWidth(townSquare.width * 1.2);
+		updateRecenterButton();
 	};
+	const updateRecenterButton = () => {
+		const dist:boolean = Math.abs(viewport.center.x - townSquare.getTownCenter().x) > window.innerWidth/2 || Math.abs(viewport.center.y - townSquare.getTownCenter().y) > window.innerHeight/2;
+		ui.showRecenterButton(dist);
+	}
 	recenter();
 })();

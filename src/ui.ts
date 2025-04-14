@@ -17,6 +17,7 @@ export class UI extends Container {
         this.recenterButton.eventMode = 'static';
         this.recenterButton.cursor = 'pointer';
         this.recenterButton.position = new Point(0, 0);
+        this.recenterButton.visible = false;
         this.addChild(this.recenterButton);
 
         this.recenterButton.onpointerdown = () => {
@@ -32,6 +33,10 @@ export class UI extends Container {
     resize():void {
         this.recenterButton.position.x = window.innerWidth - 40;
         this.recenterButton.position.y = window.innerHeight - 40;
+    }
+
+    showRecenterButton(visible:boolean):void {
+        this.recenterButton.visible = visible;
     }
 
     static async loadAssets():Promise<void> {
