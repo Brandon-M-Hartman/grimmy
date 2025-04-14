@@ -16,7 +16,7 @@ import { UI } from "./ui";
 		resizeTo: window, 
 		resolution: window.devicePixelRatio || 1,
 		autoDensity: true,
-		antialias: true,
+		antialias: false,
 	});
 
 	document.getElementById("pixi-container")!.appendChild(app.canvas);

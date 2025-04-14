@@ -1,4 +1,4 @@
-import { Assets, BlurFilter, Container, Graphics, Sprite, Text, TextStyle } from "pixi.js";
+import { Assets, BlurFilter, Container, Graphics, Rectangle, Sprite, Text, TextStyle } from "pixi.js";
 import gsap from 'gsap';
 import '@pixi/math-extras';
 import { Point } from '@pixi/core';
@@ -31,7 +31,8 @@ export class Token extends Container {
 
 		const blurFilter1 = new BlurFilter();
 		shadow.filters = [blurFilter1];
-		shadow.alpha = 0.3;
+		shadow.alpha = 0.4;
+		shadow.filterArea = new Rectangle(-100, -100, 200, 200);
 		
 		this.container = new Container();
 
