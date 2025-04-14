@@ -14,16 +14,21 @@ export class TownSquare extends Container {
 	tokens:Container = new Container();
 	draggingToken:Token | null = null;
 	viewport:Viewport;
+	playerTokens:Array<PlayerToken>;
+	reminderTokens:Array<ReminderToken>;
 
 	constructor(viewport:Viewport) {
 		super();
 
+		this.playerTokens = [];
+		this.reminderTokens = [];
 		this.viewport = viewport;
 
 		this.addChild(this.background);
 		this.addChild(this.tokens);
 
 		this.setupBoard();
+		this.arrangeTokens();
 	}
 
 	setupBoard():void {
@@ -32,23 +37,45 @@ export class TownSquare extends Container {
 		this.addPlayerToken(Role.RAVENKEEPER);
 		this.addPlayerToken(Role.LIBRARIAN);
 		this.addPlayerToken(Role.INVESTIGATOR);
+		this.addPlayerToken(Role.RECLUSE);
 		this.addPlayerToken(Role.SAINT);
 		this.addPlayerToken(Role.IMP);
 		this.addPlayerToken(Role.POISONER);
 	}
 
 	addPlayerToken(role:Role):void {
-		const token:Token = new PlayerToken(role);
+		const token:PlayerToken = new PlayerToken(role);
 		this.tokens.addChild(token);
 		this.bindTokenEvents(token);
 		this.addReminderTokens(role);
+		this.playerTokens.push(token);
 	}
 
 	addReminderTokens(role:Role):void {
 		for (let i = 0; i < roleData[role].reminders.length; i++) {
-			const token:Token = new ReminderToken(role, i);
+			const token:ReminderToken = new ReminderToken(role, i);
 			this.tokens.addChild(token);
 			this.bindTokenEvents(token);
+			this.reminderTokens.push(token);
+		}
+	}
+
+	arrangeTokens():void {
+		const dist:number = this.playerTokens.length * 70;
+
+		// arrange player tokens in a circle
+		for (let i = 0; i < this.playerTokens.length; i++)
+		{
+			const token:Token = this.playerTokens[i];
+			const angle:number = Math.PI * 2 / this.playerTokens.length * i;
+			token.position = new Point(Math.cos(angle) * dist, Math.sin(angle) * dist);
+		}
+
+		// arrange reminder tokens on the side
+		for (let i = 0; i < this.reminderTokens.length; i++)
+		{
+			const token:Token = this.reminderTokens[i];
+			token.position = new Point(dist + (i % 2) * 160 + 400, Math.floor(i/2) * 160 - dist/2);
 		}
 	}
 

@@ -38,7 +38,7 @@ import { AssetLoader } from "./assetloader";
 		disableOnContextMenu: true,
 		events: app.renderer.events,
 	});
-	viewport.drag({ wheel: false }).pinch().decelerate().clampZoom({ minScale: 0.3, maxScale: 1.0 });
+	viewport.drag({ wheel: false }).pinch().decelerate().clampZoom({ minScale: 0.1, maxScale: 1.0 });
 	app.stage.addChild(viewport);
 
 	await AssetLoader.loadAssets();
