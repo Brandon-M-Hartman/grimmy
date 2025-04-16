@@ -9,10 +9,22 @@ html, body {
 }
 
 #app {
-    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
     background-image: url('assets/felt.webp');
-    background-size: auto;
+}
+
+#board {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    overflow: hidden;
+}
+
+#townsquare {
+    
 }
