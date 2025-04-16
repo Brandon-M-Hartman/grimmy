@@ -1,33 +1,12 @@
-import "hammerjs";
-import gsap from 'gsap';
+import { Viewport } from "./viewport";
+import Hammer from "hammerjs";
 
 (async () => {
 
-	let view = {scale: 1.0, targetScale: 0.6, x: 0, y: 0, targetX: 0, targetY: 0};
+	const viewport:Viewport = new Viewport();
 
-	// Get a reference to an element.
-	var app = document.getElementById('app')!;
-	var board = document.getElementById('board')!;
-
-	// Set transform origin to top-left so scaling doesn't move the board visually
-	board.style.transformOrigin = "top left";
-
-	const updateTransform = () => {
-		board.style.transform = `scale(${view.scale})`;
-		board.style.left = `${view.x}px`;
-		board.style.top = `${view.y}px`;
-
-		// Match background to "logical" board position, scaled
-		app.style.backgroundPosition = `${view.x}px ${view.y}px`;
-		app.style.backgroundSize = `${view.scale * 50}%`;
-	};
-	updateTransform();
-
-	gsap.killTweensOf(view);
-	gsap.to(view, { scale: view.targetScale, duration: 0.3, ease: "power2.out", onUpdate:updateTransform });
-
-	// Create an instance of Hammer with the reference.
-	var hammer = new Hammer(app!);
+	const app = document.getElementById('app')!;
+	const hammer = new Hammer(app);
 
 	// Subscribe to a quick start event: press, tap, or doubletap.
 	// For a full list of quick start events, read the documentation.
@@ -46,20 +25,11 @@ import gsap from 'gsap';
 	hammer.get('pinch').set({ enable: true });
 
 	hammer.on('panmove', (e) => {
-		gsap.killTweensOf(view);
-		const newX = view.x + e.deltaX;
-		const newY = view.y + e.deltaY;
-
-		board.style.left = `${newX}px`;
-		board.style.top = `${newY}px`;
-		app.style.backgroundPosition = `${newX}px ${newY}px`;
+		viewport.pan(e.deltaX, e.deltaY);
 	});
 
 	hammer.on('panend', (e) => {
-		view.x += e.deltaX;
-		view.y += e.deltaY;
-		view.targetX = view.x;
-		view.targetY = view.y;
+		viewport.endpan(e.deltaX, e.deltaY);
 	});
 
 	hammer.on('pinch', (_e) => {
@@ -68,29 +38,7 @@ import gsap from 'gsap';
 	});
 
 	onwheel = (e:WheelEvent) => {
-		e.preventDefault();
-
-		const rect = app.getBoundingClientRect();
-		const mouseX = e.clientX - rect.left;
-		const mouseY = e.clientY - rect.top;
-
-		const prevScale = view.targetScale;
-		view.targetScale += e.deltaY * -0.001;
-		view.targetScale = Math.min(Math.max(0.2, view.targetScale), 1.0);
-
-		// Calculate scale delta
-		const scaleFactor = view.targetScale / prevScale;
-
-		// Adjust boardX and boardY so the zoom focuses on the cursor
-		view.targetX = mouseX - (mouseX - view.targetX) * scaleFactor;
-		view.targetY = mouseY - (mouseY - view.targetY) * scaleFactor;
-
-		gsap.killTweensOf(view);
-		gsap.to(view, { scale: view.targetScale, duration: 0.5, ease: "power2.out", onUpdate:updateTransform });
-		gsap.to(view, { x: view.targetX, duration: 0.5, ease: "power2.out", onUpdate:updateTransform });
-		gsap.to(view, { y: view.targetY, duration: 0.5, ease: "power2.out", onUpdate:updateTransform });
-
-		//updateTransform();
+		viewport.zoom(e.deltaY * -0.001, e.clientX, e.clientY);
 	}
 
 	// Create a new application
