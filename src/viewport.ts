@@ -14,7 +14,7 @@ export class Viewport {
     constructor() {
         this.app = document.getElementById('app')!;
         this.board = document.getElementById('board')!;
-        this.board.style.transformOrigin = "top left";        
+        this.board.style.transformOrigin = "top left";
 
         this.targetX = window.innerWidth/2;
         this.targetY = window.innerHeight/2;

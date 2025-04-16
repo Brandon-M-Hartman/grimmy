@@ -1,11 +1,16 @@
+import { PlayerToken } from "./playertoken";
+import { TownSquare } from "./townsquare";
 import { Viewport } from "./viewport";
 import Hammer from "hammerjs";
+
+customElements.define('player-token', PlayerToken);
 
 (async () => {
 
 	const viewport:Viewport = new Viewport();
 
 	const app = document.getElementById('app')!;
+	const board = document.getElementById('board')!;
 	const hammer = new Hammer(app);
 
 	// Subscribe to a quick start event: press, tap, or doubletap.
@@ -45,6 +50,10 @@ import Hammer from "hammerjs";
 	onwheel = (e:WheelEvent) => {
 		viewport.zoom(e.deltaY * -0.001, e.clientX, e.clientY);
 	}
+
+	const townSquare:TownSquare = new TownSquare();
+	board.appendChild(townSquare.container);
+	townSquare.setupBoard();
 
 	// Create a new application
 	//const app = new Application();

@@ -1,3 +1,10 @@
+@font-face {
+	font-family: 'IMFell';
+	src: url('assets/fonts/imfell.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
 html, body {
     margin: 0;
     padding: 0;
@@ -22,9 +29,42 @@ html, body {
     width: 100%;
     height: 100%;
     position: absolute;
-    overflow: hidden;
 }
 
-#townsquare {
-    
+player-token {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+player-token img {
+    position: absolute;
+    z-index: 2;
+}
+
+player-token span {
+    position: absolute;
+    white-space: pre;
+    color: black;
+    font-size: 26px;
+    font-family: 'IMFell';
+    transform-origin: center;
+    text-rendering: geometricPrecision;
+    font-smooth: always;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+player-token svg {
+    z-index: 3;
+}
+
+player-token svg text {
+    white-space: pre;
+    color: black;
+    font-size: 26px;
+    font-family: 'IMFell';
+    letter-spacing: 4px;
 }

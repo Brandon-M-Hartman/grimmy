@@ -61,6 +61,14 @@ export default (_env, argv) => {
           loader: "ts-loader",
           exclude: /node_modules/,
         },
+        {
+          test: /\.(woff|woff2|eot|ttf|otf)$/i,
+          type: 'asset/resource',
+        },
+        {
+          test: /\.css$/i,
+          use: ['style-loader', 'css-loader'],
+        },
       ],
     },
     resolve: {
