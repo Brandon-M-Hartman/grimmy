@@ -70,4 +70,27 @@ export class Viewport {
 		gsap.to(this, { x: this.targetX, duration: 0.5, ease: "power2.out", onUpdate:this.updateTransform });
 		gsap.to(this, { y: this.targetY, duration: 0.5, ease: "power2.out", onUpdate:this.updateTransform });
     }
+
+    pinchZoom = (scale:number, centerX:number, centerY:number) => {
+        const rect = this.app.getBoundingClientRect();
+		const mouseX = centerX - rect.left;
+		const mouseY = centerY - rect.top;
+
+        const prevScale = this.scale;
+		this.targetScale = Math.min(Math.max(0.2, scale), 1.0);
+        this.scale = this.targetScale;
+        
+		// Calculate scale delta
+		const scaleFactor = this.targetScale / prevScale;
+		this.targetX = mouseX - (mouseX - this.targetX) * scaleFactor;
+		this.targetY = mouseY - (mouseY - this.targetY) * scaleFactor;
+        this.x = this.targetX;
+        this.y = this.targetY;
+        
+        this.updateTransform();
+    }
+
+    getScale():number {
+        return this.scale
+    }
 }

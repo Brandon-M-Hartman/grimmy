@@ -32,9 +32,14 @@ import Hammer from "hammerjs";
 		viewport.endpan(e.deltaX, e.deltaY);
 	});
 
-	hammer.on('pinch', (_e) => {
-		//boardScale = Math.max(0.2, Math.min(e.scale, 1.0));
-		//updateTransform();
+	let pinchStartScale:number = 1.0;
+	hammer.on('pinchstart', () => {
+		pinchStartScale = viewport.getScale();
+	});
+
+	hammer.on('pinch', (e) => {
+		const newScale:number = pinchStartScale * e.scale;
+		viewport.pinchZoom(newScale, e.center.x, e.center.y);
 	});
 
 	onwheel = (e:WheelEvent) => {
