@@ -72,7 +72,7 @@ export default (_env, argv) => {
       ],
     },
     resolve: {
-      extensions: [".tsx", ".ts", ".js"],
+      extensions: [".tsx", ".ts", ".js", ".css"],
     },
 
     plugins: [

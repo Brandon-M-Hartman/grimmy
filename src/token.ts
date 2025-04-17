@@ -18,19 +18,23 @@ export class Token extends HTMLElement {
 		this.appendChild(img);
 
 		const hammer = new Hammer(this);
-		hammer.get('press').set({ time: 0 });
+		hammer.get('press').set({ time: 10 });
+		hammer.get('pan').set({ threshold: 0 });
 
 		hammer.on('tap', (_e) => {
 			console.log("tapped token!");
 		});
 
 		hammer.on('press', (_e) => {
-			console.log('press');
+			console.log('long press on token!');
 			const rect = this.getBoundingClientRect();
 			this.posX = (rect.left - Application.viewport.x) / Application.viewport.scale;
 			this.posY = (rect.top - Application.viewport.y) / Application.viewport.scale;
+		});
 
+		hammer.on('panstart', (_e) => {
 			this.dragging = true;
+			this.classList.add("dragging");
 			this.dispatchEvent(new CustomEvent("dragstart"));
 		});
 
@@ -60,6 +64,7 @@ export class Token extends HTMLElement {
 			this.style.top = `${this.posY}px`;
 		
 			this.dragging = false;
+			this.classList.remove("dragging");
 			this.dispatchEvent(new CustomEvent("dragend"));
 		});
 
