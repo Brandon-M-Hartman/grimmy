@@ -35,12 +35,18 @@ export class TownSquare {
 		// this.addPlayerToken(Role.POISONER);
 	}
 
-	addPlayerToken(_role:Role):void {
-		const token:PlayerToken = new PlayerToken(_role);
+	addPlayerToken(role:Role):void {
+		const token:PlayerToken = new PlayerToken(role);
 		this.container.appendChild(token);
 		token.addLabel();
+		this.playerTokens.push(token);
+
 		token.addEventListener("dragstart", () => {
 			this.draggingToken = true;
+			const index = this.playerTokens.indexOf(token);
+			this.playerTokens.splice(index, 1);
+			this.playerTokens.push(token);
+			this.reorderTokens();
 		});
 		token.addEventListener("dragend", () => {
 			this.draggingToken = false;
@@ -48,7 +54,13 @@ export class TownSquare {
 		// //this.tokens.addChild(token);
 		// this.bindTokenEvents(token);
 		// this.addReminderTokens(role);
-		// this.playerTokens.push(token);
+		// 
+	}
+
+	reorderTokens():void {
+		for (let i = 0; i < this.playerTokens.length; i++) {
+			this.playerTokens[i].style.zIndex = i.toString();
+		}
 	}
 
 	// addReminderTokens(role:Role):void {
