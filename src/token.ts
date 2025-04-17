@@ -17,7 +17,10 @@ export class Token extends HTMLElement {
 		img.draggable = false;
 		this.appendChild(img);
 
-		const hammer = new Hammer(this);
+		const hitArea = document.createElement("span");
+		this.appendChild(hitArea);
+
+		const hammer = new Hammer(hitArea);
 		hammer.get('press').set({ time: 10 });
 		hammer.get('pan').set({ threshold: 0 });
 
