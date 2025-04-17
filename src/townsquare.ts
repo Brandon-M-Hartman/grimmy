@@ -9,9 +9,8 @@ export class TownSquare {
 	static enabled:boolean = true;
 
 	container:HTMLDivElement;
+	draggingToken:boolean = false;
 
-	//tokens:HTMLElement;
-	draggingToken:Token | null = null;
 	playerTokens:Array<PlayerToken>;
 	reminderTokens:Array<ReminderToken>;
 
@@ -40,6 +39,12 @@ export class TownSquare {
 		const token:PlayerToken = new PlayerToken(_role);
 		this.container.appendChild(token);
 		token.addLabel();
+		token.addEventListener("dragstart", () => {
+			this.draggingToken = true;
+		});
+		token.addEventListener("dragend", () => {
+			this.draggingToken = false;
+		});
 		// //this.tokens.addChild(token);
 		// this.bindTokenEvents(token);
 		// this.addReminderTokens(role);

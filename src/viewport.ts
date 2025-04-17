@@ -1,13 +1,14 @@
 import gsap from "gsap";
 
 export class Viewport {
-    
+
+    public scale:number = 1.0;
+    public x:number = 0;
+    public y:number = 0;
+
     private app:HTMLElement;
     private board:HTMLElement;
-    private scale:number = 1.0;
     private targetScale:number = 0.65;
-    private x:number = 0;
-    private y:number = 0;
     private targetX:number = 0;
     private targetY:number = 0;
 
@@ -49,6 +50,7 @@ export class Viewport {
 		this.y += y;
 		this.targetX = this.x;
 		this.targetY = this.y;
+        this.updateTransform();
     }
 
     zoom = (amount:number, centerX:number, centerY:number) => {

@@ -37,34 +37,23 @@ player-token {
     align-items: center;
     justify-content: center;
     z-index: 1;
-}
+    cursor: pointer;
+    touch-action: none;
 
-player-token img {
-    position: absolute;
-    z-index: 2;
-}
+    img {
+        position: absolute;
+        z-index: 2;
+    }
 
-player-token span {
-    position: absolute;
-    white-space: pre;
-    color: black;
-    font-size: 26px;
-    font-family: 'IMFell';
-    transform-origin: center;
-    text-rendering: geometricPrecision;
-    font-smooth: always;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
+    svg {
+        z-index: 3;
 
-player-token svg {
-    z-index: 3;
-}
-
-player-token svg text {
-    white-space: pre;
-    color: black;
-    font-size: 26px;
-    font-family: 'IMFell';
-    letter-spacing: 4px;
+        text {
+            white-space: pre;
+            color: black;
+            font-size: 26px;
+            font-family: 'IMFell';
+            letter-spacing: 4px;
+        }
+    }
 }

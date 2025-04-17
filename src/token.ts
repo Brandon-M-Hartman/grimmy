@@ -1,9 +1,13 @@
-
+import Hammer from "hammerjs";
+import { Application } from "./application";
 
 export class Token extends HTMLElement {
 
 	dragging:boolean = false;
 	mouseDown:boolean = false;
+
+	posX:number = 0;
+	posY:number = 0;
 
 	constructor() {
 		super();
@@ -12,6 +16,61 @@ export class Token extends HTMLElement {
 		img.src = "assets/token/background.png";
 		img.draggable = false;
 		this.appendChild(img);
+
+		const hammer = new Hammer(this);
+		hammer.get('press').set({ time: 0 });
+
+		hammer.on('tap', (_e) => {
+			console.log("tapped token!");
+		});
+
+		hammer.on('press', (_e) => {
+			console.log('press');
+			const rect = this.getBoundingClientRect();
+			this.posX = (rect.left - Application.viewport.x) / Application.viewport.scale;
+			this.posY = (rect.top - Application.viewport.y) / Application.viewport.scale;
+
+			this.dragging = true;
+			this.dispatchEvent(new CustomEvent("dragstart"));
+		});
+
+		hammer.on('panmove', (e) => {
+			if (!this.dragging) return;
+
+			const deltaX = e.deltaX / Application.viewport.scale;
+			const deltaY = e.deltaY / Application.viewport.scale;
+
+			const newX = this.posX + deltaX;
+			const newY = this.posY + deltaY;
+
+			this.style.left = `${newX}px`;
+			this.style.top = `${newY}px`;
+		});
+
+		hammer.on('panend', (e) => {
+			if (!this.dragging) return;
+		
+			const deltaX = e.deltaX / Application.viewport.scale;
+			const deltaY = e.deltaY / Application.viewport.scale;
+		
+			this.posX += deltaX;
+			this.posY += deltaY;
+		
+			this.style.left = `${this.posX}px`;
+			this.style.top = `${this.posY}px`;
+		
+			this.dragging = false;
+			this.dispatchEvent(new CustomEvent("dragend"));
+		});
+
+		// this.addEventListener('pointerup', (e) => {
+		// 	console.log('Pointer up!', e);
+		// 	this.dispatchEvent(new CustomEvent("dragend"));		
+		// 	posX = (e.clientX - Viewport.viewX) / Viewport.viewScale;
+		// 	posY = (e.clientY - Viewport.viewY) / Viewport.viewScale;
+		// 	this.style.left = `${posX}px`;
+		// 	this.style.top = `${posY}px`;
+		// });
 	}
 
 	// protected addSprites():void {
