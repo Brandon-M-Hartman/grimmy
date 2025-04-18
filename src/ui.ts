@@ -1,8 +1,13 @@
-import { TokenOptionsScreen } from './screens/tokenoptions';
+import { Screen } from './screen';
 
 export class UI extends HTMLElement {
+
+    private screens:Array<Screen>;
+
     constructor() {
         super();
+
+        this.screens = [];
 
         const app = document.getElementById('app')!;
         app.appendChild(this);
@@ -14,10 +19,16 @@ export class UI extends HTMLElement {
         this.hide();
     }
 
-    showTokenOptions() {
-        const screen:TokenOptionsScreen = new TokenOptionsScreen();
+    pushScreen(screen:Screen):void {
         this.appendChild(screen);
+        this.screens.push(screen);
         this.show();
+    }
+
+    popScreen():void {
+        const screen:Screen = this.screens.pop()!;
+        this.removeChild(screen);
+        if (this.screens.length == 0) this.hide();
     }
 
     show():void {

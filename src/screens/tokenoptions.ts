@@ -3,7 +3,7 @@ import { Role } from "../role";
 import { Screen } from "../screen"
 
 export class TokenOptionsScreen extends Screen {
-    constructor() {
+    constructor(role:Role) {
         super();
 
         var container = document.createElement('div');
@@ -18,7 +18,7 @@ export class TokenOptionsScreen extends Screen {
         tokenContainer.classList.add("token-container");
         container.appendChild(tokenContainer);
 
-        var token:PlayerToken = new PlayerToken(Role.SOLDIER);
+        var token:PlayerToken = new PlayerToken(role);
         tokenContainer.appendChild(token);
         token.setDisplay(true);
 

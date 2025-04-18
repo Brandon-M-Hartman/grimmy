@@ -34,7 +34,7 @@ export class Token extends HTMLElement {
 		hammer.get('pan').set({ threshold: 0 });
 
 		hammer.on('tap', (_e) => {
-			console.log("tapped token!");
+			this.onTokenTapped();
 		});
 
 		hammer.on('press', (_e) => {
@@ -133,5 +133,9 @@ export class Token extends HTMLElement {
 		svg.appendChild(textElement);
 
 		this.container.appendChild(svg);
+	}
+
+	protected onTokenTapped():void {
+		// override in child class
 	}
 }

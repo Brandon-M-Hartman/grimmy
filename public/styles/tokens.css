@@ -38,8 +38,8 @@
     span {
         position: absolute;
         display: inline-block;
-        width: 100%;
-        height: 100%;
+        width: 256px;
+        height: 256px;
         clip-path: circle(50%);
         z-index: 4;
         cursor: pointer;

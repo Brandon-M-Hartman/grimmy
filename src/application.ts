@@ -10,8 +10,6 @@ export class Application {
         Application.viewport = new Viewport();
         Application.ui = new UI();
 
-        Application.ui.showTokenOptions();
-
         const app = document.getElementById('app')!;
         const board = document.getElementById('board')!;
         const hammer = new Hammer(app);
