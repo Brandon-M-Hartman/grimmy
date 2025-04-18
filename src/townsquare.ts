@@ -34,8 +34,8 @@ export class TownSquare extends HTMLElement {
 
 	addPlayerToken(role:Role):void {
 		const token:PlayerToken = new PlayerToken(role);
+		token.bindEvents();
 		this.appendChild(token);
-		token.addLabel();
 		this.tokens.push(token);
 		this.playerTokens.push(token);
 		this.bindTokenEvents(token);
@@ -51,8 +51,8 @@ export class TownSquare extends HTMLElement {
 	addReminderTokens(role:Role):void {
 		for (let i = 0; i < roleData[role].reminders.length; i++) {
 			const token:ReminderToken = new ReminderToken(role, i);
+			token.bindEvents();
 			this.appendChild(token);
-			token.addLabel();
 			this.bindTokenEvents(token);
 			this.tokens.push(token);
 			this.reminderTokens.push(token);

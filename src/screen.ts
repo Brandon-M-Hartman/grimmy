@@ -1,13 +1,18 @@
 export class Screen extends HTMLElement {
+
+    protected contents:HTMLElement;
+
     constructor() {
         super();
+
+        this.className = "screen";
 
         let overlay = document.createElement('div');
         overlay.className = 'overlay';
         this.appendChild(overlay);
 
-        overlay.addEventListener('pointerdown', (e) => {
-            e.stopPropagation();
-        });
+        this.contents = document.createElement('div');
+        this.contents.className = 'contents';
+        this.appendChild(this.contents);
     }
 }

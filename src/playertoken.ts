@@ -19,7 +19,7 @@ export class PlayerToken extends Token {
 		this.container.appendChild(icon);
 	}
 
-	addLabel():void {
+    connectedCallback() {
 		this.makeText(this.roleInfo.name.toUpperCase());
 	}
 

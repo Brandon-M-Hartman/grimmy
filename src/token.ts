@@ -23,7 +23,9 @@ export class Token extends HTMLElement {
 		this.background.src = "assets/token/background.png";
 		this.background.draggable = false;
 		this.container.appendChild(this.background);
+	}
 
+	bindEvents():void {
 		const hitArea = document.createElement("span");
 		this.container.appendChild(hitArea);
 
@@ -84,6 +86,11 @@ export class Token extends HTMLElement {
 		this.pos.y = y;
 		this.style.left = `${x}px`;
 		this.style.top = `${y}px`;
+	}
+
+	setDisplay(display:boolean):void {
+		if (display) this.classList.add('display');
+		else this.classList.remove('display');
 	}
 
 	protected getTokenRadius():number {

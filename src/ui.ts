@@ -1,4 +1,4 @@
-import { Screen } from './screen';
+import { TokenOptionsScreen } from './screens/tokenoptions';
 
 export class UI extends HTMLElement {
     constructor() {
@@ -6,11 +6,26 @@ export class UI extends HTMLElement {
 
         const app = document.getElementById('app')!;
         app.appendChild(this);
+
+        addEventListener('pointerdown', (e) => {
+            e.stopPropagation();
+        });
+
+        this.hide();
     }
 
     showTokenOptions() {
-        const screen:Screen = new Screen();
+        const screen:TokenOptionsScreen = new TokenOptionsScreen();
         this.appendChild(screen);
+        this.show();
+    }
+
+    show():void {
+        this.classList.remove('hidden');
+    }
+
+    hide():void {
+        this.classList.add('hidden');
     }
 
     // recenterButton:Graphics;

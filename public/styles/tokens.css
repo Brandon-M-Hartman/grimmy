@@ -25,6 +25,7 @@
 
     svg {
         z-index: 3;
+        position: absolute;
 
         text {
             fill: black;
@@ -43,6 +44,18 @@
         z-index: 4;
         cursor: pointer;
         pointer-events: all;
+    }
+
+    &.display {
+        position: relative;
+        transform: scale(75%);
+
+        .container {
+            transform: none;
+            position: relative;
+            width: 200px;
+            height: 200px;
+        }
     }
 }
 
