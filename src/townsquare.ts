@@ -25,8 +25,8 @@ export class TownSquare {
 
 	setupBoard():void {
 		this.addPlayerToken(Role.MONK);
-		//this.addPlayerToken(Role.SOLDIER);
-		//this.addPlayerToken(Role.RAVENKEEPER);
+		this.addPlayerToken(Role.SOLDIER);
+		this.addPlayerToken(Role.RAVENKEEPER);
 		this.addPlayerToken(Role.LIBRARIAN);
 		// this.addPlayerToken(Role.INVESTIGATOR);
 		// this.addPlayerToken(Role.RECLUSE);
@@ -51,10 +51,6 @@ export class TownSquare {
 		token.addEventListener("dragend", () => {
 			this.draggingToken = false;
 		});
-		// //this.tokens.addChild(token);
-		// this.bindTokenEvents(token);
-		// this.addReminderTokens(role);
-		// 
 	}
 
 	reorderTokens():void {

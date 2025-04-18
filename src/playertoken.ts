@@ -16,7 +16,7 @@ export class PlayerToken extends Token {
 		icon.src = 'assets/token/' + this.type + '.webp';
 		icon.className = "icon";
 		icon.draggable = false;
-		this.appendChild(icon);
+		this.container.appendChild(icon);
 	}
 
 	addLabel():void {

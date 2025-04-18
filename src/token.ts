@@ -8,20 +8,25 @@ export class Token extends HTMLElement {
 
 	posX:number = 0;
 	posY:number = 0;
+	container:HTMLElement;
 
 	constructor() {
 		super();
 
+		this.container = document.createElement("div");
+		this.container.className = "container";
+		this.appendChild(this.container);
+
 		const img = document.createElement("img");
 		img.src = "assets/token/background.png";
 		img.draggable = false;
-		this.appendChild(img);
+		this.container.appendChild(img);
 
 		const hitArea = document.createElement("span");
-		this.appendChild(hitArea);
+		this.container.appendChild(hitArea);
 
 		const hammer = new Hammer(hitArea);
-		hammer.get('press').set({ time: 10 });
+		hammer.get('press').set({ time: 200, threshold: 1 });
 		hammer.get('pan').set({ threshold: 0 });
 
 		hammer.on('tap', (_e) => {
@@ -196,6 +201,6 @@ export class Token extends HTMLElement {
 		textElement.appendChild(textPath);
 		svg.appendChild(textElement);
 
-		this.appendChild(svg);
+		this.container.appendChild(svg);
 	}
 }
