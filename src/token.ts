@@ -6,8 +6,7 @@ export class Token extends HTMLElement {
 	dragging:boolean = false;
 	mouseDown:boolean = false;
 
-	posX:number = 0;
-	posY:number = 0;
+	pos = { x: 0, y: 0 };
 	container:HTMLElement;
 
 	protected background:HTMLImageElement;
@@ -41,8 +40,8 @@ export class Token extends HTMLElement {
 		hammer.on('press', (_e) => {
 			console.log('long press on token!');
 			const rect = this.getBoundingClientRect();
-			this.posX = (rect.left - Application.viewport.x) / Application.viewport.scale;
-			this.posY = (rect.top - Application.viewport.y) / Application.viewport.scale;
+			this.pos.x = (rect.left - Application.viewport.x) / Application.viewport.scale;
+			this.pos.y = (rect.top - Application.viewport.y) / Application.viewport.scale;
 		});
 
 		hammer.on('panstart', (_e) => {
@@ -57,8 +56,8 @@ export class Token extends HTMLElement {
 			const deltaX = e.deltaX / Application.viewport.scale;
 			const deltaY = e.deltaY / Application.viewport.scale;
 
-			const newX = this.posX + deltaX;
-			const newY = this.posY + deltaY;
+			const newX = this.pos.x + deltaX;
+			const newY = this.pos.y + deltaY;
 
 			this.style.left = `${newX}px`;
 			this.style.top = `${newY}px`;
@@ -70,102 +69,24 @@ export class Token extends HTMLElement {
 			const deltaX = e.deltaX / Application.viewport.scale;
 			const deltaY = e.deltaY / Application.viewport.scale;
 		
-			this.posX += deltaX;
-			this.posY += deltaY;
+			this.pos.x += deltaX;
+			this.pos.y += deltaY;
 		
-			this.style.left = `${this.posX}px`;
-			this.style.top = `${this.posY}px`;
+			this.style.left = `${this.pos.x}px`;
+			this.style.top = `${this.pos.y}px`;
 		
 			this.dragging = false;
 			this.classList.remove("dragging");
 			this.dispatchEvent(new CustomEvent("dragend"));
 		});
-
-		// this.addEventListener('pointerup', (e) => {
-		// 	console.log('Pointer up!', e);
-		// 	this.dispatchEvent(new CustomEvent("dragend"));		
-		// 	posX = (e.clientX - Viewport.viewX) / Viewport.viewScale;
-		// 	posY = (e.clientY - Viewport.viewY) / Viewport.viewScale;
-		// 	this.style.left = `${posX}px`;
-		// 	this.style.top = `${posY}px`;
-		// });
 	}
 
-	// protected addSprites():void {
-	// 	this.token = Sprite.from(Assets.get('token.background'));
-	// 	this.token.anchor.set(0.5);
-
-	// 	const shadow:Graphics = new Graphics();
-	// 	shadow.circle(0, 0, this.getTokenRadius() * 2);
-	// 	shadow.fill(0x000000);
-
-	// 	const blurFilter1 = new BlurFilter();
-	// 	shadow.filters = [blurFilter1];
-	// 	shadow.alpha = 0.4;
-	// 	shadow.filterArea = new Rectangle(-100, -100, 200, 200);
-		
-	// 	this.container = new Container();
-
-	// 	this.container.addChild(this.token);
-	// }
-
-	// addEvents():void {
-	// 	const DRAG_THRESHOLD:number = 12;
-
-	// 	this.on('pointerdown', (e) => {
-	// 		console.log("pressed token");
-	// 		this.mousePos.set(e.x, e.y);
-	// 		this.mouseDown = true;
-	// 		this.emit('focusstart');
-	// 	});
-
-	// 	this.on('globalpointermove', (e) => {
-	// 		if (this.mouseDown && !this.dragging && TownSquare.enabled) {
-	// 			const deltaX = e.x - this.mousePos.x;
-	// 			const deltaY = e.y - this.mousePos.y;
-	// 			if (Math.abs(deltaX) > DRAG_THRESHOLD || Math.abs(deltaY) > DRAG_THRESHOLD) {
-	// 				this.pickup(new Point(e.x, e.y));
-	// 			}
-	// 		}
-	// 	});
-
-	// 	this.on('pointerup', () => {
-	// 		this.mouseDown = false;
-	// 		this.drop();
-	// 		this.emit('focusend');
-	// 	});
-	// }
-
-	// pickup(pos:Point):void {
-	// 	this.emit('dragstart');
-	// 	this.dragging = true;
-	// 	const globalPos:Point = this.getGlobalPosition();
-	// 	this.dragOffset = new Point(globalPos.x - pos.x, globalPos.y - pos.y);
-	// 	gsap.killTweensOf(this.container);
-	// 	gsap.to(this.container, {
-	// 		duration: 0.35,
-	// 		y: -25,
-	// 		rotation: -0.05,
-	// 		ease: "power2.out",
-	// 	});
-	// }
-
-	// drag(pos:Point):void {
-	// 	this.position.x = pos.x + this.dragOffset.x;
-	// 	this.position.y = pos.y + this.dragOffset.y;
-	// }
-
-	// drop():void {
-	// 	this.emit('dragend');
-	// 	this.dragging = false;
-	// 	gsap.killTweensOf(this.container);
-	// 	gsap.to(this.container, {
-	// 		duration: 0.2,
-	// 		y: 0,
-	// 		rotation: 0,
-	// 		ease: "power2.in",
-	// 	});
-	// }
+	setPosition(x:number, y:number) {
+		this.pos.x = x;
+		this.pos.y = y;
+		this.style.left = `${x}px`;
+		this.style.top = `${y}px`;
+	}
 
 	protected getTokenRadius():number {
 		return 115;

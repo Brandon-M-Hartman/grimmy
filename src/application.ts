@@ -41,5 +41,6 @@ export class Application {
         const townSquare:TownSquare = new TownSquare();
         board.appendChild(townSquare.container);
         townSquare.setupBoard();
+        townSquare.arrangeTokens();
     }
 }

@@ -11,13 +11,16 @@ export class TownSquare {
 	draggingToken:boolean = false;
 
 	tokens:Array<Token>;
+	playerTokens:Array<PlayerToken>;
+	reminderTokens:Array<ReminderToken>;
 
 	constructor() {
-
 		this.container = document.createElement('div');
 		this.container.id = "town-square";
 
 		this.tokens = [];
+		this.playerTokens = [];
+		this.reminderTokens = [];
 	}
 
 	setupBoard():void {
@@ -25,11 +28,11 @@ export class TownSquare {
 		this.addPlayerToken(Role.SOLDIER);
 		this.addPlayerToken(Role.RAVENKEEPER);
 		this.addPlayerToken(Role.LIBRARIAN);
-		// this.addPlayerToken(Role.INVESTIGATOR);
-		// this.addPlayerToken(Role.RECLUSE);
-		// this.addPlayerToken(Role.SAINT);
-		// this.addPlayerToken(Role.IMP);
-		// this.addPlayerToken(Role.POISONER);
+		this.addPlayerToken(Role.INVESTIGATOR);
+		this.addPlayerToken(Role.RECLUSE);
+		this.addPlayerToken(Role.SAINT);
+		this.addPlayerToken(Role.IMP);
+		this.addPlayerToken(Role.POISONER);
 	}
 
 	addPlayerToken(role:Role):void {
@@ -37,6 +40,7 @@ export class TownSquare {
 		this.container.appendChild(token);
 		token.addLabel();
 		this.tokens.push(token);
+		this.playerTokens.push(token);
 		this.bindTokenEvents(token);
 		this.addReminderTokens(role);
 	}
@@ -54,26 +58,27 @@ export class TownSquare {
 			token.addLabel();
 			this.bindTokenEvents(token);
 			this.tokens.push(token);
+			this.reminderTokens.push(token);
 		}
 	}
 
 	arrangeTokens():void {
-		// const dist:number = this.playerTokens.length * 70;
+		const dist:number = this.playerTokens.length * 70;
 
-		// // arrange player tokens in a circle
-		// for (let i = 0; i < this.playerTokens.length; i++)
-		// {
-		// 	const token:Token = this.playerTokens[i];
-		// 	const angle:number = Math.PI * 2 / this.playerTokens.length * i;
-		// 	token.position = new Point(Math.cos(angle) * dist, Math.sin(angle) * dist);
-		// }
+		// arrange player tokens in a circle
+		for (let i = 0; i < this.playerTokens.length; i++)
+		{
+			const token:Token = this.playerTokens[i];
+			const angle:number = Math.PI * 2 / this.playerTokens.length * i;
+			token.setPosition(Math.cos(angle) * dist, Math.sin(angle) * dist);
+		}
 
-		// // arrange reminder tokens on the side
-		// for (let i = 0; i < this.reminderTokens.length; i++)
-		// {
-		// 	const token:Token = this.reminderTokens[i];
-		// 	token.position = new Point(dist + (i % 2) * 160 + 400, Math.floor(i/2) * 160 - dist/2);
-		// }
+		// arrange reminder tokens on the side
+		for (let i = 0; i < this.reminderTokens.length; i++)
+		{
+			const token:Token = this.reminderTokens[i];
+			token.setPosition(dist + (i % 2) * 160 + 400, Math.floor(i/2) * 160 - dist/2);
+		}
 	}
 
 	bindTokenEvents(token:Token):void {
