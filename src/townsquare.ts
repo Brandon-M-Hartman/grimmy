@@ -26,7 +26,7 @@ export class TownSquare extends HTMLElement {
 		this.addPlayerToken(Role.RAVENKEEPER);
 		this.addPlayerToken(Role.LIBRARIAN);
 		this.addPlayerToken(Role.INVESTIGATOR);
-		this.addPlayerToken(Role.RECLUSE);
+		this.addPlayerToken(Role.DRUNK);
 		this.addPlayerToken(Role.SAINT);
 		this.addPlayerToken(Role.IMP);
 		this.addPlayerToken(Role.POISONER);

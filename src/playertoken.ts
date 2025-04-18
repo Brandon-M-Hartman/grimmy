@@ -19,6 +19,11 @@ export class PlayerToken extends Token {
 		icon.className = "icon";
 		icon.draggable = false;
 		this.container.appendChild(icon);
+
+        if (this.roleInfo.setup) this.addSetupReminder();
+        if (this.roleInfo.top > 0) this.addTopReminder(this.roleInfo.top);
+        if (this.roleInfo.left > 0) this.addLeftReminder(this.roleInfo.left);
+        if (this.roleInfo.right > 0) this.addRightReminder(this.roleInfo.right);
 	}
 
     connectedCallback() {
@@ -29,48 +34,36 @@ export class PlayerToken extends Token {
         Application.ui.pushScreen(new TokenOptionsScreen(this.type));
 	}
 
-	// 	this.role = roleData[type];
-	// 	console.log(this.role);
-        
-	// 	this.addSprites();
-    // }
+    private addSetupReminder():void {
+        const icon = document.createElement("img");
+		icon.src = 'assets/token/setup.webp';
+		icon.className = "reminder";
+		icon.draggable = false;
+		this.container.appendChild(icon);
+    }
 
-    // addSprites():void {
-    //     super.addSprites();
+    private addTopReminder(num:number):void {
+        const icon = document.createElement("img");
+		icon.src = 'assets/token/top-' + num + '.webp';
+		icon.className = "reminder";
+		icon.draggable = false;
+		this.container.appendChild(icon);
+    }
 
-    //     const icon:Sprite = Sprite.from(Assets.get('icon.' + this.type));
-	// 	icon.anchor.set(0.5);
-	// 	this.container.addChild(icon);
+    private addLeftReminder(num:number):void {
+        const icon = document.createElement("img");
+		icon.src = 'assets/token/left-' + num + '.webp';
+		icon.className = "reminder";
+		icon.draggable = false;
+		this.container.appendChild(icon);
+    }
 
-    //     if (this.role.top > 0) {
-    //     	const remindersTop:Sprite = Sprite.from(Assets.get('top.' + this.role.top));
-    //     	remindersTop.anchor.set(0.5);
-    //     	remindersTop.scale = 0.515;
-    //     	this.container.addChild(remindersTop);
-    //     }
-
-    //     if (this.role.left > 0) {
-    //     	const remindersLeft:Sprite = Sprite.from(Assets.get('left.' + this.role.left));
-    //     	remindersLeft.anchor.set(0.5);
-    //     	remindersLeft.scale = 0.515;
-    //     	this.container.addChild(remindersLeft);
-    //     }
-
-    //     if (this.role.right > 0) {
-    //     	const remindersRight:Sprite = Sprite.from(Assets.get('right.' + this.role.right));
-    //     	remindersRight.anchor.set(0.5);
-    //     	remindersRight.scale = 0.515;
-    //     	this.container.addChild(remindersRight);
-    //     }
-
-    //     if (this.role.setup) {
-    //     	const remindersSetup:Sprite = Sprite.from(Assets.get('setup'));
-    //     	remindersSetup.anchor.set(0.5);
-    //     	remindersSetup.scale = 0.515;
-    //     	this.container.addChild(remindersSetup);
-    //     }
-
-    //     this.makeText(this.role.name.toUpperCase());
-    // }
+    private addRightReminder(num:number):void {
+        const icon = document.createElement("img");
+		icon.src = 'assets/token/right-' + num + '.webp';
+		icon.className = "reminder";
+		icon.draggable = false;
+		this.container.appendChild(icon);
+    }
 
 }

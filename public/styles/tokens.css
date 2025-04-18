@@ -20,7 +20,11 @@
 
     img {
         position: absolute;
-        z-index: 2;
+        z-index: 2;  
+
+        &.reminder {
+            transform: scale(0.515);
+        }
     }
 
     svg {
