@@ -1,0 +1,39 @@
+@font-face {
+	font-family: 'IMFell';
+	src: url('../assets/fonts/imfell.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Trade Gothic';
+	src: url('../assets/fonts/trade_gothic.otf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #000000;
+    overflow: hidden;
+}
+
+#app {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-image: url('../assets/felt.webp');
+}
+
+#board {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}

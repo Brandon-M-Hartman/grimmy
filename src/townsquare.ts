@@ -4,19 +4,16 @@ import { PlayerToken } from './playertoken';
 import { ReminderToken } from './remindertoken';
 import { Role, roleData } from "./role";
 
-export class TownSquare {
+export class TownSquare extends HTMLElement {
 	static enabled:boolean = true;
 
-	container:HTMLDivElement;
 	draggingToken:boolean = false;
-
 	tokens:Array<Token>;
 	playerTokens:Array<PlayerToken>;
 	reminderTokens:Array<ReminderToken>;
 
 	constructor() {
-		this.container = document.createElement('div');
-		this.container.id = "town-square";
+		super();
 
 		this.tokens = [];
 		this.playerTokens = [];
@@ -37,7 +34,7 @@ export class TownSquare {
 
 	addPlayerToken(role:Role):void {
 		const token:PlayerToken = new PlayerToken(role);
-		this.container.appendChild(token);
+		this.appendChild(token);
 		token.addLabel();
 		this.tokens.push(token);
 		this.playerTokens.push(token);
@@ -54,7 +51,7 @@ export class TownSquare {
 	addReminderTokens(role:Role):void {
 		for (let i = 0; i < roleData[role].reminders.length; i++) {
 			const token:ReminderToken = new ReminderToken(role, i);
-			this.container.appendChild(token);
+			this.appendChild(token);
 			token.addLabel();
 			this.bindTokenEvents(token);
 			this.tokens.push(token);

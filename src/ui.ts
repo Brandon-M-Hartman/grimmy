@@ -1,5 +1,17 @@
+import { Screen } from './screen';
 
-export class UI {
+export class UI extends HTMLElement {
+    constructor() {
+        super();
+
+        const app = document.getElementById('app')!;
+        app.appendChild(this);
+    }
+
+    showTokenOptions() {
+        const screen:Screen = new Screen();
+        this.appendChild(screen);
+    }
 
     // recenterButton:Graphics;
 

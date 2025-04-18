@@ -1,11 +1,16 @@
 import { TownSquare } from "./townsquare";
+import { UI } from "./ui";
 import { Viewport } from "./viewport";
 
 export class Application {
     static viewport:Viewport;
+    static ui:UI;
     
     constructor() {
         Application.viewport = new Viewport();
+        Application.ui = new UI();
+
+        Application.ui.showTokenOptions();
 
         const app = document.getElementById('app')!;
         const board = document.getElementById('board')!;
@@ -39,7 +44,7 @@ export class Application {
         }
 
         const townSquare:TownSquare = new TownSquare();
-        board.appendChild(townSquare.container);
+        board.appendChild(townSquare);
         townSquare.setupBoard();
         townSquare.arrangeTokens();
     }

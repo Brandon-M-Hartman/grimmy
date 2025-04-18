@@ -3,12 +3,10 @@ import { Application } from "./application";
 
 export class Token extends HTMLElement {
 
-	dragging:boolean = false;
-	mouseDown:boolean = false;
-
-	pos = { x: 0, y: 0 };
-	container:HTMLElement;
-
+	public pos = { x: 0, y: 0 };
+	
+	private dragging:boolean = false;
+	protected container:HTMLElement;
 	protected background:HTMLImageElement;
 
 	constructor() {
