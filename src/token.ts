@@ -10,17 +10,22 @@ export class Token extends HTMLElement {
 	posY:number = 0;
 	container:HTMLElement;
 
+	protected background:HTMLImageElement;
+
 	constructor() {
 		super();
+
+		this.className = "token";
 
 		this.container = document.createElement("div");
 		this.container.className = "container";
 		this.appendChild(this.container);
 
-		const img = document.createElement("img");
-		img.src = "assets/token/background.png";
-		img.draggable = false;
-		this.container.appendChild(img);
+		this.background = document.createElement("img");
+		this.background.className = "background";
+		this.background.src = "assets/token/background.png";
+		this.background.draggable = false;
+		this.container.appendChild(this.background);
 
 		const hitArea = document.createElement("span");
 		this.container.appendChild(hitArea);

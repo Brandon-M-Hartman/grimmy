@@ -1,9 +1,8 @@
 
 import { Token } from "./token";
-//import { Role, roleData } from './role';
 import { PlayerToken } from './playertoken';
 import { ReminderToken } from './remindertoken';
-import { Role } from "./role";
+import { Role, roleData } from "./role";
 
 export class TownSquare {
 	static enabled:boolean = true;
@@ -11,16 +10,14 @@ export class TownSquare {
 	container:HTMLDivElement;
 	draggingToken:boolean = false;
 
-	playerTokens:Array<PlayerToken>;
-	reminderTokens:Array<ReminderToken>;
+	tokens:Array<Token>;
 
 	constructor() {
 
 		this.container = document.createElement('div');
 		this.container.id = "town-square";
 
-		this.playerTokens = [];
-		this.reminderTokens = [];
+		this.tokens = [];
 	}
 
 	setupBoard():void {
@@ -39,34 +36,26 @@ export class TownSquare {
 		const token:PlayerToken = new PlayerToken(role);
 		this.container.appendChild(token);
 		token.addLabel();
-		this.playerTokens.push(token);
-
-		token.addEventListener("dragstart", () => {
-			this.draggingToken = true;
-			const index = this.playerTokens.indexOf(token);
-			this.playerTokens.splice(index, 1);
-			this.playerTokens.push(token);
-			this.reorderTokens();
-		});
-		token.addEventListener("dragend", () => {
-			this.draggingToken = false;
-		});
+		this.tokens.push(token);
+		this.bindTokenEvents(token);
+		this.addReminderTokens(role);
 	}
 
 	reorderTokens():void {
-		for (let i = 0; i < this.playerTokens.length; i++) {
-			this.playerTokens[i].style.zIndex = i.toString();
+		for (let i = 0; i < this.tokens.length; i++) {
+			this.tokens[i].style.zIndex = i.toString();
 		}
 	}
 
-	// addReminderTokens(role:Role):void {
-	// 	// for (let i = 0; i < roleData[role].reminders.length; i++) {
-	// 	// 	const token:ReminderToken = new ReminderToken(role, i);
-	// 	// 	//this.tokens.addChild(token);
-	// 	// 	this.bindTokenEvents(token);
-	// 	// 	this.reminderTokens.push(token);
-	// 	// }
-	// }
+	addReminderTokens(role:Role):void {
+		for (let i = 0; i < roleData[role].reminders.length; i++) {
+			const token:ReminderToken = new ReminderToken(role, i);
+			this.container.appendChild(token);
+			token.addLabel();
+			this.bindTokenEvents(token);
+			this.tokens.push(token);
+		}
+	}
 
 	arrangeTokens():void {
 		// const dist:number = this.playerTokens.length * 70;
@@ -87,22 +76,17 @@ export class TownSquare {
 		// }
 	}
 
-	bindTokenEvents(_token:Token):void {
-		// token.on('dragstart', () => {
-		// 	if (!TownSquare.enabled) return;
-		// 	this.draggingToken = token;
-		// 	this.tokens.setChildIndex(token, this.tokens.children.length - 1);
-		// 	this.emit('tokendragstart');
-		// });
-		// token.on('dragend', () => {
-		// 	this.draggingToken = null;
-		// });
-		// token.on('focusstart', () => {
-		// 	this.emit('focused');
-		// });
-		// token.on('focusend', () => {
-		// 	this.emit('focuslost');
-		// });
+	bindTokenEvents(token:Token):void {
+		token.addEventListener("dragstart", () => {
+			this.draggingToken = true;
+			const index = this.tokens.indexOf(token);
+			this.tokens.splice(index, 1);
+			this.tokens.push(token);
+			this.reorderTokens();
+		});
+		token.addEventListener("dragend", () => {
+			this.draggingToken = false;
+		});
 	}
 
 	// onPointerMove(e:PointerEvent):void {

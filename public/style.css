@@ -5,6 +5,13 @@
 	font-style: normal;
 }
 
+@font-face {
+	font-family: 'Trade Gothic';
+	src: url('assets/fonts/trade_gothic.otf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
 html, body {
     margin: 0;
     padding: 0;
@@ -31,7 +38,7 @@ html, body {
     position: absolute;
 }
 
-player-token {
+.token {
     position: absolute;
     z-index: 1;
     touch-action: none;
@@ -60,8 +67,7 @@ player-token {
         z-index: 3;
 
         text {
-            white-space: pre;
-            color: black;
+            fill: black;
             font-size: 26px;
             font-family: 'IMFell';
             letter-spacing: 4px;
@@ -77,5 +83,23 @@ player-token {
         z-index: 4;
         cursor: pointer;
         pointer-events: all;
+    }
+}
+
+reminder-token {
+    transform: scale(50%);
+
+    img.background {
+        filter: brightness(10%) sepia(1) hue-rotate(200deg) saturate(400%);
+    }
+
+    &.dragging {
+        transform: scale(50%) translateY(-25px) rotate(-2deg) !important;
+    }
+
+    svg text {
+        fill: white !important;
+        font-size: 32px !important;
+        font-family: 'Trade Gothic' !important;
     }
 }
