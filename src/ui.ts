@@ -39,6 +39,10 @@ export class UI extends HTMLElement {
         this.classList.add('hidden');
     }
 
+    isScreenVisible():boolean {
+        return this.screens.length > 0;
+    }
+
     // recenterButton:Graphics;
 
     // constructor() {
