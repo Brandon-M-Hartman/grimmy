@@ -1,9 +1,9 @@
+import { Application } from "../application";
 import { PlayerToken } from "../playertoken";
-import { Role } from "../role";
 import { Screen } from "../screen"
 
 export class TokenOptionsScreen extends Screen {
-    constructor(role:Role) {
+    constructor(token:PlayerToken) {
         super();
 
         var container = document.createElement('div');
@@ -18,9 +18,9 @@ export class TokenOptionsScreen extends Screen {
         tokenContainer.classList.add("token-container");
         container.appendChild(tokenContainer);
 
-        var token:PlayerToken = new PlayerToken(role);
-        tokenContainer.appendChild(token);
-        token.setDisplay(true);
+        var dt:PlayerToken = new PlayerToken(token.type);
+        tokenContainer.appendChild(dt);
+        dt.setDisplay(true);
 
         var showButton:HTMLButtonElement = document.createElement('button');
         buttons.appendChild(showButton);
@@ -28,7 +28,7 @@ export class TokenOptionsScreen extends Screen {
 
         var shroudButton:HTMLButtonElement = document.createElement('button');
         buttons.appendChild(shroudButton);
-        shroudButton.textContent = 'Shroud';
+        shroudButton.textContent = token.dead ? 'Unshroud' : 'Shroud';
 
         var changeRoleButton:HTMLButtonElement = document.createElement('button');
         buttons.appendChild(changeRoleButton);
@@ -41,5 +41,18 @@ export class TokenOptionsScreen extends Screen {
         var upsideDownButton:HTMLButtonElement = document.createElement('button');
         buttons.appendChild(upsideDownButton);
         upsideDownButton.textContent = 'Turn upside down';
+
+        // button events
+
+        showButton.addEventListener('click', () => {
+            console.log("show");
+            Application.ui.popScreen();
+        });
+
+        shroudButton.addEventListener('click', () => {
+            console.log("shroud");
+            token.toggleShroud();
+            Application.ui.popScreen();
+        });
     }
 }

@@ -7,10 +7,12 @@ export class PlayerToken extends Token {
 
     type:Role;
     roleInfo:RoleInfo;
+	dead:boolean;
 
     constructor(type:Role) {
         super();
 
+		this.dead = false;
     	this.type = type;
 		this.roleInfo = roleData[type];
 
@@ -24,6 +26,12 @@ export class PlayerToken extends Token {
         if (this.roleInfo.top > 0) this.addTopReminder(this.roleInfo.top);
         if (this.roleInfo.left > 0) this.addLeftReminder(this.roleInfo.left);
         if (this.roleInfo.right > 0) this.addRightReminder(this.roleInfo.right);
+
+		const shroud = document.createElement("img");
+		shroud.src = 'assets/token/shroud.webp';
+		shroud.className = "shroud";
+		shroud.draggable = false;
+		this.container.appendChild(shroud);
 	}
 
     connectedCallback() {
@@ -31,7 +39,7 @@ export class PlayerToken extends Token {
 	}
 
     protected onTokenTapped():void {		
-        Application.ui.pushScreen(new TokenOptionsScreen(this.type));
+        Application.ui.pushScreen(new TokenOptionsScreen(this));
 	}
 
     private addSetupReminder():void {
@@ -65,5 +73,20 @@ export class PlayerToken extends Token {
 		icon.draggable = false;
 		this.container.appendChild(icon);
     }
+
+	public shroud() {
+		this.dead = true;
+		this.classList.add('dead');
+	}
+
+	public unshroud() {
+		this.dead = false;
+		this.classList.remove('dead');
+	}
+
+	public toggleShroud() {
+		if (!this.dead) this.shroud();
+		else this.unshroud();
+	}
 
 }

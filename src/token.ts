@@ -12,7 +12,7 @@ export class Token extends HTMLElement {
 	constructor() {
 		super();
 
-		this.className = "token";
+		this.classList.add("token");
 
 		this.container = document.createElement("div");
 		this.container.className = "container";

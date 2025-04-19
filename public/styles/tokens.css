@@ -63,11 +63,28 @@
     }
 }
 
+player-token {
+    .shroud {
+        transform: scale(40%) translateY(-150px);
+        opacity: 0;
+        transition: all 0.2s ease-out;
+    }
+
+    &.dead {
+        filter: grayscale(1);
+
+        .shroud {
+            transform: scale(40%) translateY(-120px);
+            opacity: 1;
+        }
+    }
+}
+
 reminder-token {
     transform: scale(50%);
 
     img.background {
-        filter: brightness(10%) sepia(1) hue-rotate(200deg) saturate(400%);
+        filter: brightness(13%) sepia(1) hue-rotate(200deg) saturate(400%);
     }
 
     &.dragging {
