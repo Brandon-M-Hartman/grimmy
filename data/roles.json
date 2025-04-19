@@ -1,7 +1,7 @@
 {
     "monk": {
         "name": "monk",
-        "description": "You are the monk!",
+        "description": "Each night*, choose a player (not yourself): they are safe from the Demon tonight.",
         "top": 1,
         "left": 0,
         "right": 1,
@@ -10,7 +10,7 @@
     },
     "slayer": {
         "name": "slayer",
-        "description": "You are the slayer!",
+        "description": "Once per game, during the day, publicly choose a player: if they are the Demon, they die.",
         "top": 1,
         "left": 0,
         "right": 0,
@@ -19,7 +19,7 @@
     },
     "chef": {
         "name": "chef",
-        "description": "You are the chef!",
+        "description": "You start knowing how many pairs of evil players there are.",
         "top": 0,
         "left": 1,
         "right": 0,
@@ -28,7 +28,7 @@
     },
     "fortuneteller": {
         "name": "fortune teller",
-        "description": "undefined",
+        "description": "Each night, choose 2 players: you learn if either is a Demon. There is a good player that registers as a Demon to you.",
         "top": 1,
         "left": 1,
         "right": 1,
@@ -37,7 +37,7 @@
     },
     "empath": {
         "name": "empath",
-        "description": "undefined",
+        "description": "Each night, you learn how many of your 2 alive neighbors are evil.",
         "top": 0,
         "left": 1,
         "right": 1,
@@ -46,7 +46,7 @@
     },
     "undertaker": {
         "name": "undertaker",
-        "description": "undefined",
+        "description": "Each night*, you learn which character died by execution today.",
         "top": 1,
         "left": 0,
         "right": 1,
@@ -55,7 +55,7 @@
     },
     "soldier": {
         "name": "soldier",
-        "description": "undefined",
+        "description": "You are safe from the Demon.",
         "top": 0,
         "left": 0,
         "right": 0,
@@ -63,7 +63,7 @@
         "reminders": []
     },
     "virgin": {
-        "name": "virgin",
+        "name": "The 1st time you are nominated, if the nominator is a Townsfolk, they are executed immediately.",
         "description": "undefined",
         "top": 1,
         "left": 0,
@@ -73,7 +73,7 @@
     },
     "washerwoman": {
         "name": "washerwoman",
-        "description": "undefined",
+        "description": "You start knowing that 1 of 2 players is a particular Townsfolk.",
         "top": 2,
         "left": 1,
         "right": 0,
@@ -82,7 +82,7 @@
     },
     "investigator": {
         "name": "investigator",
-        "description": "undefined",
+        "description": "You start knowing that 1 of 2 players is a particular Minion.",
         "top": 2,
         "left": 1,
         "right": 0,
@@ -91,7 +91,7 @@
     },
     "librarian": {
         "name": "librarian",
-        "description": "undefined",
+        "description": "You start knowing that 1 of 2 players is a particular Outsider. (Or that zero are in play.)",
         "top": 2,
         "left": 1,
         "right": 0,
@@ -100,7 +100,7 @@
     },
     "ravenkeeper": {
         "name": "ravenkeeper",
-        "description": "undefined",
+        "description": "If you die at night, you are woken to choose a player: you learn their character.",
         "top": 0,
         "left": 0,
         "right": 1,
@@ -109,7 +109,7 @@
     },
     "mayor": {
         "name": "mayor",
-        "description": "undefined",
+        "description": "If only 3 players live & no execution occurs, your team wins. If you die at night, another player might die instead.",
         "top": 0,
         "left": 0,
         "right": 0,
@@ -118,7 +118,7 @@
     },
     "butler": {
         "name": "butler",
-        "description": "undefined",
+        "description": "Each night, choose a player (not yourself): tomorrow, you may only vote if they are voting too.",
         "top": 1,
         "left": 1,
         "right": 2,
@@ -127,7 +127,7 @@
     },
     "drunk": {
         "name": "drunk",
-        "description": "undefined",
+        "description": "You do not know you are the Drunk. You think you are a Townsfolk character, but you are not.",
         "top": 1,
         "left": 0,
         "right": 0,
@@ -136,7 +136,7 @@
     },
     "recluse": {
         "name": "recluse",
-        "description": "undefined",
+        "description": "You might register as evil & as a Minion or Demon, even if dead.",
         "top": 0,
         "left": 0,
         "right": 0,
@@ -145,7 +145,7 @@
     },
     "saint": {
         "name": "saint",
-        "description": "undefined",
+        "description": "If you die by execution, your team loses.",
         "top": 0,
         "left": 0,
         "right": 0,
@@ -154,7 +154,7 @@
     },
     "imp": {
         "name": "imp",
-        "description": "You are the imp!",
+        "description": "Each night*, choose a player: they die. If you kill yourself this way, a Minion becomes the Imp.",
         "top": 1,
         "left": 1,
         "right": 1,
@@ -163,7 +163,7 @@
     },
     "poisoner": {
         "name": "poisoner",
-        "description": "You are the poisoner!",
+        "description": "Each night, choose a player: they are poisoned tonight and tomorrow day.",
         "top": 1,
         "left": 1,
         "right": 1,
@@ -172,7 +172,7 @@
     },
     "spy": {
         "name": "spy",
-        "description": "You are the spy!",
+        "description": "Each night, you see the Grimoire. You might register as good & as a Townsfolk or Outsider, even if dead.",
         "top": 0,
         "left": 1,
         "right": 1,
@@ -181,7 +181,7 @@
     },
     "baron": {
         "name": "baron",
-        "description": "You are the baron!",
+        "description": "There are extra Outsiders in play. [+2 Outsiders]",
         "top": 0,
         "left": 0,
         "right": 0,
@@ -190,7 +190,7 @@
     },
     "scarletwoman": {
         "name": "scarlet woman",
-        "description": "You are the scarlet_woman!",
+        "description": "If there are 5 or more players alive & the Demon dies, you become the Demon. (Travellers don't count.)",
         "top": 1,
         "left": 0,
         "right": 1,

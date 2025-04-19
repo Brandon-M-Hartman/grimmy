@@ -110,6 +110,7 @@ token-display-screen {
     .role-description {
         font-size: 24px;
         text-align: center;
-        margin: 20px 0;
+        margin: 40px;
+        max-width: 600px;
     }
 }
