@@ -34,6 +34,8 @@ export class Token extends HTMLElement {
 		hammer.get('pan').set({ threshold: 0 });
 		hammer.get('tap').set({ enable: true});
 
+		const board = document.getElementById('board')!;
+
 		let tapTime:NodeJS.Timeout;
 		hammer.on('tap', (e) => {
 			clearTimeout(tapTime);
@@ -46,8 +48,9 @@ export class Token extends HTMLElement {
 		hammer.on('panstart', (_e) => {
 			this.dragging = true;
 			const rect = this.getBoundingClientRect();
-			this.pos.x = (rect.left - Application.viewport.x) / Application.viewport.scale;
-			this.pos.y = (rect.top - Application.viewport.y) / Application.viewport.scale;
+			const boardRect = board.getBoundingClientRect();
+			this.pos.x = (rect.left - boardRect.x) / Application.viewport.scale;
+			this.pos.y = (rect.top - boardRect.y) / Application.viewport.scale;
 			this.classList.add("dragging");
 			this.dispatchEvent(new CustomEvent("dragstart"));
 		});
@@ -81,6 +84,14 @@ export class Token extends HTMLElement {
 			this.classList.remove("dragging");
 			this.dispatchEvent(new CustomEvent("dragend"));
 		});
+
+		this.onpointerdown = () => {
+			//Application.viewport.enabled = false;
+		}
+
+		this.onpointerup = () => {
+			//Application.viewport.enabled = true;
+		}
 	}
 
 	setPosition(x:number, y:number) {

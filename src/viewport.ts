@@ -5,17 +5,19 @@ export class Viewport {
     public scale:number = 1.0;
     public x:number = 0;
     public y:number = 0;
+    public enabled:boolean = true;
 
     private app:HTMLElement;
+    private background:HTMLElement;
     private board:HTMLElement;
     private targetScale:number = 0.65;
     private targetX:number = 0;
     private targetY:number = 0;
 
     constructor() {
+        this.background = document.getElementById('background')!;
         this.app = document.getElementById('app')!;
         this.board = document.getElementById('board')!;
-        this.board.style.transformOrigin = "top left";
 
         this.targetX = window.innerWidth/2;
         this.targetY = window.innerHeight/2;
@@ -31,21 +33,25 @@ export class Viewport {
 		this.board.style.top = `${this.y}px`;
 
 		// Match background to "logical" board position, scaled
-		this.app.style.backgroundPosition = `${this.x}px ${this.y}px`;
-		this.app.style.backgroundSize = `${this.scale * 15}%`;
+		this.background.style.backgroundPosition = `${this.x}px ${this.y}px`;
+		this.background.style.backgroundSize = `${this.scale * 10}%`;
 	}
 
     pan = (x:number, y:number) => {
+        if (!this.enabled) return;
+
         gsap.killTweensOf(this);
 		const newX = this.x + x;
 		const newY = this.y + y;
 
 		this.board.style.left = `${newX}px`;
 		this.board.style.top = `${newY}px`;
-		this.app.style.backgroundPosition = `${newX}px ${newY}px`;
+		this.background.style.backgroundPosition = `${newX}px ${newY}px`;
     }
 
     endpan = (x:number, y:number) => {
+        if (!this.enabled) return;
+
         this.x += x;
 		this.y += y;
 		this.targetX = this.x;
