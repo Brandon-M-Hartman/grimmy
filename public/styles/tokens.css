@@ -11,6 +11,8 @@
     }
 
     .container {
+        width: 256px;
+        height: 256px;
         position: absolute;
         display: flex;
         align-items: center;
@@ -39,15 +41,15 @@
         }
     }
 
-    span {
+    .hit-area {
         position: absolute;
         display: inline-block;
-        width: 256px;
-        height: 256px;
         clip-path: circle(50%);
         z-index: 4;
         cursor: pointer;
         pointer-events: all;
+        width: 256px;
+        height: 256px;
     }
 
     &.display {
@@ -76,6 +78,24 @@ player-token {
         .shroud {
             transform: scale(40%) translateY(-120px);
             opacity: 1;
+        }
+    }
+
+    span.player-name {
+        color: black;
+        transform: translateY(170px);
+        text-align: center;
+        font-size: 30px;
+        font-weight: initial;
+        background-color: rgba(0, 0, 0, 0.2);
+        padding: 10px 20px;
+        border-radius: 10px;
+        transition: opacity 0.3s ease-out;
+    }
+
+    &.dragging {
+        span.player-name {
+            opacity: 0;
         }
     }
 }

@@ -26,7 +26,8 @@ export class Token extends HTMLElement {
 	}
 
 	bindEvents():void {
-		const hitArea = document.createElement("span");
+		const hitArea = document.createElement("div");
+		hitArea.className = "hit-area";
 		this.container.appendChild(hitArea);
 
 		const hammer = new Hammer(hitArea);

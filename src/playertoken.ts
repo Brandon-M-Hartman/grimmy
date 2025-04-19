@@ -9,10 +9,12 @@ export class PlayerToken extends Token {
     type:Role;
     roleInfo:RoleInfo;
 	dead:boolean;
+	playerName:string;
 
     constructor(type:Role) {
         super();
 
+		this.playerName = "";
 		this.dead = false;
     	this.type = type;
 		this.roleInfo = roleData[type];
@@ -33,6 +35,12 @@ export class PlayerToken extends Token {
 		shroud.className = "shroud";
 		shroud.draggable = false;
 		this.container.appendChild(shroud);
+		
+		const playerName = document.createElement("span");
+		playerName.className = "player-name";
+		playerName.textContent = this.playerName;
+		if (this.playerName.length == 0) playerName.style.visibility = 'hidden';
+		this.container.appendChild(playerName);
 	}
 
     connectedCallback() {

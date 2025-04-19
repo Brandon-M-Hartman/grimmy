@@ -23,10 +23,10 @@ export class TownSquare extends HTMLElement {
 	setupBoard():void {
 		this.addPlayerToken(Role.MONK);
 		this.addPlayerToken(Role.SOLDIER);
-		this.addPlayerToken(Role.RAVENKEEPER);
+		this.addPlayerToken(Role.UNDERTAKER);
 		this.addPlayerToken(Role.LIBRARIAN);
 		this.addPlayerToken(Role.INVESTIGATOR);
-		this.addPlayerToken(Role.DRUNK);
+		this.addPlayerToken(Role.MAYOR);
 		this.addPlayerToken(Role.SAINT);
 		this.addPlayerToken(Role.IMP);
 		this.addPlayerToken(Role.POISONER);
