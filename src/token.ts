@@ -33,9 +33,9 @@ export class Token extends HTMLElement {
 		hammer.get('press').set({ time: 200, threshold: 1 });
 		hammer.get('pan').set({ threshold: 0 });
 
-		hammer.on('tap', (_e) => {
+		this.onclick = () => {
 			this.onTokenTapped();
-		});
+		};
 
 		hammer.on('press', (_e) => {
 			console.log('long press on token!');

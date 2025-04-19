@@ -1,6 +1,7 @@
 import { Application } from "../application";
 import { PlayerToken } from "../playertoken";
 import { Screen } from "../screen"
+import { TokenDisplayScreen } from "./tokendisplay";
 
 export class TokenOptionsScreen extends Screen {
     constructor(token:PlayerToken) {
@@ -42,17 +43,22 @@ export class TokenOptionsScreen extends Screen {
         buttons.appendChild(upsideDownButton);
         upsideDownButton.textContent = 'Turn upside down';
 
+        this.contents.onclick = () => {
+            Application.ui.popScreen();
+        }
+
         // button events
 
-        showButton.addEventListener('click', () => {
-            console.log("show");
+        showButton.onclick = (e) => {
+            e.stopPropagation();
             Application.ui.popScreen();
-        });
+            Application.ui.pushScreen(new TokenDisplayScreen(token));
+        };
 
-        shroudButton.addEventListener('click', () => {
-            console.log("shroud");
+        shroudButton.onclick = (e) => {
+            e.stopPropagation();
             token.toggleShroud();
             Application.ui.popScreen();
-        });
+        };
     }
 }

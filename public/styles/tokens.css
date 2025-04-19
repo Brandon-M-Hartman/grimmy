@@ -52,13 +52,13 @@
 
     &.display {
         position: relative;
-        transform: scale(75%);
+        display: block;
 
         .container {
             transform: none;
             position: relative;
-            width: 200px;
-            height: 200px;
+            width: 256px;
+            height: 256px;
         }
     }
 }
