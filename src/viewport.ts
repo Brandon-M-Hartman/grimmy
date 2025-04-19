@@ -32,7 +32,7 @@ export class Viewport {
 
 		// Match background to "logical" board position, scaled
 		this.app.style.backgroundPosition = `${this.x}px ${this.y}px`;
-		this.app.style.backgroundSize = `${this.scale * 50}%`;
+		this.app.style.backgroundSize = `${this.scale * 15}%`;
 	}
 
     pan = (x:number, y:number) => {

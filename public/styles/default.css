@@ -37,7 +37,8 @@ button {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-image: url('../assets/felt.webp');
+    background-color: #3b3447;
+    background-image: url('../assets/dotnoise-light-grey.png');
 }
 
 #board {
