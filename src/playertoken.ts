@@ -1,5 +1,6 @@
 import { Application } from "./application";
 import { Role, roleData, RoleInfo } from "./role";
+import { TokenDisplayScreen } from "./screens/tokendisplay";
 import { TokenOptionsScreen } from "./screens/tokenoptions";
 import { Token } from "./token";
 
@@ -38,8 +39,12 @@ export class PlayerToken extends Token {
 		this.makeText(this.roleInfo.name.toUpperCase());
 	}
 
-    protected onTokenTapped():void {		
-        Application.ui.pushScreen(new TokenOptionsScreen(this));
+    protected onTokenTapped():void {
+		Application.ui.pushScreen(new TokenOptionsScreen(this));
+	}
+
+	protected onTokenDoubleTapped():void {
+		Application.ui.pushScreen(new TokenDisplayScreen(this));
 	}
 
     private addSetupReminder():void {

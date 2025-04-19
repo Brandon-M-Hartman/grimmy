@@ -30,22 +30,23 @@ export class Token extends HTMLElement {
 		this.container.appendChild(hitArea);
 
 		const hammer = new Hammer(hitArea);
-		hammer.get('press').set({ time: 200, threshold: 1 });
 		hammer.get('pan').set({ threshold: 0 });
+		hammer.get('tap').set({ enable: true});
 
-		this.onclick = () => {
-			this.onTokenTapped();
-		};
-
-		hammer.on('press', (_e) => {
-			console.log('long press on token!');
-			const rect = this.getBoundingClientRect();
-			this.pos.x = (rect.left - Application.viewport.x) / Application.viewport.scale;
-			this.pos.y = (rect.top - Application.viewport.y) / Application.viewport.scale;
+		let tapTime:NodeJS.Timeout;
+		hammer.on('tap', (e) => {
+			clearTimeout(tapTime);
+			tapTime = setTimeout(() => {
+				if (e.tapCount == 1) this.onTokenTapped();
+				else if (e.tapCount == 2) this.onTokenDoubleTapped();
+			}, 200);
 		});
 
 		hammer.on('panstart', (_e) => {
 			this.dragging = true;
+			const rect = this.getBoundingClientRect();
+			this.pos.x = (rect.left - Application.viewport.x) / Application.viewport.scale;
+			this.pos.y = (rect.top - Application.viewport.y) / Application.viewport.scale;
 			this.classList.add("dragging");
 			this.dispatchEvent(new CustomEvent("dragstart"));
 		});
@@ -136,6 +137,10 @@ export class Token extends HTMLElement {
 	}
 
 	protected onTokenTapped():void {
+		// override in child class
+	}
+
+	protected onTokenDoubleTapped():void {
 		// override in child class
 	}
 }
