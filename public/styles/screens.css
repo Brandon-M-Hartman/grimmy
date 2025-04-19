@@ -24,7 +24,7 @@ app-ui {
             width: 100%;
             height: 100%;
             background-color: black;
-            opacity: 0.8;
+            opacity: 0.85;
         }
 
         .contents {
@@ -34,7 +34,6 @@ app-ui {
             flex-wrap: wrap;
             gap: 1rem;
             z-index: 1;
-            /*overflow: scroll;*/
         }
     }
 }
