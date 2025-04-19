@@ -60,5 +60,13 @@ export class TokenOptionsScreen extends Screen {
             token.toggleShroud();
             Application.ui.popScreen();
         };
+
+        changeNameButton.onclick = (e) => {
+            e.stopPropagation();            
+            Application.ui.popScreen();
+            const newName:string | null = window.prompt("Enter new name for player:", token.getPlayerName());
+            if (newName) token.setPlayerName(newName);
+            console.log(newName);
+        }
     }
 }

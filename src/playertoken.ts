@@ -9,7 +9,9 @@ export class PlayerToken extends Token {
     type:Role;
     roleInfo:RoleInfo;
 	dead:boolean;
-	playerName:string;
+	
+	private playerName:string;
+	private nameTag:HTMLElement;
 
     constructor(type:Role) {
         super();
@@ -36,11 +38,10 @@ export class PlayerToken extends Token {
 		shroud.draggable = false;
 		this.container.appendChild(shroud);
 		
-		const playerName = document.createElement("span");
-		playerName.className = "player-name";
-		playerName.textContent = this.playerName;
-		if (this.playerName.length == 0) playerName.style.visibility = 'hidden';
-		this.container.appendChild(playerName);
+		this.nameTag = document.createElement("span");
+		this.nameTag.className = "player-name";
+		this.container.appendChild(this.nameTag);
+		this.setPlayerName("");
 	}
 
     connectedCallback() {
@@ -100,6 +101,16 @@ export class PlayerToken extends Token {
 	public toggleShroud() {
 		if (!this.dead) this.shroud();
 		else this.unshroud();
+	}
+
+	public setPlayerName(name:string) {
+		this.playerName = name;		
+		this.nameTag.textContent = this.playerName;
+		this.nameTag.style.visibility = this.playerName.length == 0 ? 'hidden' : 'visible';
+	}
+
+	public getPlayerName():string {
+		return this.playerName;
 	}
 
 }
