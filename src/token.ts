@@ -122,8 +122,8 @@ export class Token extends HTMLElement {
 		path.setAttribute("id", "circlePath");
 		path.setAttribute(
 			"d",
-			`M 150,150 m -${radius},0 a ${radius},${radius} 0 1,1 ${radius*2},0 a ${radius},${radius} 0 1,1 -${radius*2},0`
-		);
+			`M 150,150 m ${radius},0 a ${radius},${radius} 0 1,0 -${radius*2},0 a ${radius},${radius} 0 1,0 ${radius*2},0`
+		  );
 		defs.appendChild(path);
 		svg.appendChild(defs);
 
@@ -132,11 +132,10 @@ export class Token extends HTMLElement {
 		textElement.setAttribute("fill", "black");
 		textElement.setAttribute("font-size", "26");
 		textElement.setAttribute("text-anchor", "middle");
-		textElement.setAttribute("transform", "rotate(90 150 150)");
+		textElement.setAttribute("transform", "rotate(270 150 150)");
 
 		this.textPath.setAttributeNS("http://www.w3.org/1999/xlink", "href", "#circlePath");
 		this.textPath.setAttribute("startOffset", "50%");
-		this.textPath.setAttribute("side", "right");
 
 		textElement.appendChild(this.textPath);
 		svg.appendChild(textElement);
