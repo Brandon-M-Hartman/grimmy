@@ -4,7 +4,7 @@ import { Screen } from "../screen";
 
 export class RoleSelectScreen extends Screen {
 
-    constructor() {
+    constructor(callback:Function) {
         super();
 
         const container = document.createElement('div');
@@ -55,7 +55,8 @@ export class RoleSelectScreen extends Screen {
             townsfolkContainer.appendChild(tokenWrapper);
 
             const token:PlayerToken = new PlayerToken(role).asDisplay(0.5);
-            tokenWrapper.appendChild(token);
+            tokenWrapper.appendChild(token);            
+            tokenWrapper.onclick = () => callback(role);
         });
 
         // add all outsider tokens
@@ -67,6 +68,7 @@ export class RoleSelectScreen extends Screen {
 
             const token:PlayerToken = new PlayerToken(role).asDisplay(0.5);
             tokenWrapper.appendChild(token);
+            tokenWrapper.onclick = () => callback(role);
         });
 
         // add all minion tokens
@@ -78,6 +80,7 @@ export class RoleSelectScreen extends Screen {
 
             const token:PlayerToken = new PlayerToken(role).asDisplay(0.5);
             tokenWrapper.appendChild(token);
+            tokenWrapper.onclick = () => callback(role);
         });
 
         // add all demon tokens
@@ -89,6 +92,7 @@ export class RoleSelectScreen extends Screen {
 
             const token:PlayerToken = new PlayerToken(role).asDisplay(0.5);
             tokenWrapper.appendChild(token);
+            tokenWrapper.onclick = () => callback(role);
         });
     }
 }

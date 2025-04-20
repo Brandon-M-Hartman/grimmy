@@ -6,31 +6,49 @@ import { Token } from "./token";
 
 export class PlayerToken extends Token {
 
-    type:Role;
-    roleInfo:RoleInfo;
 	dead:boolean;
 	
+	private roleInfo:RoleInfo | null;
+    private playerRole:Role;
+	private icon:HTMLImageElement;
+	private topElement:HTMLImageElement;
+	private leftElement:HTMLImageElement;
+	private rightElement:HTMLImageElement;
+	private setupElement:HTMLImageElement;
 	private playerName:string;
 	private nameTag:HTMLElement;
 
-    constructor(type:Role) {
+    constructor(role:Role) {
         super();
 
 		this.playerName = "";
+    	this.playerRole = role;
 		this.dead = false;
-    	this.type = type;
-		this.roleInfo = roleData[type];
+		this.roleInfo = null;
 
-		const icon = document.createElement("img");
-		icon.src = 'assets/token/' + this.type + '.webp';
-		icon.className = "icon";
-		icon.draggable = false;
-		this.container.appendChild(icon);
+		this.icon = document.createElement("img");
+		this.icon.className = "icon";
+		this.icon.draggable = false;
+		this.container.appendChild(this.icon);
 
-        if (this.roleInfo.setup) this.addSetupReminder();
-        if (this.roleInfo.top > 0) this.addTopReminder(this.roleInfo.top);
-        if (this.roleInfo.left > 0) this.addLeftReminder(this.roleInfo.left);
-        if (this.roleInfo.right > 0) this.addRightReminder(this.roleInfo.right);
+		this.setupElement = document.createElement("img");
+		this.setupElement.src = 'assets/token/setup.webp';
+		this.setupElement.className = "reminder";
+		this.container.appendChild(this.setupElement);
+
+		this.topElement = document.createElement("img");
+		this.topElement.className = "reminder";
+		this.container.appendChild(this.topElement);
+
+		this.leftElement = document.createElement("img");
+		this.leftElement.className = "reminder";
+		this.container.appendChild(this.leftElement);
+
+		this.rightElement = document.createElement("img");
+		this.rightElement.className = "reminder";
+		this.container.appendChild(this.rightElement);
+
+		this.setRole(role);
 
 		const shroud = document.createElement("img");
 		shroud.src = 'assets/token/shroud.webp';
@@ -44,8 +62,22 @@ export class PlayerToken extends Token {
 		this.setPlayerName("");
 	}
 
-    connectedCallback() {
-		this.makeText(this.roleInfo.name.toUpperCase());
+	getRole():Role {
+		return this.playerRole;
+	}
+
+	setRole(role:Role):void {
+		this.roleInfo = roleData[role];
+		this.icon.src = 'assets/token/' + role + '.webp';
+		this.setText(this.roleInfo.name.toUpperCase());
+
+		this.setupElement.style.visibility = this.roleInfo.setup ? 'visible' : 'hidden';
+		this.topElement.src = 'assets/token/top-' + this.roleInfo.top + '.webp';
+		this.topElement.style.visibility = this.roleInfo.top > 0 ? 'visible' : 'hidden';
+		this.leftElement.src = 'assets/token/left-' + this.roleInfo.left + '.webp';
+		this.leftElement.style.visibility = this.roleInfo.left > 0 ? 'visible' : 'hidden';
+		this.rightElement.src = 'assets/token/right-' + this.roleInfo.right + '.webp';
+		this.rightElement.style.visibility = this.roleInfo.right > 0 ? 'visible' : 'hidden';
 	}
 
     protected onTokenTapped():void {
@@ -55,38 +87,6 @@ export class PlayerToken extends Token {
 	protected onTokenDoubleTapped():void {
 		Application.ui.pushScreen(new TokenDisplayScreen(this));
 	}
-
-    private addSetupReminder():void {
-        const icon = document.createElement("img");
-		icon.src = 'assets/token/setup.webp';
-		icon.className = "reminder";
-		icon.draggable = false;
-		this.container.appendChild(icon);
-    }
-
-    private addTopReminder(num:number):void {
-        const icon = document.createElement("img");
-		icon.src = 'assets/token/top-' + num + '.webp';
-		icon.className = "reminder";
-		icon.draggable = false;
-		this.container.appendChild(icon);
-    }
-
-    private addLeftReminder(num:number):void {
-        const icon = document.createElement("img");
-		icon.src = 'assets/token/left-' + num + '.webp';
-		icon.className = "reminder";
-		icon.draggable = false;
-		this.container.appendChild(icon);
-    }
-
-    private addRightReminder(num:number):void {
-        const icon = document.createElement("img");
-		icon.src = 'assets/token/right-' + num + '.webp';
-		icon.className = "reminder";
-		icon.draggable = false;
-		this.container.appendChild(icon);
-    }
 
 	public shroud() {
 		this.dead = true;

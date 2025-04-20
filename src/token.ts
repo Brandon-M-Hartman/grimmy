@@ -8,6 +8,7 @@ export class Token extends HTMLElement {
 	private dragging:boolean = false;
 	protected container:HTMLElement;
 	protected background:HTMLImageElement;
+	protected textPath:SVGTextPathElement;
 
 	constructor() {
 		super();
@@ -23,6 +24,8 @@ export class Token extends HTMLElement {
 		this.background.src = "assets/token/background.png";
 		this.background.draggable = false;
 		this.container.appendChild(this.background);
+
+		this.textPath = document.createElementNS("http://www.w3.org/2000/svg", "textPath");
 	}
 
 	bindEvents():void {
@@ -105,7 +108,7 @@ export class Token extends HTMLElement {
 		return 115;
 	}
 
-	protected makeText(text:string):void {
+	protected makeText():void {
 		const xmlns = "http://www.w3.org/2000/svg";
 		const svg = document.createElementNS(xmlns, "svg");
 		svg.setAttribute("width", "300");
@@ -131,16 +134,18 @@ export class Token extends HTMLElement {
 		textElement.setAttribute("text-anchor", "middle");
 		textElement.setAttribute("transform", "rotate(90 150 150)");
 
-		const textPath = document.createElementNS(xmlns, "textPath");
-		textPath.setAttributeNS("http://www.w3.org/1999/xlink", "href", "#circlePath");
-		textPath.setAttribute("startOffset", "50%");
-		textPath.setAttribute("side", "right");
-		textPath.textContent = text;
+		this.textPath.setAttributeNS("http://www.w3.org/1999/xlink", "href", "#circlePath");
+		this.textPath.setAttribute("startOffset", "50%");
+		this.textPath.setAttribute("side", "right");
 
-		textElement.appendChild(textPath);
+		textElement.appendChild(this.textPath);
 		svg.appendChild(textElement);
 
 		this.container.appendChild(svg);
+	}
+
+	protected setText(text:string):void {
+		this.textPath.textContent = text;
 	}
 
 	protected onTokenTapped():void {
@@ -149,5 +154,9 @@ export class Token extends HTMLElement {
 
 	protected onTokenDoubleTapped():void {
 		// override in child class
+	}
+
+	connectedCallback() {
+		this.makeText();
 	}
 }

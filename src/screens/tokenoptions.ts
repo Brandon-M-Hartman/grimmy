@@ -1,6 +1,8 @@
 import { Application } from "../application";
 import { PlayerToken } from "../playertoken";
+import { Role } from "../role";
 import { Screen } from "../screen"
+import { RoleSelectScreen } from "./roleselect";
 import { TokenDisplayScreen } from "./tokendisplay";
 
 export class TokenOptionsScreen extends Screen {
@@ -19,7 +21,7 @@ export class TokenOptionsScreen extends Screen {
         buttons.classList.add("buttons-container");
         container.appendChild(buttons);
 
-        var dt:PlayerToken = new PlayerToken(token.type).asDisplay(0.9);
+        var dt:PlayerToken = new PlayerToken(token.getRole()).asDisplay(0.9);
         tokenContainer.appendChild(dt);
 
         var showButton:HTMLButtonElement = document.createElement('button');
@@ -65,7 +67,15 @@ export class TokenOptionsScreen extends Screen {
             Application.ui.popScreen();
             const newName:string | null = window.prompt("Enter new name for player:", token.getPlayerName());
             if (newName) token.setPlayerName(newName);
-            console.log(newName);
+        }
+
+        changeRoleButton.onclick = (e) => {
+            e.stopPropagation();
+            Application.ui.popScreen();
+            Application.ui.pushScreen(new RoleSelectScreen((role:Role) => {
+                Application.ui.popScreen();
+                token.setRole(role);
+            }));
         }
     }
 }

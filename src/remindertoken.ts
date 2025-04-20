@@ -5,14 +5,13 @@ export class ReminderToken extends Token {
 
     type:Role;
     roleInfo:RoleInfo;
-    text:string;
 
     constructor(type:Role, index:number) {
         super();
 
         this.type = type;
         this.roleInfo = roleData[type];
-        this.text = roleData[type].reminders[index] as string;
+        this.setText(roleData[type].reminders[index]);
 
         const icon = document.createElement("img");
         icon.src = 'assets/token/' + this.type + '.webp';
@@ -20,8 +19,4 @@ export class ReminderToken extends Token {
         icon.draggable = false;
         this.container.appendChild(icon);
     }
-    
-    connectedCallback() {
-		this.makeText(this.text);
-	}
 }
