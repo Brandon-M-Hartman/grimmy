@@ -1,4 +1,5 @@
 import { Application } from "./application";
+import { ReminderToken } from "./remindertoken";
 import { Role, roleData, RoleInfo } from "./role";
 import { TokenDisplayScreen } from "./screens/tokendisplay";
 import { TokenOptionsScreen } from "./screens/tokenoptions";
@@ -7,9 +8,11 @@ import { Token } from "./token";
 export class PlayerToken extends Token {
 
 	dead:boolean;
+	onrolechanged:Function;
+	reminderTokens:Array<ReminderToken>;
 	
 	private roleInfo:RoleInfo | null;
-    private playerRole:Role;
+    private playerRole:Role | null;
 	private icon:HTMLImageElement;
 	private topElement:HTMLImageElement;
 	private leftElement:HTMLImageElement;
@@ -18,13 +21,15 @@ export class PlayerToken extends Token {
 	private playerName:string;
 	private nameTag:HTMLElement;
 
-    constructor(role:Role) {
+    constructor() {
         super();
 
 		this.playerName = "";
-    	this.playerRole = role;
 		this.dead = false;
+		this.playerRole = null;
 		this.roleInfo = null;
+		this.reminderTokens = [];
+		this.onrolechanged = () => {};
 
 		this.icon = document.createElement("img");
 		this.icon.className = "icon";
@@ -48,8 +53,6 @@ export class PlayerToken extends Token {
 		this.rightElement.className = "reminder";
 		this.container.appendChild(this.rightElement);
 
-		this.setRole(role);
-
 		const shroud = document.createElement("img");
 		shroud.src = 'assets/token/shroud.webp';
 		shroud.className = "shroud";
@@ -62,21 +65,36 @@ export class PlayerToken extends Token {
 		this.setPlayerName("");
 	}
 
-	getRole():Role {
+	getRole():Role | null {
 		return this.playerRole;
 	}
 
-	setRole(role:Role):void {
+	setRole(role:Role | null):void {
+		console.log("Set role: ", role);
+		this.playerRole = role;
+		this.onrolechanged(role);
+
+		if (!role) {
+			this.roleInfo = null;
+			this.icon.style.visibility = 'hidden';
+			this.setupElement.style.visibility = 'hidden';
+			this.topElement.style.visibility = 'hidden';
+			this.leftElement.style.visibility = 'hidden';
+			this.rightElement.style.visibility = 'hidden';
+			return;
+		}
+
 		this.roleInfo = roleData[role];
 		this.icon.src = 'assets/token/' + role + '.webp';
+		this.icon.style.visibility = 'visible';
 		this.setText(this.roleInfo.name.toUpperCase());
 
 		this.setupElement.style.visibility = this.roleInfo.setup ? 'visible' : 'hidden';
-		this.topElement.src = 'assets/token/top-' + this.roleInfo.top + '.webp';
+		this.topElement.src = this.roleInfo.top > 0 ? 'assets/token/top-' + this.roleInfo.top + '.webp' : '';
 		this.topElement.style.visibility = this.roleInfo.top > 0 ? 'visible' : 'hidden';
-		this.leftElement.src = 'assets/token/left-' + this.roleInfo.left + '.webp';
+		this.leftElement.src = this.roleInfo.left ? 'assets/token/left-' + this.roleInfo.left + '.webp' : '';
 		this.leftElement.style.visibility = this.roleInfo.left > 0 ? 'visible' : 'hidden';
-		this.rightElement.src = 'assets/token/right-' + this.roleInfo.right + '.webp';
+		this.rightElement.src = this.roleInfo.right > 0 ? 'assets/token/right-' + this.roleInfo.right + '.webp' : '';
 		this.rightElement.style.visibility = this.roleInfo.right > 0 ? 'visible' : 'hidden';
 	}
 

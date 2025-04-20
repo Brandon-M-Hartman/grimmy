@@ -33,13 +33,19 @@ export class TownSquare extends HTMLElement {
 	}
 
 	addPlayerToken(role:Role):void {
-		const token:PlayerToken = new PlayerToken(role);
-		token.bindEvents();
+		const token:PlayerToken = new PlayerToken();
+
+		token.onrolechanged = (_role:Role) => {
+			this.addReminderTokens(token);
+		}
+
 		this.appendChild(token);
 		this.tokens.push(token);
 		this.playerTokens.push(token);
 		this.bindTokenEvents(token);
-		this.addReminderTokens(role);
+		
+		token.bindEvents();
+		token.setRole(role);
 	}
 
 	reorderTokens():void {
@@ -48,14 +54,23 @@ export class TownSquare extends HTMLElement {
 		}
 	}
 
-	addReminderTokens(role:Role):void {
-		for (let i = 0; i < roleData[role].reminders.length; i++) {
-			const token:ReminderToken = new ReminderToken(role, i);
-			token.bindEvents();
-			this.appendChild(token);
-			this.bindTokenEvents(token);
-			this.tokens.push(token);
-			this.reminderTokens.push(token);
+	addReminderTokens(token:PlayerToken):void {
+		// remove old reminder tokens
+		token.reminderTokens.forEach(reminderToken => {
+			this.removeChild(reminderToken);
+		});
+		
+		// add new reminder tokens, if any
+		if (token.getRole()) {
+			for (let i = 0; i < roleData[token.getRole()!].reminders.length; i++) {
+				const reminderToken:ReminderToken = new ReminderToken(token.getRole()!, i);
+				reminderToken.bindEvents();
+				this.appendChild(reminderToken);
+				this.bindTokenEvents(reminderToken);
+				this.tokens.push(reminderToken);
+				this.reminderTokens.push(reminderToken);
+				token.reminderTokens.push(reminderToken);
+			}
 		}
 	}
 

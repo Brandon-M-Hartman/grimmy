@@ -76,9 +76,9 @@ export class Viewport {
 		this.targetY = mouseY - (mouseY - this.targetY) * scaleFactor;
 
 		gsap.killTweensOf(this);
-		gsap.to(this, { scale: this.targetScale, duration: 0.5, ease: "power2.out", onUpdate:this.updateTransform });
-		gsap.to(this, { x: this.targetX, duration: 0.5, ease: "power2.out", onUpdate:this.updateTransform });
-		gsap.to(this, { y: this.targetY, duration: 0.5, ease: "power2.out", onUpdate:this.updateTransform });
+		gsap.to(this, { scale: this.targetScale, duration: 0.7, ease: "power2.out", onUpdate:this.updateTransform });
+		gsap.to(this, { x: this.targetX, duration: 0.7, ease: "power2.out", onUpdate:this.updateTransform });
+		gsap.to(this, { y: this.targetY, duration: 0.7, ease: "power2.out", onUpdate:this.updateTransform });
     }
 
     pinchZoom = (scale:number, centerX:number, centerY:number) => {

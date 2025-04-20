@@ -54,7 +54,8 @@ export class RoleSelectScreen extends Screen {
             tokenWrapper.className = 'token-wrapper';
             townsfolkContainer.appendChild(tokenWrapper);
 
-            const token:PlayerToken = new PlayerToken(role).asDisplay(0.5);
+            const token:PlayerToken = new PlayerToken().asDisplay(0.5);
+            token.setRole(role);
             tokenWrapper.appendChild(token);            
             tokenWrapper.onclick = () => callback(role);
         });
@@ -66,7 +67,8 @@ export class RoleSelectScreen extends Screen {
             tokenWrapper.className = 'token-wrapper';
             outsiderContainer.appendChild(tokenWrapper);
 
-            const token:PlayerToken = new PlayerToken(role).asDisplay(0.5);
+            const token:PlayerToken = new PlayerToken().asDisplay(0.5);
+            token.setRole(role);
             tokenWrapper.appendChild(token);
             tokenWrapper.onclick = () => callback(role);
         });
@@ -78,7 +80,8 @@ export class RoleSelectScreen extends Screen {
             tokenWrapper.className = 'token-wrapper';
             minionContainer.appendChild(tokenWrapper);
 
-            const token:PlayerToken = new PlayerToken(role).asDisplay(0.5);
+            const token:PlayerToken = new PlayerToken().asDisplay(0.5);
+            token.setRole(role);
             tokenWrapper.appendChild(token);
             tokenWrapper.onclick = () => callback(role);
         });
@@ -90,7 +93,8 @@ export class RoleSelectScreen extends Screen {
             tokenWrapper.className = 'token-wrapper';
             demonContainer.appendChild(tokenWrapper);
 
-            const token:PlayerToken = new PlayerToken(role).asDisplay(0.5);
+            const token:PlayerToken = new PlayerToken().asDisplay(0.5);
+            token.setRole(role);
             tokenWrapper.appendChild(token);
             tokenWrapper.onclick = () => callback(role);
         });
