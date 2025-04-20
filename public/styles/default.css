@@ -41,8 +41,8 @@ button {
     position: fixed;
     width: 100vw;
     height: 100vh;
-    background-color: #3b3447;
-    background-image: url('../assets/dotnoise-light-grey.png');
+    background-color: #2a3279;
+    background-image: url('../assets/dark-stripes.png');
 }
 
 #board {
