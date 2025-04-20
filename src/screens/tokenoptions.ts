@@ -11,13 +11,13 @@ export class TokenOptionsScreen extends Screen {
         container.classList.add("wrapper");
         this.contents.appendChild(container);
 
-        var buttons = document.createElement('div');
-        buttons.classList.add("buttons-container");
-        container.appendChild(buttons);
-
         var tokenContainer = document.createElement('div');
         tokenContainer.classList.add("token-container");
         container.appendChild(tokenContainer);
+
+        var buttons = document.createElement('div');
+        buttons.classList.add("buttons-container");
+        container.appendChild(buttons);
 
         var dt:PlayerToken = new PlayerToken(token.type);
         tokenContainer.appendChild(dt);
