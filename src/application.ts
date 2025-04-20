@@ -13,8 +13,6 @@ export class Application {
         Application.viewport = new Viewport();
         Application.ui = new UI();
 
-        //Application.ui.pushScreen(new RoleSelectScreen());
-
         const board = document.getElementById('board')!;
         const background = document.getElementById('background')!;
         const hammer = new Hammer(background);

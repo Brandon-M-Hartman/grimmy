@@ -48,7 +48,7 @@ export class Token extends HTMLElement {
 			}, 200);
 		});
 
-		hammer.on('panstart', (_e) => {
+		hammer.on('panstart', (_e) => {			
 			this.dragging = true;
 			const rect = this.getBoundingClientRect();
 			const boardRect = board.getBoundingClientRect();
@@ -89,11 +89,11 @@ export class Token extends HTMLElement {
 		});
 
 		this.onpointerdown = () => {
-			//Application.viewport.enabled = false;
+			Application.viewport.enabled = false;
 		}
 
 		this.onpointerup = () => {
-			//Application.viewport.enabled = true;
+			Application.viewport.enabled = true;
 		}
 	}
 
