@@ -101,11 +101,6 @@ export class Token extends HTMLElement {
 		this.style.top = `${y}px`;
 	}
 
-	setDisplay(display:boolean):void {
-		if (display) this.classList.add('display');
-		else this.classList.remove('display');
-	}
-
 	protected getTokenRadius():number {
 		return 115;
 	}

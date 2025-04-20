@@ -19,9 +19,8 @@ export class TokenOptionsScreen extends Screen {
         buttons.classList.add("buttons-container");
         container.appendChild(buttons);
 
-        var dt:PlayerToken = new PlayerToken(token.type);
+        var dt:PlayerToken = new PlayerToken(token.type).asDisplay(0.9);
         tokenContainer.appendChild(dt);
-        dt.setDisplay(true);
 
         var showButton:HTMLButtonElement = document.createElement('button');
         buttons.appendChild(showButton);

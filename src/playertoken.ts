@@ -111,6 +111,12 @@ export class PlayerToken extends Token {
 
 	public getPlayerName():string {
 		return this.playerName;
+	}	
+
+	public asDisplay(scale:number):PlayerToken {
+		this.classList.add('display');
+		this.style.scale = `${scale}`;
+		return this;
 	}
 
 }

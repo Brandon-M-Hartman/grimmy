@@ -63,8 +63,8 @@
         "reminders": []
     },
     "virgin": {
-        "name": "The 1st time you are nominated, if the nominator is a Townsfolk, they are executed immediately.",
-        "description": "undefined",
+        "name": "virgin",
+        "description": "The 1st time you are nominated, if the nominator is a Townsfolk, they are executed immediately.",
         "top": 1,
         "left": 0,
         "right": 0,

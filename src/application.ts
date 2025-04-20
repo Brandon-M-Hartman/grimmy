@@ -1,3 +1,4 @@
+import { RoleSelectScreen } from "./screens/roleselect";
 import { TownSquare } from "./townsquare";
 import { UI } from "./ui";
 import { Viewport } from "./viewport";
@@ -11,6 +12,8 @@ export class Application {
     constructor() {
         Application.viewport = new Viewport();
         Application.ui = new UI();
+
+        Application.ui.pushScreen(new RoleSelectScreen());
 
         const board = document.getElementById('board')!;
         const background = document.getElementById('background')!;
