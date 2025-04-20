@@ -35,7 +35,7 @@ export class TownSquare extends HTMLElement {
 	addPlayerToken(role:Role):void {
 		const token:PlayerToken = new PlayerToken();
 
-		token.onrolechanged = (_role:Role) => {
+		token.onrolechanged = () => {
 			this.addReminderTokens(token);
 		}
 

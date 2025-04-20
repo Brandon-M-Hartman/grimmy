@@ -7,20 +7,20 @@ export class TokenDisplayScreen extends Screen {
     constructor(token:PlayerToken) {
         super();
 
-        var container = document.createElement('div');
+        const container = document.createElement('div');
         container.classList.add("wrapper");
         this.contents.appendChild(container);
 
-        var tokenContainer = document.createElement('div');
+        const tokenContainer = document.createElement('div');
         tokenContainer.classList.add("token-container");
         container.appendChild(tokenContainer);
 
-        var dt:PlayerToken = new PlayerToken().asDisplay(1.0);
+        const dt:PlayerToken = new PlayerToken().asDisplay(1.0);
         dt.setRole(token.getRole());
         tokenContainer.appendChild(dt);
 
         if (token.getRole()) {            
-            var roleDescription = document.createElement('div');
+            const roleDescription = document.createElement('div');
             roleDescription.className = "role-description";
             roleDescription.textContent = roleData[token.getRole()!].description;
             container.appendChild(roleDescription);

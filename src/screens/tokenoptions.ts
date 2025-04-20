@@ -9,39 +9,39 @@ export class TokenOptionsScreen extends Screen {
     constructor(token:PlayerToken) {
         super();
 
-        var container = document.createElement('div');
+        const container = document.createElement('div');
         container.classList.add("wrapper");
         this.contents.appendChild(container);
 
-        var tokenContainer = document.createElement('div');
+        const tokenContainer = document.createElement('div');
         tokenContainer.classList.add("token-container");
         container.appendChild(tokenContainer);
 
-        var buttons = document.createElement('div');
+        const buttons = document.createElement('div');
         buttons.classList.add("buttons-container");
         container.appendChild(buttons);
 
-        var dt:PlayerToken = new PlayerToken().asDisplay(0.9);
+        const dt:PlayerToken = new PlayerToken().asDisplay(0.9);
         dt.setRole(token.getRole());
         tokenContainer.appendChild(dt);
 
-        var showButton:HTMLButtonElement = document.createElement('button');
+        const showButton:HTMLButtonElement = document.createElement('button');
         buttons.appendChild(showButton);
         showButton.textContent = 'Show';
 
-        var shroudButton:HTMLButtonElement = document.createElement('button');
+        const shroudButton:HTMLButtonElement = document.createElement('button');
         buttons.appendChild(shroudButton);
         shroudButton.textContent = token.dead ? 'Unshroud' : 'Shroud';
 
-        var changeRoleButton:HTMLButtonElement = document.createElement('button');
+        const changeRoleButton:HTMLButtonElement = document.createElement('button');
         buttons.appendChild(changeRoleButton);
         changeRoleButton.textContent = 'Change role';
 
-        var changeNameButton:HTMLButtonElement = document.createElement('button');
+        const changeNameButton:HTMLButtonElement = document.createElement('button');
         buttons.appendChild(changeNameButton);
         changeNameButton.textContent = 'Change name';
 
-        var upsideDownButton:HTMLButtonElement = document.createElement('button');
+        const upsideDownButton:HTMLButtonElement = document.createElement('button');
         buttons.appendChild(upsideDownButton);
         upsideDownButton.textContent = 'Turn upside down';
 

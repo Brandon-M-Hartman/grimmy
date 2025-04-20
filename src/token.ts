@@ -48,7 +48,7 @@ export class Token extends HTMLElement {
 			}, 200);
 		});
 
-		hammer.on('panstart', (_e) => {			
+		hammer.on('panstart', () => {			
 			this.dragging = true;
 			const rect = this.getBoundingClientRect();
 			const boardRect = board.getBoundingClientRect();

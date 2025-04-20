@@ -4,7 +4,7 @@ import { Screen } from "../screen";
 
 export class RoleSelectScreen extends Screen {
 
-    constructor(callback:Function) {
+    constructor(callback:(role:Role) => void) {
         super();
 
         const container = document.createElement('div');
