@@ -13,6 +13,7 @@ export class Viewport {
     private targetScale:number = 0.65;
     private targetX:number = 0;
     private targetY:number = 0;
+    private pinchScaled:boolean = false;
 
     constructor() {
         this.background = document.getElementById('background')!;
@@ -52,11 +53,15 @@ export class Viewport {
     endpan = (x:number, y:number) => {
         if (!this.enabled) return;
 
+        if (this.pinchScaled) {
+            this.pinchScaled = false;
+            return;
+        }
+
         this.x += x;
 		this.y += y;
 		this.targetX = this.x;
 		this.targetY = this.y;
-        this.updateTransform();
     }
 
     zoom = (amount:number, centerX:number, centerY:number) => {
@@ -84,6 +89,8 @@ export class Viewport {
     pinchZoom = (scale:number, centerX:number, centerY:number) => {
         if (!this.enabled) return;
 
+        this.pinchScaled = true;
+
         const rect = this.app.getBoundingClientRect();
 		const mouseX = centerX - rect.left;
 		const mouseY = centerY - rect.top;
@@ -99,7 +106,7 @@ export class Viewport {
         this.x = this.targetX;
         this.y = this.targetY;
         
-        this.updateTransform();
+        requestAnimationFrame(this.updateTransform);
     }
 
     getScale():number {
