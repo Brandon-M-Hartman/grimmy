@@ -2,6 +2,7 @@ app-ui {
     width: 100vw;
     height: 100vh;
     z-index: 100;
+    user-select: none;
 
     &.hidden {
         display: none;
@@ -106,6 +107,7 @@ role-select-screen {
         padding: 20px;
         border-radius: 5px;
         border: 1px solid white;
+        background-color: rgba(255, 255, 255, 0.1);
     }
 
     .token-container {

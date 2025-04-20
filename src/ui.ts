@@ -1,3 +1,4 @@
+import { Application } from './application';
 import { Screen } from './screen';
 
 export class UI extends HTMLElement {
@@ -33,10 +34,12 @@ export class UI extends HTMLElement {
 
     show():void {
         this.classList.remove('hidden');
+        Application.viewport.enabled = false;
     }
 
     hide():void {
         this.classList.add('hidden');
+        Application.viewport.enabled = true;
     }
 
     isScreenVisible():boolean {

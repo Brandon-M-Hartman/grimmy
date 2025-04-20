@@ -34,7 +34,7 @@ export class Viewport {
 
 		// Match background to "logical" board position, scaled
 		this.background.style.backgroundPosition = `${this.x}px ${this.y}px`;
-		this.background.style.backgroundSize = `${this.scale * 20}%`;
+		this.background.style.backgroundSize = `${this.scale * 15}%`;
 	}
 
     pan = (x:number, y:number) => {
@@ -60,6 +60,8 @@ export class Viewport {
     }
 
     zoom = (amount:number, centerX:number, centerY:number) => {
+        if (!this.enabled) return;
+
         const rect = this.app.getBoundingClientRect();
 		const mouseX = centerX - rect.left;
 		const mouseY = centerY - rect.top;
@@ -80,6 +82,8 @@ export class Viewport {
     }
 
     pinchZoom = (scale:number, centerX:number, centerY:number) => {
+        if (!this.enabled) return;
+
         const rect = this.app.getBoundingClientRect();
 		const mouseX = centerX - rect.left;
 		const mouseY = centerY - rect.top;
