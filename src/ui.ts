@@ -4,6 +4,7 @@ import { Screen } from './screen';
 export class UI extends HTMLElement {
 
     private screens:Array<Screen>;
+    private screenContainer:HTMLElement;
 
     constructor() {
         super();
@@ -13,34 +14,37 @@ export class UI extends HTMLElement {
         const app = document.getElementById('app')!;
         app.appendChild(this);
 
+        this.screenContainer = document.createElement('div');
+        this.screenContainer.id = "screen-container";
+        this.appendChild(this.screenContainer);
+
         addEventListener('pointerdown', (e) => {
             e.stopPropagation();
         });
 
         this.buildMenu();
-
-        //this.hide();
+        this.hide();
     }
 
     pushScreen(screen:Screen):void {
-        this.appendChild(screen);
+        this.screenContainer.appendChild(screen);
         this.screens.push(screen);
         this.show();
     }
 
     popScreen():void {
         const screen:Screen = this.screens.pop()!;
-        this.removeChild(screen);
+        this.screenContainer.removeChild(screen);
         if (this.screens.length == 0) this.hide();
     }
 
     show():void {
-        this.classList.remove('hidden');
+        this.screenContainer.classList.remove('hidden');
         Application.viewport.enabled = false;
     }
 
     hide():void {
-        this.classList.add('hidden');
+        this.screenContainer.classList.add('hidden');
         Application.viewport.enabled = true;
     }
 
