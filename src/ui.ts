@@ -17,7 +17,9 @@ export class UI extends HTMLElement {
             e.stopPropagation();
         });
 
-        this.hide();
+        this.buildMenu();
+
+        //this.hide();
     }
 
     pushScreen(screen:Screen):void {
@@ -44,6 +46,34 @@ export class UI extends HTMLElement {
 
     isScreenVisible():boolean {
         return this.screens.length > 0;
+    }
+
+    private buildMenu():void {
+        const iconSize:number = 40;
+
+        const menuButton:HTMLElement = document.createElement('div');
+        menuButton.id = "menu-button";
+        menuButton.innerHTML = `<span class="iconify" data-icon="ion:menu" data-width="${iconSize}"></span>`;
+        this.appendChild(menuButton);
+
+        const menuContainer:HTMLElement = document.createElement('div');
+        menuContainer.id = "menu-drawer";
+        this.appendChild(menuContainer);
+
+        const setupButton:HTMLElement = document.createElement('div');
+        setupButton.className = "menu-button";
+        setupButton.innerHTML = `<span class="iconify" data-icon="stash:plus-solid" data-width="${iconSize}"></span>`;
+        menuContainer.appendChild(setupButton);
+
+        const bluffsButton:HTMLElement = document.createElement('div');
+        bluffsButton.className = "menu-button";
+        bluffsButton.innerHTML = `<span class="iconify" data-icon="bxs:mask" data-width="${iconSize}"></span>`;
+        menuContainer.appendChild(bluffsButton);
+
+        const cardsButton:HTMLElement = document.createElement('div');
+        cardsButton.className = "menu-button";
+        cardsButton.innerHTML = `<span class="iconify" data-icon="bxs:card" data-width="${iconSize}"></span>`;
+        menuContainer.appendChild(cardsButton);
     }
 
     // recenterButton:Graphics;

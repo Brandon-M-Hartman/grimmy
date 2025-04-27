@@ -1,0 +1,26 @@
+app-ui {
+    #menu-button {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        font-size: 32px;
+        z-index: 1;
+        cursor: pointer;
+
+        span {
+            font-size: 48px;
+        }
+    }
+
+    #menu-drawer {
+        position: fixed;
+        top: 60px;
+        right: 10px;
+        font-size: 36px;
+        z-index: 1;
+
+        .menu-button {
+            cursor: pointer;
+        }
+    }
+}
