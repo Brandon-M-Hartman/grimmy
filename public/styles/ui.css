@@ -1,26 +1,42 @@
 app-ui {
-    #menu-button {
+    .icons {
         position: fixed;
-        top: 10px;
-        right: 10px;
-        font-size: 32px;
         z-index: 1;
-        cursor: pointer;
+        padding: 10px 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
 
-        span {
-            font-size: 48px;
+        div:has(.iconify) {
+            display: flex;
+            padding: 7px;
+            border-radius: 5px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.2);
+            }
         }
+          
     }
 
-    #menu-drawer {
-        position: fixed;
-        top: 60px;
-        right: 10px;
-        font-size: 36px;
-        z-index: 1;
+    #top-left-ui {
+        top: 0;
+        left: 0;
+    }
 
-        .menu-button {
-            cursor: pointer;
-        }
+    #top-right-ui {
+        top: 0;
+        right: 0;
+    }
+
+    #bottom-left-ui {
+        bottom: 0;
+        left: 0;
+    }
+
+    #bottom-right-ui {
+        bottom: 0;
+        right: 0;
     }
 }
