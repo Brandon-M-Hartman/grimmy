@@ -4,7 +4,7 @@
     touch-action: none;
     pointer-events: none;
     user-select: none;
-    transform-origin: top left;
+    transform-origin: center;
     transition: transform 0.1s ease-out;
 
     &.dragging {

@@ -35,7 +35,7 @@ export class Token extends HTMLElement {
 
 		const hammer = new Hammer(hitArea);
 		hammer.get('pan').set({ threshold: 0 });
-		hammer.get('tap').set({ enable: true});
+		hammer.get('tap').set({ enable: true });
 
 		const board = document.getElementById('board')!;
 

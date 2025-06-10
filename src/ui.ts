@@ -1,5 +1,6 @@
 import { Application } from './application';
 import { Screen } from './screen';
+import { DemonBluffsScreen } from './screens/demonbluffs';
 
 export class UI extends HTMLElement {
 
@@ -86,6 +87,7 @@ export class UI extends HTMLElement {
         const bluffsButton:HTMLElement = document.createElement('div');
         bluffsButton.innerHTML = `<span class="iconify" data-icon="bxs:mask" data-width="${iconSize}"></span>`;
         bottomLeft.appendChild(bluffsButton);
+        bluffsButton.addEventListener('click', () => Application.ui.pushScreen(new DemonBluffsScreen()));
 
         const cardsButton:HTMLElement = document.createElement('div');
         cardsButton.innerHTML = `<span class="iconify" data-icon="bxs:card" data-width="${iconSize}"></span>`;
