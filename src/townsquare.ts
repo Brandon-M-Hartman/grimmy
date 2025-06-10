@@ -59,6 +59,9 @@ export class TownSquare extends HTMLElement {
 		token.reminderTokens.forEach(reminderToken => {
 			this.removeChild(reminderToken);
 		});
+
+		// clear references
+		token.reminderTokens = [];
 		
 		// add new reminder tokens, if any
 		if (token.getRole()) {
