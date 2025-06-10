@@ -148,10 +148,12 @@ export class Token extends HTMLElement {
 	}
 
 	protected onTokenTapped():void {
+		this.dispatchEvent(new Event("tapped"));
 		// override in child class
 	}
 
 	protected onTokenDoubleTapped():void {
+		this.dispatchEvent(new Event("double-tapped"));
 		// override in child class
 	}
 

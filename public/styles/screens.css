@@ -26,6 +26,7 @@ app-ui {
         width: 100%;
         height: 100%;
         overflow-y: scroll;
+        position: fixed;
     
         .overlay {
             position: fixed;
@@ -151,12 +152,32 @@ demon-bluffs-screen {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 10px;
 
-        .token-wrapper {
-            width: 128px;
-            height: 128px;
+        player-token {
             cursor: pointer;
+        }
+
+        .token-placeholder {
+            width: 256px;
+            height: 256px;
+            border: 7px solid white;
+            border-radius: 50%;
+            box-sizing: border-box;
+            cursor: pointer;
+            text-align: center;
+            align-content: center;
+
+            .plus {
+                --b: 5px; /* the thickness */
+                width: 50px; /* the size */
+                aspect-ratio: 1;
+                border: 10px solid #000; /* the outer space */
+                background:
+                  conic-gradient(from 90deg at var(--b) var(--b),#000 90deg,#fff 0) 
+                  calc(100% + var(--b)/2) calc(100% + var(--b)/2)/
+                  calc(50%  + var(--b))   calc(50%  + var(--b));
+                display: inline-block;
+              }
         }
     }
 }

@@ -31,6 +31,7 @@ export class UI extends HTMLElement {
         this.screenContainer.appendChild(screen);
         this.screens.push(screen);
         this.show();
+        screen.style.zIndex = this.screens.length.toString();
     }
 
     popScreen():void {
