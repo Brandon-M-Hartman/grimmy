@@ -1,4 +1,4 @@
-//import { RoleSelectScreen } from "./screens/roleselect";
+import { NumPlayersScreen } from "./screens/numplayers";
 import { TownSquare } from "./townsquare";
 import { UI } from "./ui";
 import { Viewport } from "./viewport";
@@ -46,5 +46,7 @@ export class Application {
         board.appendChild(this.townSquare);
         this.townSquare.setupBoard();
         this.townSquare.arrangeTokens();
+
+        Application.ui.pushScreen(new NumPlayersScreen());
     }
 }

@@ -13,16 +13,20 @@ export class MenuScreen extends Screen {
         container.classList.add("wrapper");
         this.contents.appendChild(container);
 
+        const buttons = document.createElement('div');
+        buttons.className = "buttons-container";
+        container.appendChild(buttons);
+
         const newGameButton = document.createElement('button');
         newGameButton.textContent = "Start new game";
-        container.appendChild(newGameButton);
+        buttons.appendChild(newGameButton);
 
         const lockTokensButton = document.createElement('button');
         lockTokensButton.textContent = "Lock player tokens";
-        container.appendChild(lockTokensButton);
+        buttons.appendChild(lockTokensButton);
 
         const supportButton = document.createElement('button');
         supportButton.textContent = "Support this tool on Ko-fi";
-        container.appendChild(supportButton);
+        buttons.appendChild(supportButton);
     }
 }

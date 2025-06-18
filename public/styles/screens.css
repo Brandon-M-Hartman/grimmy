@@ -19,6 +19,10 @@ app-ui {
         color: #111;
         border: none;
         border-radius: 5px;
+
+        &:hover {
+            background-color: #ccc;
+        }
     }
 
     .screen {
@@ -43,7 +47,6 @@ app-ui {
             flex-wrap: wrap;
             gap: 1rem;
             z-index: 1;
-            align-content: center;
         }
     }
 }
@@ -190,13 +193,54 @@ demon-bluffs-screen {
 menu-screen {
     .wrapper {
         display: flex;
-        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         width: 400px;
 
-        button {
-            color: #e6e6e6;
-            background-color: #161e4a;
-            border: 2px solid #6f8ce3;
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            
+            button {
+                color: #e6e6e6;
+                background-color: #161e4a;
+                border: 2px solid #6f8ce3;
+            }
+        }
+    }
+}
+
+num-players-screen {
+    .wrapper {
+        text-align: center;
+        align-content: center;
+
+        .controls {
+            font-size: 60px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 500px;
+            margin: 40px 0;
+
+            .control {
+                display: flex;
+                width: 100%;
+                justify-content: center;
+
+                input {
+                    width: 100%;
+                }
+            }
+        }
+
+        .count {
+            font-size: 32px;
+            text-align: center;
+        }
+
+        .button {
+            margin: 40px 0;
         }
     }
 }
