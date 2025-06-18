@@ -1,6 +1,7 @@
 import { Application } from './application';
 import { Screen } from './screen';
 import { DemonBluffsScreen } from './screens/demonbluffs';
+import { MenuScreen } from './screens/menu';
 
 export class UI extends HTMLElement {
 
@@ -84,6 +85,7 @@ export class UI extends HTMLElement {
         const menuButton:HTMLElement = document.createElement('div');
         menuButton.innerHTML = `<span class="iconify" data-icon="ion:menu" data-width="${iconSize}"></span>`;
         topRight.appendChild(menuButton);
+        menuButton.addEventListener('click', () => Application.ui.pushScreen(new MenuScreen()));
 
         const bluffsButton:HTMLElement = document.createElement('div');
         bluffsButton.innerHTML = `<span class="iconify" data-icon="bxs:mask" data-width="${iconSize}"></span>`;

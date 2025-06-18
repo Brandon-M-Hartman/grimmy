@@ -18,7 +18,7 @@ app-ui {
         background-color: #ececec;
         color: #111;
         border: none;
-        border-radius: 10px;
+        border-radius: 5px;
     }
 
     .screen {
@@ -43,6 +43,7 @@ app-ui {
             flex-wrap: wrap;
             gap: 1rem;
             z-index: 1;
+            align-content: center;
         }
     }
 }
@@ -182,6 +183,20 @@ demon-bluffs-screen {
                   calc(50%  + var(--b))   calc(50%  + var(--b));
                 display: inline-block;
               }
+        }
+    }
+}
+
+menu-screen {
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 400px;
+
+        button {
+            color: #e6e6e6;
+            background-color: #161e4a;
+            border: 2px solid #6f8ce3;
         }
     }
 }

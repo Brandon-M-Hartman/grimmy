@@ -7,6 +7,7 @@ import { TokenOptionsScreen } from "./screens/tokenoptions";
 import { TokenDisplayScreen } from "./screens/tokendisplay";
 import { RoleSelectScreen } from "./screens/roleselect";
 import { DemonBluffsScreen } from "./screens/demonbluffs";
+import { MenuScreen } from "./screens/menu";
 
 // Define custom elements
 customElements.define('player-token', PlayerToken);
@@ -17,6 +18,7 @@ customElements.define('token-options-screen', TokenOptionsScreen);
 customElements.define('token-display-screen', TokenDisplayScreen);
 customElements.define('role-select-screen', RoleSelectScreen);
 customElements.define('demon-bluffs-screen', DemonBluffsScreen);
+customElements.define('menu-screen', MenuScreen);
 
 // Create the application
 new Application();
