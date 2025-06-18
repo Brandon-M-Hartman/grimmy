@@ -27,7 +27,7 @@ export class UI extends HTMLElement {
         this.hide();
     }
 
-    pushScreen(screen:Screen):void {
+    pushScreen(screen: Screen):void {
         this.screenContainer.appendChild(screen);
         this.screens.push(screen);
         this.show();

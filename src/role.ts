@@ -25,6 +25,13 @@ export enum Role {
     SCARLET_WOMAN = "scarletwoman"
 }
 
+export enum RoleCategory {
+    TOWNSFOLK,
+    OUTSIDER,
+    MINION,
+    DEMON
+}
+
 export interface RoleInfo {
     name: string;
     description: string;

@@ -1,6 +1,6 @@
 import { Application } from "../application";
 import { PlayerToken } from "../playertoken";
-import { Role } from "../role";
+import { Role, RoleCategory } from "../role";
 import { Screen } from "../screen";
 import { RoleSelectScreen } from "./roleselect";
 
@@ -12,6 +12,10 @@ export class DemonBluffsScreen extends Screen {
         super();
 
         this.build();
+
+        this.overlay.onclick = () => {
+            Application.ui.popScreen();
+        };
 
         this.contents.onclick = () => {
             Application.ui.popScreen();
@@ -48,7 +52,7 @@ export class DemonBluffsScreen extends Screen {
                         Application.ui.popScreen();
                         DemonBluffsScreen.bluffs[i] = role;
                         this.build();
-                    }));
+                    }, [RoleCategory.TOWNSFOLK, RoleCategory.OUTSIDER]));
                 });
             }
             else {
@@ -64,7 +68,7 @@ export class DemonBluffsScreen extends Screen {
                         Application.ui.popScreen();
                         DemonBluffsScreen.bluffs[i] = role;
                         this.build();
-                    }));
+                    }, [RoleCategory.TOWNSFOLK, RoleCategory.OUTSIDER]));
                 });
             }
         }

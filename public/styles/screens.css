@@ -126,6 +126,10 @@ role-select-screen {
             width: 128px;
             height: 128px;
             cursor: pointer;
+
+            .token {
+                transform-origin: top left;
+            }
         }
     }
 }
