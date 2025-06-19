@@ -23,6 +23,14 @@ app-ui {
         &:hover {
             background-color: #ccc;
         }
+
+        &:disabled {
+            background-color: #666;
+
+            &:hover {
+                background-color: #666;
+            }
+        }
     }
 
     .screen {
@@ -110,6 +118,20 @@ role-select-screen {
     .wrapper {
         margin: 40px;
         max-width: 800px;
+    }
+
+    .title {
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .buttons {
+            
+            button {
+                font-size: 16px;
+            }
+        }
     }
 
     .heading {

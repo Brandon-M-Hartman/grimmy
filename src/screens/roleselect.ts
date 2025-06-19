@@ -11,6 +11,7 @@ export class RoleSelectScreen extends Screen {
     outsiderHeading:HTMLDivElement;
     minionHeading:HTMLDivElement;
     demonHeading:HTMLDivElement;
+    continueButton:HTMLButtonElement;
 
     selectedTownsfolk:Array<Role> = [];
     selectedOutsiders:Array<Role> = [];
@@ -29,6 +30,29 @@ export class RoleSelectScreen extends Screen {
         const container = document.createElement('div');
         container.classList.add("wrapper");
         this.contents.appendChild(container);
+        
+        this.continueButton = document.createElement('button');
+
+        if (this.selectMultiple) {
+            const title = document.createElement('div');
+            title.className = "title";
+            container.appendChild(title);
+
+            const h = document.createElement('span');
+            h.textContent = "Select roles";
+            title.appendChild(h);
+
+            const buttonsContainer = document.createElement('div');
+            buttonsContainer.className = "buttons";
+            title.appendChild(buttonsContainer);
+
+            const randomButton = document.createElement('button');
+            randomButton.textContent = "Random";
+            buttonsContainer.appendChild(randomButton);
+
+            this.continueButton.textContent = "Continue";
+            buttonsContainer.appendChild(this.continueButton);
+        }
             
         this.townsfolkHeading = document.createElement('div');
         this.outsiderHeading = document.createElement('div');
@@ -61,12 +85,12 @@ export class RoleSelectScreen extends Screen {
                     {
                         token.setSelected(false);
                         this.selectedTownsfolk.splice(this.selectedTownsfolk.indexOf(token.getRole()!), 1);
-                        this.updateHeadings();
+                        this.updateSelections();
                     }
                     else if (this.selectedTownsfolk.length < this.counts!.get(RoleCategory.TOWNSFOLK)!) {
                         token.setSelected(true);
                         this.selectedTownsfolk.push(token.getRole()!);
-                        this.updateHeadings();
+                        this.updateSelections();
                     }
                 }
             });
@@ -98,12 +122,12 @@ export class RoleSelectScreen extends Screen {
                     {
                         token.setSelected(false);
                         this.selectedOutsiders.splice(this.selectedOutsiders.indexOf(token.getRole()!), 1);
-                        this.updateHeadings();
+                        this.updateSelections();
                     }
                     else if (this.selectedOutsiders.length < this.counts!.get(RoleCategory.OUTSIDER)!) {
                         token.setSelected(true);
                         this.selectedOutsiders.push(token.getRole()!);
-                        this.updateHeadings();
+                        this.updateSelections();
                     }
                 }
             });
@@ -135,12 +159,12 @@ export class RoleSelectScreen extends Screen {
                     {
                         token.setSelected(false);
                         this.selectedMinions.splice(this.selectedMinions.indexOf(token.getRole()!), 1);
-                        this.updateHeadings();
+                        this.updateSelections();
                     }
                     else if (this.selectedMinions.length < this.counts!.get(RoleCategory.MINION)!) {
                         token.setSelected(true);
                         this.selectedMinions.push(token.getRole()!);
-                        this.updateHeadings();
+                        this.updateSelections();
                     }
                 }
             });
@@ -172,24 +196,30 @@ export class RoleSelectScreen extends Screen {
                     {
                         token.setSelected(false);
                         this.selectedDemons.splice(this.selectedDemons.indexOf(token.getRole()!), 1);
-                        this.updateHeadings();
+                        this.updateSelections();
                     }
                     else if (this.selectedDemons.length < this.counts!.get(RoleCategory.DEMON)!) {
                         token.setSelected(true);
                         this.selectedDemons.push(token.getRole()!);
-                        this.updateHeadings();
+                        this.updateSelections();
                     }
                 }
             });
         }
 
-        this.updateHeadings();
+        this.updateSelections();
     }
 
-    updateHeadings = () => {
+    updateSelections = () => {
         this.townsfolkHeading.textContent = "Townsfolk" + (this.counts ? " - " + this.selectedTownsfolk.length + "/" + this.counts.get(RoleCategory.TOWNSFOLK) : "");
         this.outsiderHeading.textContent = "Outsiders" + (this.counts ? " - " + this.selectedOutsiders.length + "/" + this.counts.get(RoleCategory.OUTSIDER) : "");
         this.minionHeading.textContent = "Minions" + (this.counts ? " - " + this.selectedMinions.length + "/" + this.counts.get(RoleCategory.MINION) : "");
         this.demonHeading.textContent = "Demons" + (this.counts ? " - " + this.selectedDemons.length + "/" + this.counts.get(RoleCategory.DEMON) : "");
+
+        const townsfolkCount = this.counts?.get(RoleCategory.TOWNSFOLK) ?? 0;
+        const outsiderCount = this.counts?.get(RoleCategory.OUTSIDER) ?? 0;
+        const minionCount = this.counts?.get(RoleCategory.MINION) ?? 0;
+        const demonCount = this.counts?.get(RoleCategory.DEMON) ?? 0;
+        this.continueButton.disabled = this.selectedTownsfolk.length < townsfolkCount || this.selectedOutsiders.length < outsiderCount || this.selectedMinions.length < minionCount || this.selectedDemons.length < demonCount;
     }
 }
