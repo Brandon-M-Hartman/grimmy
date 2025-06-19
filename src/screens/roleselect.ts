@@ -13,6 +13,11 @@ export class RoleSelectScreen extends Screen {
     demonHeading:HTMLDivElement;
     continueButton:HTMLButtonElement;
 
+    townsfolkTokens:Array<PlayerToken> = [];
+    outsiderTokens:Array<PlayerToken> = [];
+    minionTokens:Array<PlayerToken> = [];
+    demonTokens:Array<PlayerToken> = [];
+
     selectedTownsfolk:Array<Role> = [];
     selectedOutsiders:Array<Role> = [];
     selectedMinions:Array<Role> = [];
@@ -49,6 +54,7 @@ export class RoleSelectScreen extends Screen {
             const randomButton = document.createElement('button');
             randomButton.textContent = "Random";
             buttonsContainer.appendChild(randomButton);
+            randomButton.onclick = () => this.randomize();
 
             this.continueButton.textContent = "Continue";
             buttonsContainer.appendChild(this.continueButton);
@@ -78,6 +84,7 @@ export class RoleSelectScreen extends Screen {
                 const token:PlayerToken = new PlayerToken().asDisplay(0.5);
                 token.setRole(role);
                 tokenWrapper.appendChild(token);
+                this.townsfolkTokens.push(token);
                 if (this.selectMultiple) token.setSelected(false);       
                 tokenWrapper.onclick = () => {
                     if (!this.selectMultiple) callback(role);
@@ -115,6 +122,7 @@ export class RoleSelectScreen extends Screen {
                 const token:PlayerToken = new PlayerToken().asDisplay(0.5);
                 token.setRole(role);
                 tokenWrapper.appendChild(token);
+                this.outsiderTokens.push(token);
                 if (this.selectMultiple) token.classList.add("unselected");          
                 tokenWrapper.onclick = () => {
                     if (!this.selectMultiple) callback(role);
@@ -152,6 +160,7 @@ export class RoleSelectScreen extends Screen {
                 const token:PlayerToken = new PlayerToken().asDisplay(0.5);
                 token.setRole(role);
                 tokenWrapper.appendChild(token);
+                this.minionTokens.push(token);
                 if (this.selectMultiple) token.classList.add("unselected");          
                 tokenWrapper.onclick = () => {
                     if (!this.selectMultiple) callback(role);
@@ -188,7 +197,8 @@ export class RoleSelectScreen extends Screen {
 
                 const token:PlayerToken = new PlayerToken().asDisplay(0.5);
                 token.setRole(role);
-                tokenWrapper.appendChild(token);
+                tokenWrapper.appendChild(token);                
+                this.demonTokens.push(token);
                 if (this.selectMultiple) token.classList.add("unselected");          
                 tokenWrapper.onclick = () => {
                     if (!this.selectMultiple) callback(role);
@@ -221,5 +231,56 @@ export class RoleSelectScreen extends Screen {
         const minionCount = this.counts?.get(RoleCategory.MINION) ?? 0;
         const demonCount = this.counts?.get(RoleCategory.DEMON) ?? 0;
         this.continueButton.disabled = this.selectedTownsfolk.length < townsfolkCount || this.selectedOutsiders.length < outsiderCount || this.selectedMinions.length < minionCount || this.selectedDemons.length < demonCount;
+    }
+
+    randomize = () => {
+        function shuffleArray<T>(array: T[]): T[] {
+            const result = [...array]; // copy to avoid mutating original
+            for (let i = result.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [result[i], result[j]] = [result[j], result[i]];
+            }
+            return result;
+        }
+
+        const townsfolkCount = this.counts?.get(RoleCategory.TOWNSFOLK) ?? 0;
+        const outsiderCount = this.counts?.get(RoleCategory.OUTSIDER) ?? 0;
+        const minionCount = this.counts?.get(RoleCategory.MINION) ?? 0;
+        const demonCount = this.counts?.get(RoleCategory.DEMON) ?? 0;
+        
+        [...this.townsfolkTokens, ...this.outsiderTokens, ...this.minionTokens, ...this.demonTokens].forEach(token => {
+            token.setSelected(false);
+        });
+
+        this.selectedTownsfolk = [];
+        this.selectedOutsiders = [];
+        this.selectedMinions = [];
+        this.selectedDemons = [];
+
+        const townsfolkChoices:Array<PlayerToken> = shuffleArray(this.townsfolkTokens).slice(0, townsfolkCount);
+        townsfolkChoices.forEach(token => {
+            token.setSelected(true);
+            this.selectedTownsfolk.push(token.getRole()!);
+        });
+
+        const outsiderChoices:Array<PlayerToken> = shuffleArray(this.outsiderTokens).slice(0, outsiderCount);
+        outsiderChoices.forEach(token => {
+            token.setSelected(true);
+            this.selectedOutsiders.push(token.getRole()!);
+        });
+
+        const minionChoices:Array<PlayerToken> = shuffleArray(this.minionTokens).slice(0, minionCount);
+        minionChoices.forEach(token => {
+            token.setSelected(true);
+            this.selectedMinions.push(token.getRole()!);
+        });
+
+        const demonChoices:Array<PlayerToken> = shuffleArray(this.demonTokens).slice(0, demonCount);
+        demonChoices.forEach(token => {
+            token.setSelected(true);
+            this.selectedDemons.push(token.getRole()!);
+        });
+
+        this.updateSelections();
     }
 }
