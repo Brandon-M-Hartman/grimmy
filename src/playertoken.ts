@@ -20,6 +20,7 @@ export class PlayerToken extends Token {
 	private setupElement:HTMLImageElement;
 	private playerName:string;
 	private nameTag:HTMLElement;
+	private selected:boolean;
 
     constructor() {
         super();
@@ -30,6 +31,7 @@ export class PlayerToken extends Token {
 		this.roleInfo = null;
 		this.reminderTokens = [];
 		this.onrolechanged = () => {};
+		this.selected = false;
 
 		this.icon = document.createElement("img");
 		this.icon.className = "icon";
@@ -135,6 +137,23 @@ export class PlayerToken extends Token {
 		this.classList.add('display');
 		this.style.scale = `${scale}`;
 		return this;
+	}
+
+	public isSelected():boolean {
+		return this.selected;
+	}
+
+	public setSelected(selected:boolean) {
+		this.selected = selected;
+		if (selected) {
+			this.classList.add('selected');
+			this.classList.remove('unselected');
+		}
+		else
+		{
+			this.classList.add('unselected');
+			this.classList.remove('selected');
+		}
 	}
 
 }

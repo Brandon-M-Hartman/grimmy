@@ -5,8 +5,22 @@ import { Screen } from "../screen";
 
 export class RoleSelectScreen extends Screen {
 
-    constructor(callback:Function, categories?:Array<RoleCategory>) {
+    selectMultiple:boolean;
+    counts?:Map<RoleCategory, number>;
+    townsfolkHeading:HTMLDivElement;
+    outsiderHeading:HTMLDivElement;
+    minionHeading:HTMLDivElement;
+    demonHeading:HTMLDivElement;
+
+    selectedTownsfolk:Array<Role> = [];
+    selectedOutsiders:Array<Role> = [];
+    selectedMinions:Array<Role> = [];
+    selectedDemons:Array<Role> = [];
+
+    constructor(callback:Function, categories?:Array<RoleCategory>, counts?:Map<RoleCategory, number>) {
         super();
+        this.counts = counts;
+        this.selectMultiple = counts != undefined;
 
         this.overlay.onclick = () => {
             Application.ui.popScreen();
@@ -15,14 +29,17 @@ export class RoleSelectScreen extends Screen {
         const container = document.createElement('div');
         container.classList.add("wrapper");
         this.contents.appendChild(container);
+            
+        this.townsfolkHeading = document.createElement('div');
+        this.outsiderHeading = document.createElement('div');
+        this.minionHeading = document.createElement('div');
+        this.demonHeading = document.createElement('div');
 
         // add all townsfolk tokens
         if (!categories || categories.includes(RoleCategory.TOWNSFOLK))
         {
-            const townsfolkHeading = document.createElement('div');
-            townsfolkHeading.className = "heading";
-            townsfolkHeading.textContent = "Townsfolk";
-            container.appendChild(townsfolkHeading);
+            this.townsfolkHeading.className = "heading";
+            container.appendChild(this.townsfolkHeading);
 
             const townsfolkContainer = document.createElement('div');
             townsfolkContainer.className = "token-container";
@@ -36,18 +53,30 @@ export class RoleSelectScreen extends Screen {
 
                 const token:PlayerToken = new PlayerToken().asDisplay(0.5);
                 token.setRole(role);
-                tokenWrapper.appendChild(token);            
-                tokenWrapper.onclick = () => callback(role);
+                tokenWrapper.appendChild(token);
+                if (this.selectMultiple) token.setSelected(false);       
+                tokenWrapper.onclick = () => {
+                    if (!this.selectMultiple) callback(role);
+                    else if (token.isSelected())
+                    {
+                        token.setSelected(false);
+                        this.selectedTownsfolk.splice(this.selectedTownsfolk.indexOf(token.getRole()!), 1);
+                        this.updateHeadings();
+                    }
+                    else if (this.selectedTownsfolk.length < this.counts!.get(RoleCategory.TOWNSFOLK)!) {
+                        token.setSelected(true);
+                        this.selectedTownsfolk.push(token.getRole()!);
+                        this.updateHeadings();
+                    }
+                }
             });
         }
 
         // add all outsider tokens
         if (!categories || categories.includes(RoleCategory.OUTSIDER))
         {
-            const outsiderHeading = document.createElement('div');
-            outsiderHeading.className = "heading";
-            outsiderHeading.textContent = "Outsiders";
-            container.appendChild(outsiderHeading);
+            this.outsiderHeading.className = "heading";
+            container.appendChild(this.outsiderHeading);
 
             const outsiderContainer = document.createElement('div');
             outsiderContainer.className = "token-container";
@@ -62,17 +91,29 @@ export class RoleSelectScreen extends Screen {
                 const token:PlayerToken = new PlayerToken().asDisplay(0.5);
                 token.setRole(role);
                 tokenWrapper.appendChild(token);
-                tokenWrapper.onclick = () => callback(role);
+                if (this.selectMultiple) token.classList.add("unselected");          
+                tokenWrapper.onclick = () => {
+                    if (!this.selectMultiple) callback(role);
+                    else if (token.isSelected())
+                    {
+                        token.setSelected(false);
+                        this.selectedOutsiders.splice(this.selectedOutsiders.indexOf(token.getRole()!), 1);
+                        this.updateHeadings();
+                    }
+                    else if (this.selectedOutsiders.length < this.counts!.get(RoleCategory.OUTSIDER)!) {
+                        token.setSelected(true);
+                        this.selectedOutsiders.push(token.getRole()!);
+                        this.updateHeadings();
+                    }
+                }
             });
         }
 
         // add all minion tokens
         if (!categories || categories.includes(RoleCategory.MINION))
         {
-            const minionHeading = document.createElement('div');
-            minionHeading.className = "heading";
-            minionHeading.textContent = "Minions";
-            container.appendChild(minionHeading);
+            this.minionHeading.className = "heading";
+            container.appendChild(this.minionHeading);
 
             const minionContainer = document.createElement('div');
             minionContainer.className = "token-container";
@@ -87,17 +128,29 @@ export class RoleSelectScreen extends Screen {
                 const token:PlayerToken = new PlayerToken().asDisplay(0.5);
                 token.setRole(role);
                 tokenWrapper.appendChild(token);
-                tokenWrapper.onclick = () => callback(role);
+                if (this.selectMultiple) token.classList.add("unselected");          
+                tokenWrapper.onclick = () => {
+                    if (!this.selectMultiple) callback(role);
+                    else if (token.isSelected())
+                    {
+                        token.setSelected(false);
+                        this.selectedMinions.splice(this.selectedMinions.indexOf(token.getRole()!), 1);
+                        this.updateHeadings();
+                    }
+                    else if (this.selectedMinions.length < this.counts!.get(RoleCategory.MINION)!) {
+                        token.setSelected(true);
+                        this.selectedMinions.push(token.getRole()!);
+                        this.updateHeadings();
+                    }
+                }
             });
         }
 
         // add all demon tokens
         if (!categories || categories.includes(RoleCategory.DEMON))
         {
-            const demonHeading = document.createElement('div');
-            demonHeading.className = "heading";
-            demonHeading.textContent = "Demons";
-            container.appendChild(demonHeading);
+            this.demonHeading.className = "heading";
+            container.appendChild(this.demonHeading);
 
             const demonContainer = document.createElement('div');
             demonContainer.className = "token-container";
@@ -112,8 +165,31 @@ export class RoleSelectScreen extends Screen {
                 const token:PlayerToken = new PlayerToken().asDisplay(0.5);
                 token.setRole(role);
                 tokenWrapper.appendChild(token);
-                tokenWrapper.onclick = () => callback(role);
+                if (this.selectMultiple) token.classList.add("unselected");          
+                tokenWrapper.onclick = () => {
+                    if (!this.selectMultiple) callback(role);
+                    else if (token.isSelected())
+                    {
+                        token.setSelected(false);
+                        this.selectedDemons.splice(this.selectedDemons.indexOf(token.getRole()!), 1);
+                        this.updateHeadings();
+                    }
+                    else if (this.selectedDemons.length < this.counts!.get(RoleCategory.DEMON)!) {
+                        token.setSelected(true);
+                        this.selectedDemons.push(token.getRole()!);
+                        this.updateHeadings();
+                    }
+                }
             });
         }
+
+        this.updateHeadings();
+    }
+
+    updateHeadings = () => {
+        this.townsfolkHeading.textContent = "Townsfolk" + (this.counts ? " - " + this.selectedTownsfolk.length + "/" + this.counts.get(RoleCategory.TOWNSFOLK) : "");
+        this.outsiderHeading.textContent = "Outsiders" + (this.counts ? " - " + this.selectedOutsiders.length + "/" + this.counts.get(RoleCategory.OUTSIDER) : "");
+        this.minionHeading.textContent = "Minions" + (this.counts ? " - " + this.selectedMinions.length + "/" + this.counts.get(RoleCategory.MINION) : "");
+        this.demonHeading.textContent = "Demons" + (this.counts ? " - " + this.selectedDemons.length + "/" + this.counts.get(RoleCategory.DEMON) : "");
     }
 }
