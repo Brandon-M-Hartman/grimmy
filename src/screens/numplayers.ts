@@ -1,4 +1,4 @@
-import { Application } from "../application";
+import { RoleCategory } from "../role";
 import { Screen } from "../screen";
 
 export class NumPlayersScreen extends Screen {
@@ -45,7 +45,7 @@ export class NumPlayersScreen extends Screen {
         15: 3
     };
 
-
+    callback:Function;
     slider:HTMLInputElement;
     playerCount:HTMLDivElement;
     townsfolkCount:HTMLDivElement;
@@ -53,12 +53,10 @@ export class NumPlayersScreen extends Screen {
     minionCount:HTMLDivElement;
     demonCount:HTMLDivElement;
 
-    constructor() {
+    constructor(callback:Function) {
         super();
 
-        this.overlay.onclick = () => {
-            Application.ui.popScreen();
-        };
+        this.callback = callback;
 
         const container = document.createElement('div');
         container.classList.add("wrapper");
@@ -109,17 +107,30 @@ export class NumPlayersScreen extends Screen {
         continueButton.textContent = "Continue";
         continueButton.className = "button";
         container.appendChild(continueButton);
+        continueButton.onclick = () => this.finalize();
 
         this.update();
     }
 
     update = () => {
-        let count:number = Number(this.slider.value);
-        let adjustedCount:number = Math.min(count, 15);
+        const count:number = Number(this.slider.value);
+        const adjustedCount:number = Math.min(count, 15);
         this.playerCount.textContent = String(count);
         this.townsfolkCount.textContent = "Townsfolk: " + this.townsfolkCounts[adjustedCount];
         this.outsiderCount.textContent = "Outsiders: " + this.outsiderCounts[adjustedCount];
         this.minionCount.textContent = "Minions: " + this.minionCounts[adjustedCount];
         this.demonCount.textContent = "Demons: 1";
+    }
+
+    finalize = () => {
+        const count:number = Number(this.slider.value);
+        const adjustedCount:number = Math.min(count, 15);
+
+        const counts:Map<RoleCategory, number> = new Map<RoleCategory, number>();
+        counts.set(RoleCategory.TOWNSFOLK, this.townsfolkCounts[adjustedCount]);
+        counts.set(RoleCategory.OUTSIDER, this.outsiderCounts[adjustedCount]);
+        counts.set(RoleCategory.MINION, this.minionCounts[adjustedCount]);
+        counts.set(RoleCategory.DEMON, 1);
+        this.callback(counts);
     }
 }

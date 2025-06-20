@@ -37,6 +37,7 @@ export class RoleSelectScreen extends Screen {
         this.contents.appendChild(container);
         
         this.continueButton = document.createElement('button');
+        this.continueButton.onclick = () => callback(this.getSelectedRoles());
 
         if (this.selectMultiple) {
             const title = document.createElement('div');
@@ -220,7 +221,7 @@ export class RoleSelectScreen extends Screen {
         this.updateSelections();
     }
 
-    updateSelections = () => {
+    private updateSelections():void {
         this.townsfolkHeading.textContent = "Townsfolk" + (this.counts ? " - " + this.selectedTownsfolk.length + "/" + this.counts.get(RoleCategory.TOWNSFOLK) : "");
         this.outsiderHeading.textContent = "Outsiders" + (this.counts ? " - " + this.selectedOutsiders.length + "/" + this.counts.get(RoleCategory.OUTSIDER) : "");
         this.minionHeading.textContent = "Minions" + (this.counts ? " - " + this.selectedMinions.length + "/" + this.counts.get(RoleCategory.MINION) : "");
@@ -233,7 +234,7 @@ export class RoleSelectScreen extends Screen {
         this.continueButton.disabled = this.selectedTownsfolk.length < townsfolkCount || this.selectedOutsiders.length < outsiderCount || this.selectedMinions.length < minionCount || this.selectedDemons.length < demonCount;
     }
 
-    randomize = () => {
+    private randomize():void {
         function shuffleArray<T>(array: T[]): T[] {
             const result = [...array]; // copy to avoid mutating original
             for (let i = result.length - 1; i > 0; i--) {
@@ -282,5 +283,13 @@ export class RoleSelectScreen extends Screen {
         });
 
         this.updateSelections();
+    }
+
+    private getSelectedRoles():Array<Role> {
+        const roles:Array<Role> = [];
+        [...this.townsfolkTokens, ...this.outsiderTokens, ...this.minionTokens, ...this.demonTokens].forEach(token => {
+            if (token.isSelected()) roles.push(token.getRole()!);
+        });
+        return roles;
     }
 }

@@ -72,7 +72,6 @@ export class PlayerToken extends Token {
 	}
 
 	setRole(role:Role | null):void {
-		console.log("Set role: ", role);
 		this.playerRole = role;
 		this.onrolechanged(role);
 
