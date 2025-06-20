@@ -72,6 +72,12 @@
             opacity: 1;
         }
     }
+
+    &.hidden {
+        svg, img.icon, img.reminder {
+            visibility: hidden !important;
+        }
+    }
 }
 
 player-token {

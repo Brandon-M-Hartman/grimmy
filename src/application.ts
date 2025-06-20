@@ -1,4 +1,5 @@
-import { Game } from "./game";
+//import { Game } from "./game";
+import { TokenSelectScreen } from "./screens/tokenselect";
 import { TownSquare } from "./townsquare";
 import { UI } from "./ui";
 import { Viewport } from "./viewport";
@@ -45,16 +46,10 @@ export class Application {
         this.townSquare = new TownSquare();
         board.appendChild(this.townSquare);
 
-        Game.setup(() => {
+        /*Game.setup(() => {
             this.townSquare.setupBoard();
             this.townSquare.arrangeTokens();
-        });
-
-        /*const myCounts = new Map<RoleCategory, number>();
-        myCounts.set(RoleCategory.TOWNSFOLK, 5);
-        myCounts.set(RoleCategory.OUTSIDER, 2);
-        myCounts.set(RoleCategory.MINION, 1);
-        myCounts.set(RoleCategory.DEMON, 1);
-        Application.ui.pushScreen(new RoleSelectScreen(() => {}, undefined, myCounts));*/
+        });*/
+        Application.ui.pushScreen(new TokenSelectScreen());
     }
 }

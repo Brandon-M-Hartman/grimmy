@@ -1,11 +1,13 @@
 import { Application } from "./application";
+import { PlayerToken } from "./playertoken";
 import { Role, RoleCategory } from "./role";
 import { NumPlayersScreen } from "./screens/numplayers";
 import { RoleReviewScreen } from "./screens/rolereview";
 import { RoleSelectScreen } from "./screens/roleselect";
 
 export class Game {
-    static roles:Array<Role>;
+    static roles:Array<Role> = [];
+    static tokens:Array<PlayerToken> = [];
 
     static setup(onComplete:Function):void {
         console.log("setup");

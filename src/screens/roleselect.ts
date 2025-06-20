@@ -2,6 +2,7 @@ import { Application } from "../application";
 import { PlayerToken } from "../playertoken";
 import { Role, RoleCategory } from "../role";
 import { Screen } from "../screen";
+import { Utils } from "../utils";
 
 export class RoleSelectScreen extends Screen {
 
@@ -235,15 +236,7 @@ export class RoleSelectScreen extends Screen {
     }
 
     private randomize():void {
-        function shuffleArray<T>(array: T[]): T[] {
-            const result = [...array]; // copy to avoid mutating original
-            for (let i = result.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [result[i], result[j]] = [result[j], result[i]];
-            }
-            return result;
-        }
-
+        
         const townsfolkCount = this.counts?.get(RoleCategory.TOWNSFOLK) ?? 0;
         const outsiderCount = this.counts?.get(RoleCategory.OUTSIDER) ?? 0;
         const minionCount = this.counts?.get(RoleCategory.MINION) ?? 0;
@@ -258,25 +251,25 @@ export class RoleSelectScreen extends Screen {
         this.selectedMinions = [];
         this.selectedDemons = [];
 
-        const townsfolkChoices:Array<PlayerToken> = shuffleArray(this.townsfolkTokens).slice(0, townsfolkCount);
+        const townsfolkChoices:Array<PlayerToken> = Utils.shuffleArray(this.townsfolkTokens).slice(0, townsfolkCount);
         townsfolkChoices.forEach(token => {
             token.setSelected(true);
             this.selectedTownsfolk.push(token.getRole()!);
         });
 
-        const outsiderChoices:Array<PlayerToken> = shuffleArray(this.outsiderTokens).slice(0, outsiderCount);
+        const outsiderChoices:Array<PlayerToken> = Utils.shuffleArray(this.outsiderTokens).slice(0, outsiderCount);
         outsiderChoices.forEach(token => {
             token.setSelected(true);
             this.selectedOutsiders.push(token.getRole()!);
         });
 
-        const minionChoices:Array<PlayerToken> = shuffleArray(this.minionTokens).slice(0, minionCount);
+        const minionChoices:Array<PlayerToken> = Utils.shuffleArray(this.minionTokens).slice(0, minionCount);
         minionChoices.forEach(token => {
             token.setSelected(true);
             this.selectedMinions.push(token.getRole()!);
         });
 
-        const demonChoices:Array<PlayerToken> = shuffleArray(this.demonTokens).slice(0, demonCount);
+        const demonChoices:Array<PlayerToken> = Utils.shuffleArray(this.demonTokens).slice(0, demonCount);
         demonChoices.forEach(token => {
             token.setSelected(true);
             this.selectedDemons.push(token.getRole()!);

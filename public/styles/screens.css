@@ -300,3 +300,39 @@ role-review-screen {
         }
     }
 }
+
+token-select-screen {
+    .wrapper {
+        margin: 40px;
+        max-width: 800px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 50px;
+    }
+
+    .title {
+        font-size: 32px;
+    }
+
+    .player-info {
+        font-size: 32px;
+    }
+
+    .token-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+
+        .token-wrapper {
+            width: 128px;
+            height: 128px;
+            cursor: pointer;
+
+            .token {
+                transform-origin: top left;
+            }
+        }
+    }
+}

@@ -130,12 +130,30 @@ export class PlayerToken extends Token {
 
 	public getPlayerName():string {
 		return this.playerName;
-	}	
+	}
+	
+	public hasPlayerName():boolean {
+		return this.playerName.length > 0;
+	}
 
 	public asDisplay(scale:number):PlayerToken {
 		this.classList.add('display');
 		this.style.scale = `${scale}`;
+		this.nameTag.style.display = 'none';
 		return this;
+	}
+
+	public makeHidden():PlayerToken {
+		this.classList.add('hidden');
+		return this;
+	}
+
+	public isHidden():boolean {
+		return this.classList.contains('hidden');
+	}
+
+	public reveal():void {
+		this.classList.remove('hidden');
 	}
 
 	public isSelected():boolean {
