@@ -42,7 +42,7 @@ export class DemonBluffsScreen extends Screen {
         
         for (let i = 0; i < 3; i++) {
             if (DemonBluffsScreen.bluffs[i]) {
-                let token:PlayerToken = new PlayerToken().asDisplay(0.7);
+                let token:PlayerToken = new PlayerToken().makeDisplay(0.7);
                 token.setRole(DemonBluffsScreen.bluffs[i]);
                 tokenContainer.appendChild(token);
 

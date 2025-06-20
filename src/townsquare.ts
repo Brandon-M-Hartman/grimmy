@@ -9,36 +9,33 @@ export class TownSquare extends HTMLElement {
 	static enabled:boolean = true;
 
 	draggingToken:boolean = false;
-	tokens:Array<Token>;
-	playerTokens:Array<PlayerToken>;
-	reminderTokens:Array<ReminderToken>;
+	tokens:Array<Token> = [];
+	playerTokens:Array<PlayerToken> = [];
+	reminderTokens:Array<ReminderToken> = [];
 
 	constructor() {
 		super();
 
-		this.tokens = [];
-		this.playerTokens = [];
-		this.reminderTokens = [];
+		this.clear();
 	}
 
 	setupBoard():void {
-		Game.roles.forEach(role => this.addPlayerToken(role));
+		Game.tokens.forEach(token => this.addPlayerToken(token));
 	}
 
-	addPlayerToken(role:Role):void {
-		const token:PlayerToken = new PlayerToken();
-
+	addPlayerToken(token:PlayerToken):void {
 		token.onrolechanged = (_role:Role) => {
 			this.addReminderTokens(token);
 		}
 
+		token = token.makeFunctional();
 		this.appendChild(token);
 		this.tokens.push(token);
 		this.playerTokens.push(token);
 		this.bindTokenEvents(token);
+		this.addReminderTokens(token);
 		
 		token.bindEvents();
-		token.setRole(role);
 	}
 
 	reorderTokens():void {
@@ -102,28 +99,13 @@ export class TownSquare extends HTMLElement {
 		});
 	}
 
-	// onPointerMove(e:PointerEvent):void {
-	// 	const p:Point = this.toLocal(new Point(e.x, e.y));
-	// 	if (this.draggingToken) this.draggingToken.drag(p);
-	// }
+	clear():void {
+		// empty arrays
+		this.tokens = [];
+		this.playerTokens = [];
+		this.reminderTokens = [];
 
-	// enable():void {
-	// 	TownSquare.enabled = true;
-	// }
-
-	// disable():void {
-	// 	if (this.draggingToken) this.draggingToken.drop();
-	// 	TownSquare.enabled = false;
-	// }
-
-	// getTownCenter():Point {
-	// 	// calculate town center from average position of player tokens
-	// 	let center:Point = new Point();
-	// 	for (let i = 0; i < this.playerTokens.length; i++)
-	// 	{
-	// 		center = center.add(this.playerTokens[i].position);
-	// 	}
-	// 	center = center.multiplyScalar(1/this.playerTokens.length);
-	// 	return center;
-	// }
+		// remove everything from board
+		while (this.firstChild) this.removeChild(this.firstChild);
+	}
 }

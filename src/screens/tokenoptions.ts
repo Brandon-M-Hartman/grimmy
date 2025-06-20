@@ -21,7 +21,7 @@ export class TokenOptionsScreen extends Screen {
         buttons.classList.add("buttons-container");
         container.appendChild(buttons);
 
-        var dt:PlayerToken = new PlayerToken().asDisplay(0.9);
+        var dt:PlayerToken = new PlayerToken().makeDisplay(0.9);
         dt.setRole(token.getRole());
         tokenContainer.appendChild(dt);
 

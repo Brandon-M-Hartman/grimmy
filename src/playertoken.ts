@@ -136,10 +136,17 @@ export class PlayerToken extends Token {
 		return this.playerName.length > 0;
 	}
 
-	public asDisplay(scale:number):PlayerToken {
+	public makeDisplay(scale:number):PlayerToken {
 		this.classList.add('display');
 		this.style.scale = `${scale}`;
 		this.nameTag.style.display = 'none';
+		return this;
+	}
+
+	public makeFunctional():PlayerToken {
+		this.classList.remove('display');
+		this.style.scale = `1`;
+		this.nameTag.style.display = 'block';
 		return this;
 	}
 

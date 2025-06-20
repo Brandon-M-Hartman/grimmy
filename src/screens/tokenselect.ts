@@ -1,14 +1,14 @@
 import { Application } from "../application";
 import { Game } from "../game";
 import { PlayerToken } from "../playertoken";
-import { Role, roleData } from "../role";
+import { roleData } from "../role";
 import { Screen } from "../screen";
 import { Utils } from "../utils";
 import { TokenDisplayScreen } from "./tokendisplay";
 
 export class TokenSelectScreen extends Screen {
-    roles:Array<Role> = [Role.WASHERWOMAN, Role.SCARLET_WOMAN, Role.IMP, Role.BUTLER, Role.EMPATH, Role.SLAYER];
     tokenBag:Array<PlayerToken> = [];
+    drawnTokens:Array<PlayerToken> = [];
     selectionMade:boolean = false;
 
     playerInfo:HTMLDivElement;
@@ -18,15 +18,8 @@ export class TokenSelectScreen extends Screen {
     nextButton:HTMLButtonElement;
     finishButton:HTMLButtonElement;
 
-    constructor() {
+    constructor(onComplete:Function) {
         super();
-
-        // TEMP
-        this.roles.forEach(role => {
-            const token:PlayerToken = new PlayerToken();
-            token.setRole(role);
-            Game.tokens.push(token);
-        });
 
         // Shuffle tokens in bag
         this.tokenBag = Utils.shuffleArray(Game.tokens);
@@ -64,6 +57,7 @@ export class TokenSelectScreen extends Screen {
         this.finishButton = document.createElement('button');
         this.finishButton.textContent = "Finish";
         this.buttons.appendChild(this.finishButton);
+        this.finishButton.onclick = () => onComplete(this.drawnTokens);
 
         this.reset();
     }
@@ -76,20 +70,22 @@ export class TokenSelectScreen extends Screen {
         }
         this.playerInfo.textContent = "";
         this.buttons.style.display = 'none';
+        this.nameButton.textContent = "Add name";
 
         this.tokenBag.forEach(token => {
             const tokenWrapper = document.createElement('div');
             tokenWrapper.className = 'token-wrapper';
             this.tokens.appendChild(tokenWrapper);
 
-            token = token.asDisplay(0.5).makeHidden();
+            token = token.makeDisplay(0.5).makeHidden();
             tokenWrapper.appendChild(token);
             tokenWrapper.onclick = () => {
+                if (!token.isHidden()) Application.ui.pushScreen(new TokenDisplayScreen(token));
                 if (this.selectionMade) return;
 
                 this.selectionMade = true;
-                if (token.isHidden()) token.reveal();
-                else Application.ui.pushScreen(new TokenDisplayScreen(token));
+                token.reveal();
+                this.drawnTokens.push(token);
                 this.updatePlayerInfo(token);
                 this.buttons.style.display = 'flex';
                 this.nextButton.style.display = this.tokenBag.length > 1 ? 'block' : 'none';
@@ -98,7 +94,10 @@ export class TokenSelectScreen extends Screen {
                 this.nameButton.onclick = (e) => {
                     e.stopPropagation();
                     const newName:string | null = window.prompt("Enter new name for player:", token.getPlayerName());
-                    if (newName) token.setPlayerName(newName);
+                    if (newName) {
+                        token.setPlayerName(newName);
+                        this.nameButton.textContent = "Change name";
+                    }
                     this.updatePlayerInfo(token);
                 }
 

@@ -24,7 +24,7 @@ export class RoleReviewScreen extends Screen {
             tokenWrapper.className = 'token-wrapper';
             tokens.appendChild(tokenWrapper);
 
-            const token:PlayerToken = new PlayerToken().asDisplay(0.5);
+            const token:PlayerToken = new PlayerToken().makeDisplay(0.5);
             token.setRole(role);
             tokenWrapper.appendChild(token);
         });

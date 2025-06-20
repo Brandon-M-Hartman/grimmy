@@ -15,7 +15,7 @@ export class TokenDisplayScreen extends Screen {
         tokenContainer.classList.add("token-container");
         container.appendChild(tokenContainer);
 
-        var dt:PlayerToken = new PlayerToken().asDisplay(1.0);
+        var dt:PlayerToken = new PlayerToken().makeDisplay(1.0);
         dt.setRole(token.getRole());
         tokenContainer.appendChild(dt);
 

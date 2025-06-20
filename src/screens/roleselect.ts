@@ -83,11 +83,11 @@ export class RoleSelectScreen extends Screen {
                 tokenWrapper.className = 'token-wrapper';
                 townsfolkContainer.appendChild(tokenWrapper);
 
-                const token:PlayerToken = new PlayerToken().asDisplay(0.5);
+                const token:PlayerToken = new PlayerToken().makeDisplay(0.5);
                 token.setRole(role);
                 tokenWrapper.appendChild(token);
                 this.townsfolkTokens.push(token);
-                if (this.selectMultiple) token.setSelected(false);       
+                if (this.selectMultiple) token.setSelected(false);
                 tokenWrapper.onclick = () => {
                     if (!this.selectMultiple) callback(role);
                     else if (token.isSelected())
@@ -121,7 +121,7 @@ export class RoleSelectScreen extends Screen {
                 tokenWrapper.className = 'token-wrapper';
                 outsiderContainer.appendChild(tokenWrapper);
 
-                const token:PlayerToken = new PlayerToken().asDisplay(0.5);
+                const token:PlayerToken = new PlayerToken().makeDisplay(0.5);
                 token.setRole(role);
                 tokenWrapper.appendChild(token);
                 this.outsiderTokens.push(token);
@@ -159,7 +159,7 @@ export class RoleSelectScreen extends Screen {
                 tokenWrapper.className = 'token-wrapper';
                 minionContainer.appendChild(tokenWrapper);
 
-                const token:PlayerToken = new PlayerToken().asDisplay(0.5);
+                const token:PlayerToken = new PlayerToken().makeDisplay(0.5);
                 token.setRole(role);
                 tokenWrapper.appendChild(token);
                 this.minionTokens.push(token);
@@ -197,7 +197,7 @@ export class RoleSelectScreen extends Screen {
                 tokenWrapper.className = 'token-wrapper';
                 demonContainer.appendChild(tokenWrapper);
 
-                const token:PlayerToken = new PlayerToken().asDisplay(0.5);
+                const token:PlayerToken = new PlayerToken().makeDisplay(0.5);
                 token.setRole(role);
                 tokenWrapper.appendChild(token);                
                 this.demonTokens.push(token);

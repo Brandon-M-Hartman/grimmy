@@ -20,6 +20,10 @@ export class MenuScreen extends Screen {
         const newGameButton = document.createElement('button');
         newGameButton.textContent = "Start new game";
         buttons.appendChild(newGameButton);
+        newGameButton.onclick = () => {
+            Application.ui.popScreen();
+            Application.startNewGame();
+        }
 
         const lockTokensButton = document.createElement('button');
         lockTokensButton.textContent = "Lock player tokens";
