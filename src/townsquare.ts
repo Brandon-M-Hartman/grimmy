@@ -3,6 +3,7 @@ import { Token } from "./token";
 import { PlayerToken } from './playertoken';
 import { ReminderToken } from './remindertoken';
 import { Role, roleData } from "./role";
+import { Game } from "./game";
 
 export class TownSquare extends HTMLElement {
 	static enabled:boolean = true;
@@ -21,15 +22,7 @@ export class TownSquare extends HTMLElement {
 	}
 
 	setupBoard():void {
-		this.addPlayerToken(Role.MONK);
-		this.addPlayerToken(Role.SOLDIER);
-		this.addPlayerToken(Role.UNDERTAKER);
-		this.addPlayerToken(Role.LIBRARIAN);
-		this.addPlayerToken(Role.INVESTIGATOR);
-		this.addPlayerToken(Role.MAYOR);
-		this.addPlayerToken(Role.SAINT);
-		this.addPlayerToken(Role.IMP);
-		this.addPlayerToken(Role.POISONER);
+		Game.roles.forEach(role => this.addPlayerToken(role));
 	}
 
 	addPlayerToken(role:Role):void {

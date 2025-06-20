@@ -44,10 +44,11 @@ export class Application {
 
         this.townSquare = new TownSquare();
         board.appendChild(this.townSquare);
-        this.townSquare.setupBoard();
-        this.townSquare.arrangeTokens();
 
-        Game.setup();
+        Game.setup(() => {
+            this.townSquare.setupBoard();
+            this.townSquare.arrangeTokens();
+        });
 
         /*const myCounts = new Map<RoleCategory, number>();
         myCounts.set(RoleCategory.TOWNSFOLK, 5);
