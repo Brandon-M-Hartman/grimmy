@@ -2,6 +2,7 @@ import { Application } from './application';
 import { Screen } from './screen';
 import { DemonBluffsScreen } from './screens/demonbluffs';
 import { MenuScreen } from './screens/menu';
+import { NightOrderScreen } from './screens/nightorder';
 
 export class UI extends HTMLElement {
 
@@ -86,6 +87,11 @@ export class UI extends HTMLElement {
         menuButton.innerHTML = `<span class="iconify" data-icon="ion:menu" data-width="${iconSize}"></span>`;
         topRight.appendChild(menuButton);
         menuButton.addEventListener('click', () => Application.ui.pushScreen(new MenuScreen()));
+
+        const nightButton:HTMLElement = document.createElement('div');
+        nightButton.innerHTML = `<span class="iconify" data-icon="tabler:moon-filled" data-width="${iconSize}"></span>`;
+        bottomLeft.appendChild(nightButton);
+        nightButton.addEventListener('click', () => Application.ui.pushScreen(new NightOrderScreen()));
 
         const bluffsButton:HTMLElement = document.createElement('div');
         bluffsButton.innerHTML = `<span class="iconify" data-icon="bxs:mask" data-width="${iconSize}"></span>`;

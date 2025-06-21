@@ -35,6 +35,7 @@ app-ui {
 
     .screen {
         display: flex;
+        justify-content: center;
         width: 100%;
         height: 100%;
         overflow-y: scroll;
@@ -50,8 +51,8 @@ app-ui {
 
         .contents {
             max-width: 1200px;
-            margin: 0 auto;
             display: flex;
+            justify-content: center;
             flex-wrap: wrap;
             gap: 1rem;
             z-index: 1;
@@ -333,6 +334,39 @@ token-select-screen {
             .token {
                 transform-origin: top left;
             }
+        }
+    }
+}
+
+night-order-screen {
+    .contents {
+        width: 100%;
+    }
+
+    .wrapper {
+        margin: 40px;
+        max-width: 800px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 50px;
+        width: 100%;
+    }
+
+    ul {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        margin-bottom: 100px;
+
+        li {
+            background-color: red;
+            padding: 25px 40px;
+            border-radius: 5px;
         }
     }
 }
