@@ -1,5 +1,5 @@
 import { Application } from "../application";
-import { Alignment, getAlignmentForRole, Role, roleData } from "../role";
+import { Alignment, Role, roleData } from "../role";
 import { Screen } from "../screen";
 import json from '../../data/nightorder_first.json';
 import { Utils } from "../utils";
@@ -34,7 +34,8 @@ export class NightOrderScreen extends Screen {
                 const icon = document.createElement('img');
                 icon.src = 'assets/token/' + task.role + '.webp';
                 listItem.appendChild(icon);
-                listItem.classList.add(getAlignmentForRole(task.role as Role) == Alignment.EVIL ? 'evil' : 'good');
+                const roleInfo = roleData[task.role as Role];
+                listItem.classList.add(roleInfo.alignment == Alignment.EVIL ? 'evil' : 'good');
             }
 
             const text = document.createElement('span');
