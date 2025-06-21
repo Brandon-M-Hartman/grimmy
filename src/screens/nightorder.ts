@@ -1,7 +1,8 @@
 import { Application } from "../application";
 import { Alignment, Role, roleData } from "../role";
 import { Screen } from "../screen";
-import json from '../../data/nightorder_first.json';
+import firstNightJson from '../../data/nightorder_first.json';
+import otherNightsJson from '../../data/nightorder_other.json';
 import { Utils } from "../utils";
 
 export class NightOrderScreen extends Screen {
@@ -21,34 +22,39 @@ export class NightOrderScreen extends Screen {
         tabs.className = "tabs";
         container.appendChild(tabs);
 
-        const list = document.createElement('ul');
-        container.appendChild(list);
+        const firstNightList = document.createElement('ul');
+        container.appendChild(firstNightList);
 
-        firstNightTasks.forEach(task => {
-            const listItem = document.createElement('li');
-            list.appendChild(listItem);
+        firstNightTasks.forEach(task => this.addTask(task, firstNightList));
 
-            console.log(task);
+        const otherNightsList = document.createElement('ul');
+        container.appendChild(otherNightsList);
 
-            if (task.type == NightOrderTaskType.ROLE) {
-                const icon = document.createElement('img');
-                icon.src = 'assets/token/' + task.role + '.webp';
-                listItem.appendChild(icon);
-                const roleInfo = roleData[task.role as Role];
-                listItem.classList.add(roleInfo.alignment == Alignment.EVIL ? 'evil' : 'good');
-            }
+        otherNightTasks.forEach(task => this.addTask(task, otherNightsList));
+    }
 
-            const text = document.createElement('span');
-            listItem.appendChild(text);
+    addTask(task:NightOrderTask, list:HTMLUListElement):void {
+        const listItem = document.createElement('li');
+        list.appendChild(listItem);
 
-            if (task.type == NightOrderTaskType.ROLE) {
-                const roleInfo = roleData[task.role as Role];
-                text.innerHTML = `<b>${Utils.capitalizeWords(roleInfo.name)}</b>` + task.info;
-            }
-            else {
-                text.textContent = task.info;
-            }
-        });
+        if (task.type == NightOrderTaskType.ROLE) {
+            const icon = document.createElement('img');
+            icon.src = 'assets/token/' + task.role + '.webp';
+            listItem.appendChild(icon);
+            const roleInfo = roleData[task.role as Role];
+            listItem.classList.add(roleInfo.alignment == Alignment.EVIL ? 'evil' : 'good');
+        }
+
+        const text = document.createElement('span');
+        listItem.appendChild(text);
+
+        if (task.type == NightOrderTaskType.ROLE) {
+            const roleInfo = roleData[task.role as Role];
+            text.innerHTML = `<b>${Utils.capitalizeWords(roleInfo.name)}</b>` + task.info;
+        }
+        else {
+            text.textContent = task.info;
+        }
     }
 }
 
@@ -60,11 +66,16 @@ type NightOrderTask = {
 
 enum NightOrderTaskType {
     ROLE = "role",
-    OTHER = "other"
+    SETUP = "setup"
 }
 
 type NightOrderTasks = Array<NightOrderTask>;
-const firstNightTasks: NightOrderTasks = json.map((task) => ({
+const firstNightTasks: NightOrderTasks = firstNightJson.map((task) => ({
+  ...task,
+  type: task.type as NightOrderTaskType,
+  role: task.role as Role,
+}));
+const otherNightTasks: NightOrderTasks = otherNightsJson.map((task) => ({
   ...task,
   type: task.type as NightOrderTaskType,
   role: task.role as Role,

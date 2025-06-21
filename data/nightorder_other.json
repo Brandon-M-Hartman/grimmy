@@ -1,0 +1,52 @@
+[
+  {
+    "type": "role",
+    "role": "poisoner",
+    "info": "The Poisoner selects a a new player to poison. The player previously poisoned is no longer poisoned."
+  },
+  {
+    "type": "role",
+    "role": "monk",
+    "info": "The Monk selects a player to protect (not themselves). The player previously protected is no longer protected."
+  },
+  {
+    "type": "role",
+    "role": "spy",
+    "info": "Show the Grimoire to the Spy for as long as they need."
+  },
+  {
+    "type": "role",
+    "role": "scarletwoman",
+    "info": "If the Scarlet Woman becomes the Demon tonight:\nShow the 'You are' card, then show the Demon token."
+  },
+  {
+    "type": "role",
+    "role": "imp",
+    "info": "The Imp selects a player. That player dies.\nIf the Imp chose themself:\nSelect a Minion to become the new Imp.\nWake that player, show them the 'You are' card, then show the Imp token."
+  },
+  {
+    "type": "role",
+    "role": "ravenkeeper",
+    "info": "If the Ravenkeeper died tonight:\nThe Ravenkeeper selects a player. Show that player's character token."
+  },
+  {
+    "type": "role",
+    "role": "undertaker",
+    "info": "If a player was executed today:\nShow that player's character token."
+  },
+  {
+    "type": "role",
+    "role": "empath",
+    "info": "Show the hand signal for the number of alive evil players neighbouring the Empath."
+  },
+  {
+    "type": "role",
+    "role": "fortuneteller",
+    "info": "The Fortune Teller selects two players. Nod 'yes' if one of these players is the Demon or Red Herring. Otherwise shake head 'no'."
+  },
+  {
+    "type": "role",
+    "role": "butler",
+    "info": "The Butler selects a player to be their master."
+  }
+]

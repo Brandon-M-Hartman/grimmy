@@ -1,11 +1,11 @@
 [
   {
-    "type": "other",
+    "type": "setup",
     "role": null,
     "info": "If the game has 7 or more players:\nWake up the minions so that they can make eye contact with each other.\nShow the 'This is the Demon' card. Point to the Demon."
   },
   {
-    "type": "other",
+    "type": "setup",
     "role": null,
     "info": "If the game has 7 or more players:\nShow the 'These are your minions' card. Point to each Minion.\nShow the Demon Bluffs."
   },  
@@ -42,7 +42,7 @@
   {
     "type": "role",
     "role": "empath",
-    "info": "Show that hand signal for the number of evil alive neighbours of the Empath."
+    "info": "Show the hand signal for the number of alive evil players neighbouring the Empath."
   },
   {
     "type": "role",
