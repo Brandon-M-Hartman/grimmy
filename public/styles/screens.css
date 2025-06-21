@@ -364,9 +364,38 @@ night-order-screen {
         margin-bottom: 100px;
 
         li {
-            background-color: red;
-            padding: 25px 40px;
+            background-color: #161e4a;
+            border: 2px solid #6f8ce3;
+            padding: 25px 30px;
             border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+
+            img {
+                width: 64px;
+                height: 64px;
+                display: block;
+            }
+
+            span {
+                white-space: pre-line;
+
+                b {
+                    display: block;
+                    margin-bottom: 10px;
+                }
+            }
+
+            &.good {
+                background-color: #0f519c;
+                border: 2px solid #3187e9;
+            }
+
+            &.evil {
+                background-color: #7e2430;
+                border: 2px solid #d61c1c;
+            }
         }
     }
 }
