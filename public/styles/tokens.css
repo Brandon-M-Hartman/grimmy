@@ -75,7 +75,7 @@
 
     &.immovable .hit-area {
         cursor: default;
-        pointer-events: none;
+        pointer-events: visible;
     }
 
     &.hidden {

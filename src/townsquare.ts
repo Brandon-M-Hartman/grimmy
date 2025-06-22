@@ -37,6 +37,7 @@ export class TownSquare extends HTMLElement {
 		
 		token.bindEvents();
 		token.setMovable(!Game.lockPlayerTokens);
+		//token.setMovable(false);
 	}
 
 	reorderTokens():void {

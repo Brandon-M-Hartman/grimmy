@@ -6,13 +6,15 @@ export class Token extends HTMLElement {
 	public pos = { x: 0, y: 0 };
 	
 	private dragging:boolean = false;
-	private movable:boolean = true;
 	protected container:HTMLElement;
 	protected background:HTMLImageElement;
 	protected textPath:SVGTextPathElement;
+	private hammer:HammerManager;
 
 	constructor() {
 		super();
+		
+		this.hammer = new Hammer(this);
 
 		this.classList.add("token");
 
@@ -34,14 +36,14 @@ export class Token extends HTMLElement {
 		hitArea.className = "hit-area";
 		this.container.appendChild(hitArea);
 
-		const hammer = new Hammer(hitArea);
-		hammer.get('pan').set({ threshold: 0 });
-		hammer.get('tap').set({ enable: true });
+		this.hammer = new Hammer(hitArea);
+		this.hammer.get('pan').set({ threshold: 0 });
+		this.hammer.get('tap').set({ enable: true });
 
 		const board = document.getElementById('board')!;
 
 		let tapTime:NodeJS.Timeout;
-		hammer.on('tap', (e) => {
+		this.hammer.on('tap', (e) => {
 			clearTimeout(tapTime);
 			tapTime = setTimeout(() => {
 				if (e.tapCount == 1) this.onTokenTapped();
@@ -49,8 +51,7 @@ export class Token extends HTMLElement {
 			}, 200);
 		});
 
-		hammer.on('panstart', (_e) => {		
-			if (!this.movable) return;
+		this.hammer.on('panstart', (_e) => {
 			this.dragging = true;
 			const rect = this.getBoundingClientRect();
 			const boardRect = board.getBoundingClientRect();
@@ -60,7 +61,7 @@ export class Token extends HTMLElement {
 			this.dispatchEvent(new CustomEvent("dragstart"));
 		});
 
-		hammer.on('panmove', (e) => {
+		this.hammer.on('panmove', (e) => {
 			if (!this.dragging) return;
 
 			const deltaX = e.deltaX / Application.viewport.scale;
@@ -73,7 +74,7 @@ export class Token extends HTMLElement {
 			this.style.top = `${newY}px`;
 		});
 
-		hammer.on('panend', (e) => {
+		this.hammer.on('panend', (e) => {
 			if (!this.dragging) return;
 		
 			const deltaX = e.deltaX / Application.viewport.scale;
@@ -89,16 +90,6 @@ export class Token extends HTMLElement {
 			this.classList.remove("dragging");
 			this.dispatchEvent(new CustomEvent("dragend"));
 		});
-
-		this.onpointerdown = () => {
-			if (!this.movable) return;
-			Application.viewport.enabled = false;
-		}
-
-		this.onpointerup = () => {
-			if (!this.movable) return;
-			Application.viewport.enabled = true;
-		}
 	}
 
 	setPosition(x:number, y:number):void {
@@ -109,8 +100,8 @@ export class Token extends HTMLElement {
 	}
 
 	setMovable(movable:boolean):void {
-		this.movable = movable;
-		if (this.movable) this.classList.remove("immovable");
+		this.hammer.get('pan').set({ threshold: 0, enable: movable });
+		if (movable) this.classList.remove("immovable");
 		else this.classList.add("immovable");
 	}
 
