@@ -5,16 +5,14 @@ export class Token extends HTMLElement {
 
 	public pos = { x: 0, y: 0 };
 	
+	private dragEnabled:boolean = true;
 	private dragging:boolean = false;
 	protected container:HTMLElement;
 	protected background:HTMLImageElement;
 	protected textPath:SVGTextPathElement;
-	private hammer:HammerManager;
 
 	constructor() {
 		super();
-		
-		this.hammer = new Hammer(this);
 
 		this.classList.add("token");
 
@@ -35,15 +33,15 @@ export class Token extends HTMLElement {
 		const hitArea = document.createElement("div");
 		hitArea.className = "hit-area";
 		this.container.appendChild(hitArea);
-
-		this.hammer = new Hammer(hitArea);
-		this.hammer.get('pan').set({ threshold: 0 });
-		this.hammer.get('tap').set({ enable: true });
+		
+		const hammer = new Hammer(hitArea);
+		hammer.get('pan').set({ threshold: 0 });
+		hammer.get('tap').set({ enable: true });
 
 		const board = document.getElementById('board')!;
 
 		let tapTime:NodeJS.Timeout;
-		this.hammer.on('tap', (e) => {
+		hammer.on('tap', (e) => {
 			clearTimeout(tapTime);
 			tapTime = setTimeout(() => {
 				if (e.tapCount == 1) this.onTokenTapped();
@@ -51,19 +49,26 @@ export class Token extends HTMLElement {
 			}, 200);
 		});
 
-		this.hammer.on('panstart', (_e) => {
+		hammer.on('panstart', (_e) => {
 			this.dragging = true;
-			const rect = this.getBoundingClientRect();
-			const boardRect = board.getBoundingClientRect();
-			this.pos.x = (rect.left - boardRect.x) / Application.viewport.scale;
-			this.pos.y = (rect.top - boardRect.y) / Application.viewport.scale;
-			this.classList.add("dragging");
-			this.dispatchEvent(new CustomEvent("dragstart"));
+
+			if (this.dragEnabled) {
+				const rect = this.getBoundingClientRect();
+				const boardRect = board.getBoundingClientRect();
+				this.pos.x = (rect.left - boardRect.x) / Application.viewport.scale;
+				this.pos.y = (rect.top - boardRect.y) / Application.viewport.scale;
+				this.classList.add("dragging");
+				this.dispatchEvent(new CustomEvent("dragstart"));
+			}
 		});
 
-		this.hammer.on('panmove', (e) => {
-			if (!this.dragging) return;
-
+		hammer.on('panmove', (e) => {
+			// if token cannot be dragged, pan the viewport instead
+			if (!this.dragEnabled) {
+				Application.viewport.pan(e.deltaX, e.deltaY);
+				return;
+			}
+			
 			const deltaX = e.deltaX / Application.viewport.scale;
 			const deltaY = e.deltaY / Application.viewport.scale;
 
@@ -74,8 +79,12 @@ export class Token extends HTMLElement {
 			this.style.top = `${newY}px`;
 		});
 
-		this.hammer.on('panend', (e) => {
-			if (!this.dragging) return;
+		hammer.on('panend', (e) => {
+			// if token cannot be dragged, pan the viewport instead
+			if (!this.dragEnabled) {
+				Application.viewport.endpan(e.deltaX, e.deltaY);
+				return;
+			}
 		
 			const deltaX = e.deltaX / Application.viewport.scale;
 			const deltaY = e.deltaY / Application.viewport.scale;
@@ -100,7 +109,7 @@ export class Token extends HTMLElement {
 	}
 
 	setMovable(movable:boolean):void {
-		this.hammer.get('pan').set({ threshold: 0, enable: movable });
+		this.dragEnabled = movable;
 		if (movable) this.classList.remove("immovable");
 		else this.classList.add("immovable");
 	}
@@ -160,5 +169,9 @@ export class Token extends HTMLElement {
 
 	connectedCallback() {
 		this.makeText();
+	}
+
+	getDragging():boolean {
+		return this.dragging;
 	}
 }
