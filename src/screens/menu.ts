@@ -1,4 +1,5 @@
 import { Application } from "../application";
+import { Game } from "../game";
 import { Screen } from "../screen";
 
 export class MenuScreen extends Screen {
@@ -26,8 +27,12 @@ export class MenuScreen extends Screen {
         }
 
         const lockTokensButton = document.createElement('button');
-        lockTokensButton.textContent = "Lock player tokens";
+        lockTokensButton.textContent = Game.lockPlayerTokens ? "Unlock player tokens" : "Lock player tokens";
         buttons.appendChild(lockTokensButton);
+        lockTokensButton.onclick = () => {
+            Game.togglePlayerTokenLock();
+            Application.ui.popScreen();
+        }
 
         const supportButton = document.createElement('button');
         supportButton.textContent = "Support this tool on Ko-fi";

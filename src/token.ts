@@ -6,6 +6,7 @@ export class Token extends HTMLElement {
 	public pos = { x: 0, y: 0 };
 	
 	private dragging:boolean = false;
+	private movable:boolean = true;
 	protected container:HTMLElement;
 	protected background:HTMLImageElement;
 	protected textPath:SVGTextPathElement;
@@ -48,7 +49,8 @@ export class Token extends HTMLElement {
 			}, 200);
 		});
 
-		hammer.on('panstart', (_e) => {			
+		hammer.on('panstart', (_e) => {		
+			if (!this.movable) return;	
 			this.dragging = true;
 			const rect = this.getBoundingClientRect();
 			const boardRect = board.getBoundingClientRect();
@@ -97,11 +99,17 @@ export class Token extends HTMLElement {
 		}
 	}
 
-	setPosition(x:number, y:number) {
+	setPosition(x:number, y:number):void {
 		this.pos.x = x;
 		this.pos.y = y;
 		this.style.left = `${x}px`;
 		this.style.top = `${y}px`;
+	}
+
+	setMovable(movable:boolean):void {
+		this.movable = movable;
+		if (this.movable) this.classList.remove("immovable");
+		else this.classList.add("immovable");
 	}
 
 	protected getTokenRadius():number {

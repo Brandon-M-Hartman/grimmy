@@ -7,7 +7,7 @@ import { RoleSelectScreen } from "./screens/roleselect";
 import { TokenSelectScreen } from "./screens/tokenselect";
 
 export class Game {
-    static active:boolean = false;
+    static lockPlayerTokens:boolean = false;
     static roles:Array<Role> = [];
     static tokens:Array<PlayerToken> = [];
 
@@ -48,8 +48,15 @@ export class Game {
     static isRoleAlive(role:Role):boolean {
         let alive:boolean = false;
         this.tokens.forEach(token => {
-            if (token.getRole() == role && !token.isDead()) alive = true;
+            if (token instanceof PlayerToken && token.getRole() == role && !token.isDead()) alive = true;
         });
         return alive;
+    }
+
+    static togglePlayerTokenLock():void {
+        this.lockPlayerTokens = !this.lockPlayerTokens;
+        this.tokens.forEach(token => {
+            if (token instanceof PlayerToken) token.setMovable(!this.lockPlayerTokens);
+        });
     }
 }

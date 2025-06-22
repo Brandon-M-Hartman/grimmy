@@ -32,5 +32,3 @@ customElements.define('cards-screen', CardsScreen);
 
 // Create the application
 new Application();
-
-Application.ui.pushScreen(new CardsScreen());

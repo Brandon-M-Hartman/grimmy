@@ -73,6 +73,10 @@
         }
     }
 
+    &.immovable .hit-area {
+        cursor: default;
+    }
+
     &.hidden {
         svg, img.icon, img.reminder {
             visibility: hidden !important;
