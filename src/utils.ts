@@ -11,4 +11,18 @@ export class Utils {
     static capitalizeWords(input: string): string {
         return input.replace(/\b\w/g, char => char.toUpperCase());
     }
+
+    static isColorDark(hex: string): boolean {
+        // Remove # if present
+        const color = hex.replace('#', '');
+
+        const r = parseInt(color.substring(0, 2), 16);
+        const g = parseInt(color.substring(2, 4), 16);
+        const b = parseInt(color.substring(4, 6), 16);
+
+        // Standard brightness formula (0-255 range)
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+
+        return brightness < 128; // return true if it's considered dark
+    }
 }
