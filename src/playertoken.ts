@@ -122,6 +122,10 @@ export class PlayerToken extends Token {
 		else this.unshroud();
 	}
 
+	public isDead():boolean {
+		return this.dead;
+	}
+
 	public setPlayerName(name:string) {
 		this.playerName = name;		
 		this.nameTag.textContent = this.playerName;

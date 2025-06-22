@@ -44,4 +44,12 @@ export class Game {
             this.tokens.push(token);
         });
     }
+
+    static isRoleAlive(role:Role):boolean {
+        let alive:boolean = false;
+        this.tokens.forEach(token => {
+            if (token.getRole() == role && !token.isDead()) alive = true;
+        });
+        return alive;
+    }
 }
