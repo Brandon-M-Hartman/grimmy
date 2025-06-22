@@ -5,7 +5,19 @@ import firstNightJson from '../../data/nightorder_first.json';
 import otherNightsJson from '../../data/nightorder_other.json';
 import { Utils } from "../utils";
 
+enum Night {
+    FIRST,
+    OTHER
+}
+
 export class NightOrderScreen extends Screen {
+
+    static selectedNight:Night = Night.FIRST;
+
+    firstNightTab:HTMLDivElement;
+    otherNightsTab:HTMLDivElement;
+    firstNightList:HTMLUListElement;
+    otherNightsList:HTMLUListElement;
 
     constructor() {
         super();
@@ -22,15 +34,37 @@ export class NightOrderScreen extends Screen {
         tabs.className = "tabs";
         container.appendChild(tabs);
 
-        const firstNightList = document.createElement('ul');
-        container.appendChild(firstNightList);
+        this.firstNightTab = document.createElement('div');
+        this.firstNightTab.className = "tab";
+        this.firstNightTab.textContent = "First Night";
+        tabs.appendChild(this.firstNightTab);
 
-        firstNightTasks.forEach(task => this.addTask(task, firstNightList));
+        this.firstNightTab.onclick = (e) => {
+            e.stopPropagation();
+            this.switchTabs(Night.FIRST);
+        }
 
-        const otherNightsList = document.createElement('ul');
-        container.appendChild(otherNightsList);
+        this.otherNightsTab = document.createElement('div');
+        this.otherNightsTab.className = "tab";
+        this.otherNightsTab.textContent = "Other Nights";
+        tabs.appendChild(this.otherNightsTab);
 
-        otherNightTasks.forEach(task => this.addTask(task, otherNightsList));
+        this.otherNightsTab.onclick = (e) => {
+            e.stopPropagation();
+            this.switchTabs(Night.OTHER);
+        }
+
+        this.firstNightList = document.createElement('ul');
+        container.appendChild(this.firstNightList);
+
+        firstNightTasks.forEach(task => this.addTask(task, this.firstNightList));
+
+        this.otherNightsList = document.createElement('ul');
+        container.appendChild(this.otherNightsList);
+
+        otherNightTasks.forEach(task => this.addTask(task, this.otherNightsList));
+
+        this.switchTabs(NightOrderScreen.selectedNight);
     }
 
     addTask(task:NightOrderTask, list:HTMLUListElement):void {
@@ -54,6 +88,23 @@ export class NightOrderScreen extends Screen {
         }
         else {
             text.textContent = task.info;
+        }
+    }
+
+    switchTabs(night:Night) {
+        NightOrderScreen.selectedNight = night;
+
+        if (NightOrderScreen.selectedNight == Night.FIRST) {
+            this.firstNightTab.classList.add('selected');
+            this.otherNightsTab.classList.remove('selected');
+            this.firstNightList.style.display = 'flex';
+            this.otherNightsList.style.display = 'none';
+        }
+        else {
+            this.otherNightsTab.classList.add('selected');
+            this.firstNightTab.classList.remove('selected');
+            this.otherNightsList.style.display = 'flex';
+            this.firstNightList.style.display = 'none';
         }
     }
 }

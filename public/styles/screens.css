@@ -353,6 +353,33 @@ night-order-screen {
         width: 100%;
     }
 
+    .tabs {
+        display: flex;
+        width: 100%;
+        gap: 10px;
+
+        .tab {
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 32px;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.1s ease-out;
+
+            &:hover {
+                border-color: white;
+            }
+
+            &.selected {
+                background-color: white;
+                color: black;
+            }
+        }
+    }
+
     ul {
         display: flex;
         flex-direction: column;
