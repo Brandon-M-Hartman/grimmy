@@ -13,7 +13,7 @@ export class Game {
     static roles:Array<Role> = [];
     static tokens:Array<PlayerToken> = [];
 
-    static setup(onComplete:Function):void {
+    static setup(onComplete:() => void):void {
         // clear any existing roles/tokens
         this.roles = [];
         this.tokens = [];
@@ -24,8 +24,8 @@ export class Game {
         }));
     }
 
-    static selectRoles(counts:Map<RoleCategory, number>, onComplete:Function) {
-        Application.ui.pushScreen(new RoleSelectScreen((selectedRoles:any) => {
+    static selectRoles(counts:Map<RoleCategory, number>, onComplete:() => void) {
+        Application.ui.pushScreen(new RoleSelectScreen((selectedRoles:Array<Role>) => {
             Game.roles = selectedRoles;
             Game.createTokensFromRoles();
             Application.ui.popScreen();
@@ -35,7 +35,7 @@ export class Game {
         }, undefined, counts));
     }
 
-    static replaceDrunkRole(onComplete:Function) {
+    static replaceDrunkRole(onComplete:() => void) {
         const drunkToken:PlayerToken = this.getTokenForRole(Role.DRUNK)!;
         Application.ui.pushScreen(new RoleReplacementScreen(drunkToken, () => {
             Application.ui.popScreen();
@@ -43,7 +43,7 @@ export class Game {
         }));
     }
 
-    static reviewRoles(onComplete:Function) {
+    static reviewRoles(onComplete:() => void) {
         Application.ui.pushScreen(new RoleReviewScreen(() => {
             Application.ui.popScreen();
             onComplete();

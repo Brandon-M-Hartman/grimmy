@@ -18,7 +18,7 @@ export class TokenSelectScreen extends Screen {
     nextButton:HTMLButtonElement;
     finishButton:HTMLButtonElement;
 
-    constructor(onComplete:Function) {
+    constructor(onComplete:(tokens:Array<PlayerToken>) => void) {
         super();
 
         // Shuffle tokens in bag

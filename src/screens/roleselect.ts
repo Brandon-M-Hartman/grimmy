@@ -25,7 +25,7 @@ export class RoleSelectScreen extends Screen {
     selectedMinions:Array<Role> = [];
     selectedDemons:Array<Role> = [];
 
-    constructor(callback:Function, categories?:Array<RoleCategory>, counts?:Map<RoleCategory, number>) {
+    constructor(callback:(roles:Array<Role>) => void, categories?:Array<RoleCategory>, counts?:Map<RoleCategory, number>) {
         super();
         this.counts = counts;
         this.selectMultiple = counts != undefined;
@@ -93,7 +93,7 @@ export class RoleSelectScreen extends Screen {
                 if (this.selectMultiple) token.setSelected(false);
                 tokenWrapper.onclick = () => {
                     if (tokenWrapper.classList.contains('disabled')) return;
-                    if (!this.selectMultiple) callback(role);
+                    if (!this.selectMultiple) callback([role]);
                     else if (token.isSelected())
                     {
                         token.setSelected(false);
@@ -134,7 +134,7 @@ export class RoleSelectScreen extends Screen {
                 if (this.selectMultiple) token.classList.add("unselected");          
                 tokenWrapper.onclick = () => {
                     if (tokenWrapper.classList.contains('disabled')) return;
-                    if (!this.selectMultiple) callback(role);
+                    if (!this.selectMultiple) callback([role]);
                     else if (token.isSelected())
                     {
                         token.setSelected(false);
@@ -175,7 +175,7 @@ export class RoleSelectScreen extends Screen {
                 if (this.selectMultiple) token.classList.add("unselected");          
                 tokenWrapper.onclick = () => {
                     if (tokenWrapper.classList.contains('disabled')) return;
-                    if (!this.selectMultiple) callback(role);
+                    if (!this.selectMultiple) callback([role]);
                     else if (token.isSelected())
                     {
                         token.setSelected(false);
@@ -216,7 +216,7 @@ export class RoleSelectScreen extends Screen {
                 if (this.selectMultiple) token.classList.add("unselected");          
                 tokenWrapper.onclick = () => {
                     if (tokenWrapper.classList.contains('disabled')) return;
-                    if (!this.selectMultiple) callback(role);
+                    if (!this.selectMultiple) callback([role]);
                     else if (token.isSelected())
                     {
                         token.setSelected(false);

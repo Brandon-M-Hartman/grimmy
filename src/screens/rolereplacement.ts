@@ -5,7 +5,7 @@ import { Screen } from "../screen";
 import { RoleSelectScreen } from "./roleselect";
 
 export class RoleReplacementScreen extends Screen {
-    constructor(token:PlayerToken, onComplete?:Function) {
+    constructor(token:PlayerToken, onComplete?:() => void) {
         super();
 
         const container = document.createElement('div');
@@ -29,9 +29,9 @@ export class RoleReplacementScreen extends Screen {
         buttons.appendChild(continueButton);
 
         token.onclick = () => {
-            Application.ui.pushScreen(new RoleSelectScreen((role:Role) => {
+            Application.ui.pushScreen(new RoleSelectScreen((roles:Array<Role>) => {
                 Application.ui.popScreen();
-                token.setPerceivedRole(role);
+                token.setPerceivedRole(roles[0]);
                 continueButton.style.display = 'block';
             }, [RoleCategory.TOWNSFOLK]));
         }

@@ -45,7 +45,7 @@ export class NumPlayersScreen extends Screen {
         15: 3
     };
 
-    callback:Function;
+    callback:(counts:Map<RoleCategory, number>) => void;
     slider:HTMLInputElement;
     playerCount:HTMLDivElement;
     townsfolkCount:HTMLDivElement;
@@ -53,7 +53,7 @@ export class NumPlayersScreen extends Screen {
     minionCount:HTMLDivElement;
     demonCount:HTMLDivElement;
 
-    constructor(callback:Function) {
+    constructor(callback:(counts:Map<RoleCategory, number>) => void) {
         super();
 
         this.callback = callback;
@@ -85,7 +85,7 @@ export class NumPlayersScreen extends Screen {
         this.slider.max = '20';
         this.slider.value = '8';
         sliderContainer.appendChild(this.slider);
-        this.slider.oninput = this.update;
+        this.slider.oninput = () => this.update();
 
         this.townsfolkCount = document.createElement('div');
         this.townsfolkCount.className = "count";
@@ -112,7 +112,7 @@ export class NumPlayersScreen extends Screen {
         this.update();
     }
 
-    update = () => {
+    update():void {
         const count:number = Number(this.slider.value);
         const adjustedCount:number = Math.min(count, 15);
         this.playerCount.textContent = String(count);
@@ -122,7 +122,7 @@ export class NumPlayersScreen extends Screen {
         this.demonCount.textContent = "Demons: 1";
     }
 
-    finalize = () => {
+    finalize():void {
         const count:number = Number(this.slider.value);
         const adjustedCount:number = Math.min(count, 15);
 

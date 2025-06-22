@@ -2,7 +2,7 @@ import { Game } from "../game";
 import { Screen } from "../screen";
 
 export class RoleReviewScreen extends Screen {
-    constructor(onAddToBoard:Function, onHandOut:Function) {
+    constructor(onAddToBoard:() => void, onHandOut:() => void) {
         super();
 
         const container = document.createElement('div');

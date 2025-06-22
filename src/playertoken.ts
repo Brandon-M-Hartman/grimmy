@@ -8,7 +8,7 @@ import { Token } from "./token";
 export class PlayerToken extends Token {
 
 	dead:boolean;
-	onrolechanged:Function;
+	onrolechanged:(role:Role | null) => void;
 	reminderTokens:Array<ReminderToken>;
 	
 	private roleInfo:RoleInfo | null;

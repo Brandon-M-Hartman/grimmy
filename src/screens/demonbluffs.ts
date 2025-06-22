@@ -42,15 +42,15 @@ export class DemonBluffsScreen extends Screen {
         
         for (let i = 0; i < 3; i++) {
             if (DemonBluffsScreen.bluffs[i]) {
-                let token:PlayerToken = new PlayerToken().makeDisplay(0.7);
+                const token:PlayerToken = new PlayerToken().makeDisplay(0.7);
                 token.setRole(DemonBluffsScreen.bluffs[i]);
                 tokenContainer.appendChild(token);
 
                 token.addEventListener("click", (e) => {
                     e.stopPropagation();
-                    Application.ui.pushScreen(new RoleSelectScreen((role:Role) => {
+                    Application.ui.pushScreen(new RoleSelectScreen((roles:Array<Role>) => {
                         Application.ui.popScreen();
-                        DemonBluffsScreen.bluffs[i] = role;
+                        DemonBluffsScreen.bluffs[i] = roles[0];
                         this.build();
                     }, [RoleCategory.TOWNSFOLK, RoleCategory.OUTSIDER]));
                 });
@@ -64,9 +64,9 @@ export class DemonBluffsScreen extends Screen {
 
                 tokenPlaceholder.addEventListener("click", (e) => {
                     e.stopPropagation();
-                    Application.ui.pushScreen(new RoleSelectScreen((role:Role) => {
+                    Application.ui.pushScreen(new RoleSelectScreen((roles:Array<Role>) => {
                         Application.ui.popScreen();
-                        DemonBluffsScreen.bluffs[i] = role;
+                        DemonBluffsScreen.bluffs[i] = roles[0];
                         this.build();
                     }, [RoleCategory.TOWNSFOLK, RoleCategory.OUTSIDER]));
                 });
