@@ -8,6 +8,7 @@ import { TokenSelectScreen } from "./screens/tokenselect";
 
 export class Game {
     static lockPlayerTokens:boolean = false;
+    static spectateMode:boolean = false;
     static roles:Array<Role> = [];
     static tokens:Array<PlayerToken> = [];
 
@@ -55,8 +56,20 @@ export class Game {
 
     static togglePlayerTokenLock():void {
         this.lockPlayerTokens = !this.lockPlayerTokens;
+        this.updateTokenMovable();
+    }
+
+    static toggleSpectateMode():void {
+        this.spectateMode = !this.spectateMode;
+        this.updateTokenMovable();
+    }
+
+    static updateTokenMovable():void {
         this.tokens.forEach(token => {
-            if (token instanceof PlayerToken) token.setMovable(!this.lockPlayerTokens);
-        });
+            token.setMovable(!this.lockPlayerTokens && !this.spectateMode);
+            token.reminderTokens.forEach(token => {
+                token.setMovable(!this.spectateMode);
+            });
+        });        
     }
 }

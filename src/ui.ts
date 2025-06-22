@@ -1,4 +1,5 @@
 import { Application } from './application';
+import { Game } from './game';
 import { Screen } from './screen';
 import { CardsScreen } from './screens/cards';
 import { DemonBluffsScreen } from './screens/demonbluffs';
@@ -103,6 +104,19 @@ export class UI extends HTMLElement {
         cardsButton.innerHTML = `<span class="iconify" data-icon="bxs:card" data-width="${iconSize}"></span>`;
         bottomLeft.appendChild(cardsButton);
         cardsButton.onclick = () => Application.ui.pushScreen(new CardsScreen());
+
+        const spectateButton:HTMLElement = document.createElement('div');
+        spectateButton.innerHTML = `<span class="iconify" data-icon="pepicons-pop:eye" data-width="${iconSize}"></span>`;
+        bottomLeft.appendChild(spectateButton);
+        spectateButton.onclick = () => {
+            Game.toggleSpectateMode();
+            spectateButton.firstElementChild?.setAttribute('data-icon', Game.spectateMode ? 'pepicons-pop:eye-closed' : 'pepicons-pop:eye');
+            menuButton.style.display = Game.spectateMode ? 'none' : 'flex';
+            nightButton.style.display = Game.spectateMode ? 'none' : 'flex';
+            bluffsButton.style.display = Game.spectateMode ? 'none' : 'flex';
+            cardsButton.style.display = Game.spectateMode ? 'none' : 'flex';
+            recenterButton.style.display = Game.spectateMode ? 'none' : 'flex';
+        };
 
         const recenterButton:HTMLElement = document.createElement('div');
         recenterButton.innerHTML = `<span class="iconify" data-icon="material-symbols:recenter-rounded" data-width="${iconSize}"></span>`;
