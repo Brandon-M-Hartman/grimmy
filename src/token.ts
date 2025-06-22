@@ -50,7 +50,7 @@ export class Token extends HTMLElement {
 		});
 
 		hammer.on('panstart', (_e) => {		
-			if (!this.movable) return;	
+			if (!this.movable) return;
 			this.dragging = true;
 			const rect = this.getBoundingClientRect();
 			const boardRect = board.getBoundingClientRect();
@@ -91,10 +91,12 @@ export class Token extends HTMLElement {
 		});
 
 		this.onpointerdown = () => {
+			if (!this.movable) return;
 			Application.viewport.enabled = false;
 		}
 
 		this.onpointerup = () => {
+			if (!this.movable) return;
 			Application.viewport.enabled = true;
 		}
 	}
