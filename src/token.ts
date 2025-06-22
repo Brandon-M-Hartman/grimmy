@@ -5,6 +5,7 @@ export class Token extends HTMLElement {
 
 	public pos = { x: 0, y: 0 };
 	
+	private dragEnabled:boolean = true;
 	private dragging:boolean = false;
 	protected container:HTMLElement;
 	protected background:HTMLImageElement;
@@ -32,10 +33,10 @@ export class Token extends HTMLElement {
 		const hitArea = document.createElement("div");
 		hitArea.className = "hit-area";
 		this.container.appendChild(hitArea);
-
+		
 		const hammer = new Hammer(hitArea);
 		hammer.get('pan').set({ threshold: 0 });
-		hammer.get('tap').set({ enable: true});
+		hammer.get('tap').set({ enable: true });
 
 		const board = document.getElementById('board')!;
 
@@ -48,19 +49,26 @@ export class Token extends HTMLElement {
 			}, 200);
 		});
 
-		hammer.on('panstart', () => {			
+		hammer.on('panstart', () => {
 			this.dragging = true;
-			const rect = this.getBoundingClientRect();
-			const boardRect = board.getBoundingClientRect();
-			this.pos.x = (rect.left - boardRect.x) / Application.viewport.scale;
-			this.pos.y = (rect.top - boardRect.y) / Application.viewport.scale;
-			this.classList.add("dragging");
-			this.dispatchEvent(new CustomEvent("dragstart"));
+
+			if (this.dragEnabled) {
+				const rect = this.getBoundingClientRect();
+				const boardRect = board.getBoundingClientRect();
+				this.pos.x = (rect.left - boardRect.x) / Application.viewport.scale;
+				this.pos.y = (rect.top - boardRect.y) / Application.viewport.scale;
+				this.classList.add("dragging");
+				this.dispatchEvent(new CustomEvent("dragstart"));
+			}
 		});
 
 		hammer.on('panmove', (e) => {
-			if (!this.dragging) return;
-
+			// if token cannot be dragged, pan the viewport instead
+			if (!this.dragEnabled) {
+				Application.viewport.pan(e.deltaX, e.deltaY);
+				return;
+			}
+			
 			const deltaX = e.deltaX / Application.viewport.scale;
 			const deltaY = e.deltaY / Application.viewport.scale;
 
@@ -72,7 +80,11 @@ export class Token extends HTMLElement {
 		});
 
 		hammer.on('panend', (e) => {
-			if (!this.dragging) return;
+			// if token cannot be dragged, pan the viewport instead
+			if (!this.dragEnabled) {
+				Application.viewport.endpan(e.deltaX, e.deltaY);
+				return;
+			}
 		
 			const deltaX = e.deltaX / Application.viewport.scale;
 			const deltaY = e.deltaY / Application.viewport.scale;
@@ -87,21 +99,19 @@ export class Token extends HTMLElement {
 			this.classList.remove("dragging");
 			this.dispatchEvent(new CustomEvent("dragend"));
 		});
-
-		this.onpointerdown = () => {
-			Application.viewport.enabled = false;
-		}
-
-		this.onpointerup = () => {
-			Application.viewport.enabled = true;
-		}
 	}
 
-	setPosition(x:number, y:number) {
+	setPosition(x:number, y:number):void {
 		this.pos.x = x;
 		this.pos.y = y;
 		this.style.left = `${x}px`;
 		this.style.top = `${y}px`;
+	}
+
+	setMovable(movable:boolean):void {
+		this.dragEnabled = movable;
+		if (movable) this.classList.remove("immovable");
+		else this.classList.add("immovable");
 	}
 
 	protected getTokenRadius():number {
@@ -148,14 +158,20 @@ export class Token extends HTMLElement {
 	}
 
 	protected onTokenTapped():void {
+		this.dispatchEvent(new Event("tapped"));
 		// override in child class
 	}
 
 	protected onTokenDoubleTapped():void {
+		this.dispatchEvent(new Event("double-tapped"));
 		// override in child class
 	}
 
 	connectedCallback() {
 		this.makeText();
+	}
+
+	getDragging():boolean {
+		return this.dragging;
 	}
 }

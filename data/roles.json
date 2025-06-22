@@ -1,6 +1,7 @@
 {
     "monk": {
         "name": "monk",
+        "alignment": 0,
         "description": "Each night*, choose a player (not yourself): they are safe from the Demon tonight.",
         "top": 1,
         "left": 0,
@@ -10,6 +11,7 @@
     },
     "slayer": {
         "name": "slayer",
+        "alignment": 0,
         "description": "Once per game, during the day, publicly choose a player: if they are the Demon, they die.",
         "top": 1,
         "left": 0,
@@ -19,6 +21,7 @@
     },
     "chef": {
         "name": "chef",
+        "alignment": 0,
         "description": "You start knowing how many pairs of evil players there are.",
         "top": 0,
         "left": 1,
@@ -28,6 +31,7 @@
     },
     "fortuneteller": {
         "name": "fortune teller",
+        "alignment": 0,
         "description": "Each night, choose 2 players: you learn if either is a Demon. There is a good player that registers as a Demon to you.",
         "top": 1,
         "left": 1,
@@ -37,6 +41,7 @@
     },
     "empath": {
         "name": "empath",
+        "alignment": 0,
         "description": "Each night, you learn how many of your 2 alive neighbors are evil.",
         "top": 0,
         "left": 1,
@@ -46,6 +51,7 @@
     },
     "undertaker": {
         "name": "undertaker",
+        "alignment": 0,
         "description": "Each night*, you learn which character died by execution today.",
         "top": 1,
         "left": 0,
@@ -55,6 +61,7 @@
     },
     "soldier": {
         "name": "soldier",
+        "alignment": 0,
         "description": "You are safe from the Demon.",
         "top": 0,
         "left": 0,
@@ -64,6 +71,7 @@
     },
     "virgin": {
         "name": "virgin",
+        "alignment": 0,
         "description": "The 1st time you are nominated, if the nominator is a Townsfolk, they are executed immediately.",
         "top": 1,
         "left": 0,
@@ -73,6 +81,7 @@
     },
     "washerwoman": {
         "name": "washerwoman",
+        "alignment": 0,
         "description": "You start knowing that 1 of 2 players is a particular Townsfolk.",
         "top": 2,
         "left": 1,
@@ -82,6 +91,7 @@
     },
     "investigator": {
         "name": "investigator",
+        "alignment": 0,
         "description": "You start knowing that 1 of 2 players is a particular Minion.",
         "top": 2,
         "left": 1,
@@ -91,6 +101,7 @@
     },
     "librarian": {
         "name": "librarian",
+        "alignment": 0,
         "description": "You start knowing that 1 of 2 players is a particular Outsider. (Or that zero are in play.)",
         "top": 2,
         "left": 1,
@@ -100,6 +111,7 @@
     },
     "ravenkeeper": {
         "name": "ravenkeeper",
+        "alignment": 0,
         "description": "If you die at night, you are woken to choose a player: you learn their character.",
         "top": 0,
         "left": 0,
@@ -109,6 +121,7 @@
     },
     "mayor": {
         "name": "mayor",
+        "alignment": 0,
         "description": "If only 3 players live & no execution occurs, your team wins. If you die at night, another player might die instead.",
         "top": 0,
         "left": 0,
@@ -118,6 +131,7 @@
     },
     "butler": {
         "name": "butler",
+        "alignment": 0,
         "description": "Each night, choose a player (not yourself): tomorrow, you may only vote if they are voting too.",
         "top": 1,
         "left": 1,
@@ -127,6 +141,7 @@
     },
     "drunk": {
         "name": "drunk",
+        "alignment": 0,
         "description": "You do not know you are the Drunk. You think you are a Townsfolk character, but you are not.",
         "top": 1,
         "left": 0,
@@ -136,6 +151,7 @@
     },
     "recluse": {
         "name": "recluse",
+        "alignment": 0,
         "description": "You might register as evil & as a Minion or Demon, even if dead.",
         "top": 0,
         "left": 0,
@@ -145,6 +161,7 @@
     },
     "saint": {
         "name": "saint",
+        "alignment": 0,
         "description": "If you die by execution, your team loses.",
         "top": 0,
         "left": 0,
@@ -154,6 +171,7 @@
     },
     "imp": {
         "name": "imp",
+        "alignment": 1,
         "description": "Each night*, choose a player: they die. If you kill yourself this way, a Minion becomes the Imp.",
         "top": 1,
         "left": 1,
@@ -163,6 +181,7 @@
     },
     "poisoner": {
         "name": "poisoner",
+        "alignment": 1,
         "description": "Each night, choose a player: they are poisoned tonight and tomorrow day.",
         "top": 1,
         "left": 1,
@@ -172,6 +191,7 @@
     },
     "spy": {
         "name": "spy",
+        "alignment": 1,
         "description": "Each night, you see the Grimoire. You might register as good & as a Townsfolk or Outsider, even if dead.",
         "top": 0,
         "left": 1,
@@ -181,6 +201,7 @@
     },
     "baron": {
         "name": "baron",
+        "alignment": 1,
         "description": "There are extra Outsiders in play. [+2 Outsiders]",
         "top": 0,
         "left": 0,
@@ -190,6 +211,7 @@
     },
     "scarletwoman": {
         "name": "scarlet woman",
+        "alignment": 1,
         "description": "If there are 5 or more players alive & the Demon dies, you become the Demon. (Travellers don't count.)",
         "top": 1,
         "left": 0,

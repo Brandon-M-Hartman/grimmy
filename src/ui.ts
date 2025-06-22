@@ -1,9 +1,15 @@
 import { Application } from './application';
+import { Game } from './game';
 import { Screen } from './screen';
+import { CardsScreen } from './screens/cards';
+import { DemonBluffsScreen } from './screens/demonbluffs';
+import { MenuScreen } from './screens/menu';
+import { NightOrderScreen } from './screens/nightorder';
 
 export class UI extends HTMLElement {
 
     private screens:Array<Screen>;
+    private screenContainer:HTMLElement;
 
     constructor() {
         super();
@@ -13,32 +19,38 @@ export class UI extends HTMLElement {
         const app = document.getElementById('app')!;
         app.appendChild(this);
 
+        this.screenContainer = document.createElement('div');
+        this.screenContainer.id = "screen-container";
+        this.appendChild(this.screenContainer);
+
         addEventListener('pointerdown', (e) => {
             e.stopPropagation();
         });
 
+        this.addIcons();
         this.hide();
     }
 
-    pushScreen(screen:Screen):void {
-        this.appendChild(screen);
+    pushScreen(screen: Screen):void {
+        this.screenContainer.appendChild(screen);
         this.screens.push(screen);
         this.show();
+        screen.style.zIndex = this.screens.length.toString();
     }
 
     popScreen():void {
         const screen:Screen = this.screens.pop()!;
-        this.removeChild(screen);
+        this.screenContainer.removeChild(screen);
         if (this.screens.length == 0) this.hide();
     }
 
     show():void {
-        this.classList.remove('hidden');
+        this.screenContainer.classList.remove('hidden');
         Application.viewport.enabled = false;
     }
 
     hide():void {
-        this.classList.add('hidden');
+        this.screenContainer.classList.add('hidden');
         Application.viewport.enabled = true;
     }
 
@@ -46,56 +58,68 @@ export class UI extends HTMLElement {
         return this.screens.length > 0;
     }
 
-    // recenterButton:Graphics;
+    private addIcons():void {
+        const iconSize:number = 40;
 
-    // constructor() {
-    //     super();
+        // set up icon containers
 
-    //     this.recenterButton = new Graphics().svg(`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="0xffffff" class="size-6">
-    //         <path stroke-linecap="round" stroke-linejoin="round" d="M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5 5.25 5.25" />
-    //         </svg>
-    //      `);
-    //     this.recenterButton.rect(0, 0, 25, 25);
-    //     this.recenterButton.fill({ color:0x00000000, alpha: 0 });
-    //     this.recenterButton.scale = 1.5;
-    //     this.recenterButton.eventMode = 'static';
-    //     this.recenterButton.cursor = 'pointer';
-    //     this.recenterButton.position = new Point(0, 0);
-    //     this.recenterButton.visible = false;
-    //     this.addChild(this.recenterButton);
+        const topLeft:HTMLElement = document.createElement('div');
+        topLeft.id = "top-left-ui";
+        topLeft.className = "icons";
+        this.appendChild(topLeft);
 
-    //     this.recenterButton.onpointerdown = () => {
-    //         this.emit('recenter');
-    //     }
+        const topRight:HTMLElement = document.createElement('div');
+        topRight.id = "top-right-ui";
+        topRight.className = "icons";
+        this.appendChild(topRight);
 
-    //     //const t:Text = new Text({ text: "test", style: this.getFontStyle() });
-    //     //this.addChild(t);
+        const bottomLeft:HTMLElement = document.createElement('div');
+        bottomLeft.id = "bottom-left-ui";
+        bottomLeft.className = "icons";
+        this.appendChild(bottomLeft);
 
-    //     this.resize();
-    // }
+        const bottomRight:HTMLElement = document.createElement('div');
+        bottomRight.id = "bottom-right-ui";
+        bottomRight.className = "icons";
+        this.appendChild(bottomRight);
 
-    // resize():void {
-    //     this.recenterButton.position.x = window.innerWidth - 40;
-    //     this.recenterButton.position.y = window.innerHeight - 40;
-    // }
+        // add icons
 
-    // showRecenterButton(visible:boolean):void {
-    //     this.recenterButton.visible = visible;
-    // }
+        const menuButton:HTMLElement = document.createElement('div');
+        menuButton.innerHTML = `<span class="iconify" data-icon="ion:menu" data-width="${iconSize}"></span>`;
+        topRight.appendChild(menuButton);
+        menuButton.onclick = () => Application.ui.pushScreen(new MenuScreen());
 
-    // static async loadAssets():Promise<void> {
-    //     // Load UI assets
-    //     Assets.addBundle('ui', [
-    //         //{ alias: 'icon.recenter', src: 'assets/icons/recenter.svg' },
-    //     ]);
-    //     await Assets.loadBundle('ui');
-    // }
+        const nightButton:HTMLElement = document.createElement('div');
+        nightButton.innerHTML = `<span class="iconify" data-icon="tabler:moon-filled" data-width="${iconSize}"></span>`;
+        bottomLeft.appendChild(nightButton);
+        nightButton.onclick = () => Application.ui.pushScreen(new NightOrderScreen());
 
-    // getFontStyle():Partial<TextStyle> {
-    //     return {
-    //         fontFamily: 'Trade Gothic',
-    //         fontSize: 64,
-    //         fill: 0xffffff,
-    //     };
-    // }
+        const bluffsButton:HTMLElement = document.createElement('div');
+        bluffsButton.innerHTML = `<span class="iconify" data-icon="bxs:mask" data-width="${iconSize}"></span>`;
+        bottomLeft.appendChild(bluffsButton);
+        bluffsButton.onclick = () => Application.ui.pushScreen(new DemonBluffsScreen());
+
+        const cardsButton:HTMLElement = document.createElement('div');
+        cardsButton.innerHTML = `<span class="iconify" data-icon="bxs:card" data-width="${iconSize}"></span>`;
+        bottomLeft.appendChild(cardsButton);
+        cardsButton.onclick = () => Application.ui.pushScreen(new CardsScreen());
+
+        const spectateButton:HTMLElement = document.createElement('div');
+        spectateButton.innerHTML = `<span class="iconify" data-icon="pepicons-pop:eye" data-width="${iconSize}"></span>`;
+        bottomLeft.appendChild(spectateButton);
+        spectateButton.onclick = () => {
+            Game.toggleSpectateMode();
+            spectateButton.firstElementChild?.setAttribute('data-icon', Game.spectateMode ? 'pepicons-pop:eye-closed' : 'pepicons-pop:eye');
+            menuButton.style.display = Game.spectateMode ? 'none' : 'flex';
+            nightButton.style.display = Game.spectateMode ? 'none' : 'flex';
+            bluffsButton.style.display = Game.spectateMode ? 'none' : 'flex';
+            cardsButton.style.display = Game.spectateMode ? 'none' : 'flex';
+            recenterButton.style.display = Game.spectateMode ? 'none' : 'flex';
+        };
+
+        const recenterButton:HTMLElement = document.createElement('div');
+        recenterButton.innerHTML = `<span class="iconify" data-icon="material-symbols:recenter-rounded" data-width="${iconSize}"></span>`;
+        bottomRight.appendChild(recenterButton);
+    }
 }

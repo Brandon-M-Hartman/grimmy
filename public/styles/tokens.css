@@ -1,10 +1,8 @@
 .token {
     position: absolute;
     z-index: 1;
-    touch-action: none;
-    pointer-events: none;
     user-select: none;
-    transform-origin: top left;
+    transform-origin: center;
     transition: transform 0.1s ease-out;
 
     &.dragging {
@@ -56,13 +54,33 @@
 
     &.display {
         position: relative;
-        display: block;
+        display: block;        
+        transition: opacity 0.2s ease-out;
 
         .container {
             transform: none;
             position: relative;
             width: 256px;
             height: 256px;
+        }
+
+        &.unselected {
+            opacity: 0.3;
+        }
+
+        &.selected {
+            opacity: 1;
+        }
+    }
+
+    &.immovable .hit-area {
+        cursor: default;
+        pointer-events: visible;
+    }
+
+    &.hidden {
+        svg, img.icon, img.reminder {
+            visibility: hidden !important;
         }
     }
 }

@@ -1,0 +1,57 @@
+[
+  {
+    "type": "setup",
+    "role": null,
+    "info": "If the game has 7 or more players:\nWake up the minions so that they can make eye contact with each other.\nShow the 'This is the Demon' card. Point to the Demon."
+  },
+  {
+    "type": "setup",
+    "role": null,
+    "info": "If the game has 7 or more players:\nShow the 'These are your minions' card. Point to each Minion.\nShow the Demon Bluffs."
+  },  
+  {
+    "type": "role",
+    "role": "poisoner",
+    "info": "The Poisoner selects a player to poison."
+  },
+  {
+    "type": "role",
+    "role": "spy",
+    "info": "Show the Grimoire to the Spy for as long as they need."
+  },
+  {
+    "type": "role",
+    "role": "washerwoman",
+    "info": "Show the character token of a Townsfolk in play. Point to two players, one of which is that character."
+  },
+  {
+    "type": "role",
+    "role": "librarian",
+    "info": "If there are any Outsiders in play:\nShow the character token of an Outsider in play. Point to two players, one of which is that character.\nOtherwise:\nShow the hand signal for number 'zero'."
+  },
+  {
+    "type": "role",
+    "role": "investigator",
+    "info": "Show the character token of a Minion in play. Point to two players, one of which is that character."
+  },
+  {
+    "type": "role",
+    "role": "chef",
+    "info": "Show the hand signal for the number of pairs of evil players neighbouring each other."
+  },
+  {
+    "type": "role",
+    "role": "empath",
+    "info": "Show the hand signal for the number of alive evil players neighbouring the Empath."
+  },
+  {
+    "type": "role",
+    "role": "fortuneteller",
+    "info": "The Fortune Teller selects two players. Nod 'yes' if one of these players is the Demon or Red Herring. Otherwise shake head 'no'."
+  },
+  {
+    "type": "role",
+    "role": "butler",
+    "info": "The Butler selects a player to be their master."
+  }
+]

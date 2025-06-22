@@ -3,49 +3,41 @@ import { Token } from "./token";
 import { PlayerToken } from './playertoken';
 import { ReminderToken } from './remindertoken';
 import { Role, roleData } from "./role";
+import { Game } from "./game";
 
 export class TownSquare extends HTMLElement {
 	static enabled:boolean = true;
 
 	draggingToken:boolean = false;
-	tokens:Array<Token>;
-	playerTokens:Array<PlayerToken>;
-	reminderTokens:Array<ReminderToken>;
+	tokens:Array<Token> = [];
+	playerTokens:Array<PlayerToken> = [];
+	reminderTokens:Array<ReminderToken> = [];
 
 	constructor() {
 		super();
 
-		this.tokens = [];
-		this.playerTokens = [];
-		this.reminderTokens = [];
+		this.clear();
 	}
 
 	setupBoard():void {
-		this.addPlayerToken(Role.MONK);
-		this.addPlayerToken(Role.SOLDIER);
-		this.addPlayerToken(Role.UNDERTAKER);
-		this.addPlayerToken(Role.LIBRARIAN);
-		this.addPlayerToken(Role.INVESTIGATOR);
-		this.addPlayerToken(Role.MAYOR);
-		this.addPlayerToken(Role.SAINT);
-		this.addPlayerToken(Role.IMP);
-		this.addPlayerToken(Role.POISONER);
+		Game.tokens.forEach(token => this.addPlayerToken(token));
 	}
 
-	addPlayerToken(role:Role):void {
-		const token:PlayerToken = new PlayerToken();
-
+	addPlayerToken(token:PlayerToken):void {
 		token.onrolechanged = () => {
 			this.addReminderTokens(token);
 		}
 
+		token = token.makeFunctional();
 		this.appendChild(token);
 		this.tokens.push(token);
 		this.playerTokens.push(token);
 		this.bindTokenEvents(token);
+		this.addReminderTokens(token);
 		
 		token.bindEvents();
-		token.setRole(role);
+		token.setMovable(!Game.lockPlayerTokens);
+		token.onclick = null;
 	}
 
 	reorderTokens():void {
@@ -59,11 +51,27 @@ export class TownSquare extends HTMLElement {
 		token.reminderTokens.forEach(reminderToken => {
 			this.removeChild(reminderToken);
 		});
+
+		// clear references
+		token.reminderTokens = [];
 		
 		// add new reminder tokens, if any
 		if (token.getRole()) {
 			for (let i = 0; i < roleData[token.getRole()!].reminders.length; i++) {
 				const reminderToken:ReminderToken = new ReminderToken(token.getRole()!, i);
+				reminderToken.bindEvents();
+				this.appendChild(reminderToken);
+				this.bindTokenEvents(reminderToken);
+				this.tokens.push(reminderToken);
+				this.reminderTokens.push(reminderToken);
+				token.reminderTokens.push(reminderToken);
+			}
+		}
+
+		// if the player's role is different from their perceived role, add the reminder tokens for perceived role too
+		if (token.getRole() != token.getPerceivedRole()) {
+			for (let i = 0; i < roleData[token.getPerceivedRole()!].reminders.length; i++) {
+				const reminderToken:ReminderToken = new ReminderToken(token.getPerceivedRole()!, i);
 				reminderToken.bindEvents();
 				this.appendChild(reminderToken);
 				this.bindTokenEvents(reminderToken);
@@ -85,11 +93,27 @@ export class TownSquare extends HTMLElement {
 			token.setPosition(Math.cos(angle) * dist, Math.sin(angle) * dist);
 		}
 
+		const reminders:Array<ReminderToken> = [...this.reminderTokens];
+		reminders.forEach(token => {
+			if (token.type == Role.DRUNK) reminders.splice(reminders.indexOf(token), 1);
+		});
+
 		// arrange reminder tokens on the side
-		for (let i = 0; i < this.reminderTokens.length; i++)
+		for (let i = 0; i < reminders.length; i++)
 		{
-			const token:Token = this.reminderTokens[i];
+			const token:ReminderToken = reminders[i];
 			token.setPosition(dist + (i % 2) * 160 + 400, Math.floor(i/2) * 160 - dist/2);
+		}
+
+		// place drunk reminder token on drunk player token
+		const drunkToken:PlayerToken | null = Game.getTokenForRole(Role.DRUNK);
+		if (drunkToken)
+		{
+			const dir = { x: drunkToken.pos.x, y: drunkToken.pos.y };
+			const len = Math.sqrt(dir.x*dir.x + dir.y*dir.y);
+			dir.x /= len;
+			dir.y /= len;
+			drunkToken.reminderTokens[0].setPosition(drunkToken.pos.x - dir.x * 180, drunkToken.pos.y - dir.y * 180);
 		}
 	}
 
@@ -106,28 +130,13 @@ export class TownSquare extends HTMLElement {
 		});
 	}
 
-	// onPointerMove(e:PointerEvent):void {
-	// 	const p:Point = this.toLocal(new Point(e.x, e.y));
-	// 	if (this.draggingToken) this.draggingToken.drag(p);
-	// }
+	clear():void {
+		// empty arrays
+		this.tokens = [];
+		this.playerTokens = [];
+		this.reminderTokens = [];
 
-	// enable():void {
-	// 	TownSquare.enabled = true;
-	// }
-
-	// disable():void {
-	// 	if (this.draggingToken) this.draggingToken.drop();
-	// 	TownSquare.enabled = false;
-	// }
-
-	// getTownCenter():Point {
-	// 	// calculate town center from average position of player tokens
-	// 	let center:Point = new Point();
-	// 	for (let i = 0; i < this.playerTokens.length; i++)
-	// 	{
-	// 		center = center.add(this.playerTokens[i].position);
-	// 	}
-	// 	center = center.multiplyScalar(1/this.playerTokens.length);
-	// 	return center;
-	// }
+		// remove everything from board
+		while (this.firstChild) this.removeChild(this.firstChild);
+	}
 }

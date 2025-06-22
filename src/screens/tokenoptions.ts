@@ -21,8 +21,8 @@ export class TokenOptionsScreen extends Screen {
         buttons.classList.add("buttons-container");
         container.appendChild(buttons);
 
-        const dt:PlayerToken = new PlayerToken().asDisplay(0.9);
-        dt.setRole(token.getRole());
+        const dt:PlayerToken = new PlayerToken().makeDisplay(0.9);
+        dt.setRole(token.getPerceivedRole());
         tokenContainer.appendChild(dt);
 
         const showButton:HTMLButtonElement = document.createElement('button');
@@ -64,7 +64,7 @@ export class TokenOptionsScreen extends Screen {
         };
 
         changeNameButton.onclick = (e) => {
-            e.stopPropagation();            
+            e.stopPropagation();
             Application.ui.popScreen();
             const newName:string | null = window.prompt("Enter new name for player:", token.getPlayerName());
             if (newName) token.setPlayerName(newName);
@@ -73,9 +73,9 @@ export class TokenOptionsScreen extends Screen {
         changeRoleButton.onclick = (e) => {
             e.stopPropagation();
             Application.ui.popScreen();
-            Application.ui.pushScreen(new RoleSelectScreen((role:Role) => {
+            Application.ui.pushScreen(new RoleSelectScreen((roles:Array<Role>) => {
                 Application.ui.popScreen();
-                token.setRole(role);
+                token.setRole(roles[0]);
             }));
         }
     }

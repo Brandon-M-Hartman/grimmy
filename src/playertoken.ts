@@ -13,6 +13,7 @@ export class PlayerToken extends Token {
 	
 	private roleInfo:RoleInfo | null;
     private playerRole:Role | null;
+	private perceivedRole:Role | null;
 	private icon:HTMLImageElement;
 	private topElement:HTMLImageElement;
 	private leftElement:HTMLImageElement;
@@ -20,6 +21,7 @@ export class PlayerToken extends Token {
 	private setupElement:HTMLImageElement;
 	private playerName:string;
 	private nameTag:HTMLElement;
+	private selected:boolean;
 
     constructor() {
         super();
@@ -27,9 +29,11 @@ export class PlayerToken extends Token {
 		this.playerName = "";
 		this.dead = false;
 		this.playerRole = null;
+		this.perceivedRole = null;
 		this.roleInfo = null;
 		this.reminderTokens = [];
 		this.onrolechanged = () => {};
+		this.selected = false;
 
 		this.icon = document.createElement("img");
 		this.icon.className = "icon";
@@ -70,7 +74,6 @@ export class PlayerToken extends Token {
 	}
 
 	setRole(role:Role | null):void {
-		console.log("Set role: ", role);
 		this.playerRole = role;
 		this.onrolechanged(role);
 
@@ -84,6 +87,19 @@ export class PlayerToken extends Token {
 			return;
 		}
 
+		this.updateRoleInfo(role);
+	}
+
+	getPerceivedRole():Role | null {
+		return this.perceivedRole ? this.perceivedRole : this.playerRole;
+	}
+
+	setPerceivedRole(role:Role | null):void {
+		this.perceivedRole = role;
+		if (role) this.updateRoleInfo(role);
+	}
+
+	private updateRoleInfo(role:Role):void {
 		this.roleInfo = roleData[role];
 		this.icon.src = 'assets/token/' + role + '.webp';
 		this.icon.style.visibility = 'visible';
@@ -121,6 +137,10 @@ export class PlayerToken extends Token {
 		else this.unshroud();
 	}
 
+	public isDead():boolean {
+		return this.dead;
+	}
+
 	public setPlayerName(name:string) {
 		this.playerName = name;		
 		this.nameTag.textContent = this.playerName;
@@ -129,12 +149,56 @@ export class PlayerToken extends Token {
 
 	public getPlayerName():string {
 		return this.playerName;
-	}	
+	}
+	
+	public hasPlayerName():boolean {
+		return this.playerName.length > 0;
+	}
 
-	public asDisplay(scale:number):PlayerToken {
+	public makeDisplay(scale:number):PlayerToken {
 		this.classList.add('display');
 		this.style.scale = `${scale}`;
+		this.nameTag.style.display = 'none';
+		this.onclick = null;
 		return this;
+	}
+
+	public makeFunctional():PlayerToken {
+		this.classList.remove('display');
+		this.style.scale = `1`;
+		this.nameTag.style.display = 'block';
+		this.onclick = null;
+		return this;
+	}
+
+	public makeHidden():PlayerToken {
+		this.classList.add('hidden');
+		return this;
+	}
+
+	public isHidden():boolean {
+		return this.classList.contains('hidden');
+	}
+
+	public reveal():void {
+		this.classList.remove('hidden');
+	}
+
+	public isSelected():boolean {
+		return this.selected;
+	}
+
+	public setSelected(selected:boolean) {
+		this.selected = selected;
+		if (selected) {
+			this.classList.add('selected');
+			this.classList.remove('unselected');
+		}
+		else
+		{
+			this.classList.add('unselected');
+			this.classList.remove('selected');
+		}
 	}
 
 }

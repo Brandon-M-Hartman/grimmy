@@ -1,3 +1,4 @@
+import { Game } from "./game";
 import { TownSquare } from "./townsquare";
 import { UI } from "./ui";
 import { Viewport } from "./viewport";
@@ -5,8 +6,7 @@ import { Viewport } from "./viewport";
 export class Application {
     static viewport:Viewport;
     static ui:UI;
-
-    private townSquare:TownSquare;
+    static townSquare:TownSquare;
     
     constructor() {
         Application.viewport = new Viewport();
@@ -41,9 +41,15 @@ export class Application {
             Application.viewport.zoom(e.deltaY * -0.001, e.clientX, e.clientY);
         }
 
-        this.townSquare = new TownSquare();
-        board.appendChild(this.townSquare);
-        this.townSquare.setupBoard();
-        this.townSquare.arrangeTokens();
+        Application.townSquare = new TownSquare();
+        board.appendChild(Application.townSquare);
+    }
+
+    static startNewGame():void {
+        this.townSquare.clear();
+        Game.setup(() => {
+            this.townSquare.setupBoard();
+            this.townSquare.arrangeTokens();
+        });
     }
 }

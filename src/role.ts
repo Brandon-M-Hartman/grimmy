@@ -25,14 +25,27 @@ export enum Role {
     SCARLET_WOMAN = "scarletwoman"
 }
 
+export enum RoleCategory {
+    TOWNSFOLK,
+    OUTSIDER,
+    MINION,
+    DEMON
+}
+
 export interface RoleInfo {
     name: string;
+    alignment: Alignment;
     description: string;
     top: number;
     left: number;
     right: number;
     setup: boolean;
     reminders: Array<string>;
+}
+
+export enum Alignment {
+    GOOD,
+    EVIL
 }
 
 export type RoleData = Record<Role, RoleInfo>;
