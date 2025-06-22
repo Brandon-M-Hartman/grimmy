@@ -138,7 +138,7 @@ export class NightOrderScreen extends Screen {
         // Loop through all the tasks and update visibility based on relevancy
         for (let child of [...this.firstNightList.children, ...this.otherNightsList.children]) {
             const task:HTMLElement = child as HTMLElement;
-            if (!task.id || task.id && Game.roles.includes(task.id as Role) && Game.isRoleAlive(task.id as Role) || !NightOrderScreen.showRelevant) task.style.display = 'flex';
+            if (!task.id || task.id && Game.isRoleAlive(task.id as Role) || !NightOrderScreen.showRelevant) task.style.display = 'flex';
             else task.style.display = 'none';
         }
     }

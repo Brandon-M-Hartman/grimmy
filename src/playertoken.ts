@@ -13,6 +13,7 @@ export class PlayerToken extends Token {
 	
 	private roleInfo:RoleInfo | null;
     private playerRole:Role | null;
+	private perceivedRole:Role | null;
 	private icon:HTMLImageElement;
 	private topElement:HTMLImageElement;
 	private leftElement:HTMLImageElement;
@@ -28,6 +29,7 @@ export class PlayerToken extends Token {
 		this.playerName = "";
 		this.dead = false;
 		this.playerRole = null;
+		this.perceivedRole = null;
 		this.roleInfo = null;
 		this.reminderTokens = [];
 		this.onrolechanged = () => {};
@@ -85,6 +87,19 @@ export class PlayerToken extends Token {
 			return;
 		}
 
+		this.updateRoleInfo(role);
+	}
+
+	getPerceivedRole():Role | null {
+		return this.perceivedRole ? this.perceivedRole : this.playerRole;
+	}
+
+	setPerceivedRole(role:Role | null):void {
+		this.perceivedRole = role;
+		if (role) this.updateRoleInfo(role);
+	}
+
+	private updateRoleInfo(role:Role):void {
 		this.roleInfo = roleData[role];
 		this.icon.src = 'assets/token/' + role + '.webp';
 		this.icon.style.visibility = 'visible';
@@ -144,6 +159,7 @@ export class PlayerToken extends Token {
 		this.classList.add('display');
 		this.style.scale = `${scale}`;
 		this.nameTag.style.display = 'none';
+		this.onclick = null;
 		return this;
 	}
 
@@ -151,6 +167,7 @@ export class PlayerToken extends Token {
 		this.classList.remove('display');
 		this.style.scale = `1`;
 		this.nameTag.style.display = 'block';
+		this.onclick = null;
 		return this;
 	}
 

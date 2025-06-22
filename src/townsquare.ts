@@ -37,7 +37,7 @@ export class TownSquare extends HTMLElement {
 		
 		token.bindEvents();
 		token.setMovable(!Game.lockPlayerTokens);
-		//token.setMovable(false);
+		token.onclick = null;
 	}
 
 	reorderTokens():void {
@@ -67,6 +67,19 @@ export class TownSquare extends HTMLElement {
 				token.reminderTokens.push(reminderToken);
 			}
 		}
+
+		// if the player's role is different from their perceived role, add the reminder tokens for perceived role too
+		if (token.getRole() != token.getPerceivedRole()) {
+			for (let i = 0; i < roleData[token.getPerceivedRole()!].reminders.length; i++) {
+				const reminderToken:ReminderToken = new ReminderToken(token.getPerceivedRole()!, i);
+				reminderToken.bindEvents();
+				this.appendChild(reminderToken);
+				this.bindTokenEvents(reminderToken);
+				this.tokens.push(reminderToken);
+				this.reminderTokens.push(reminderToken);
+				token.reminderTokens.push(reminderToken);
+			}
+		}
 	}
 
 	arrangeTokens():void {
@@ -80,11 +93,27 @@ export class TownSquare extends HTMLElement {
 			token.setPosition(Math.cos(angle) * dist, Math.sin(angle) * dist);
 		}
 
+		const reminders:Array<ReminderToken> = [...this.reminderTokens];
+		reminders.forEach(token => {
+			if (token.type == Role.DRUNK) reminders.splice(reminders.indexOf(token), 1);
+		});
+
 		// arrange reminder tokens on the side
-		for (let i = 0; i < this.reminderTokens.length; i++)
+		for (let i = 0; i < reminders.length; i++)
 		{
-			const token:Token = this.reminderTokens[i];
+			const token:ReminderToken = reminders[i];
 			token.setPosition(dist + (i % 2) * 160 + 400, Math.floor(i/2) * 160 - dist/2);
+		}
+
+		// place drunk reminder token on drunk player token
+		const drunkToken:PlayerToken | null = Game.getTokenForRole(Role.DRUNK);
+		if (drunkToken)
+		{
+			const dir = { x: drunkToken.pos.x, y: drunkToken.pos.y };
+			const len = Math.sqrt(dir.x*dir.x + dir.y*dir.y);
+			dir.x /= len;
+			dir.y /= len;
+			drunkToken.reminderTokens[0].setPosition(drunkToken.pos.x - dir.x * 180, drunkToken.pos.y - dir.y * 180);
 		}
 	}
 

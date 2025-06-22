@@ -2,6 +2,7 @@ import { Application } from "./application";
 import { PlayerToken } from "./playertoken";
 import { Role, RoleCategory } from "./role";
 import { NumPlayersScreen } from "./screens/numplayers";
+import { RoleReplacementScreen } from "./screens/rolereplacement";
 import { RoleReviewScreen } from "./screens/rolereview";
 import { RoleSelectScreen } from "./screens/roleselect";
 import { TokenSelectScreen } from "./screens/tokenselect";
@@ -19,22 +20,40 @@ export class Game {
 
         Application.ui.pushScreen(new NumPlayersScreen((counts:Map<RoleCategory, number>) => {
             Application.ui.popScreen();
-            Application.ui.pushScreen(new RoleSelectScreen((selectedRoles:any) => {
-                this.roles = selectedRoles;
-                this.createTokensFromRoles();
+            Game.selectRoles(counts, onComplete);
+        }));
+    }
+
+    static selectRoles(counts:Map<RoleCategory, number>, onComplete:Function) {
+        Application.ui.pushScreen(new RoleSelectScreen((selectedRoles:any) => {
+            Game.roles = selectedRoles;
+            Game.createTokensFromRoles();
+            Application.ui.popScreen();
+
+            if (Game.roles.includes(Role.DRUNK)) this.replaceDrunkRole(onComplete);
+            else this.reviewRoles(onComplete);
+        }, undefined, counts));
+    }
+
+    static replaceDrunkRole(onComplete:Function) {
+        const drunkToken:PlayerToken = this.getTokenForRole(Role.DRUNK)!;
+        Application.ui.pushScreen(new RoleReplacementScreen(drunkToken, () => {
+            Application.ui.popScreen();
+            this.reviewRoles(onComplete);
+        }));
+    }
+
+    static reviewRoles(onComplete:Function) {
+        Application.ui.pushScreen(new RoleReviewScreen(() => {
+            Application.ui.popScreen();
+            onComplete();
+        }, () => {
+            Application.ui.popScreen();
+            Application.ui.pushScreen(new TokenSelectScreen((drawnTokens:Array<PlayerToken>) => {
                 Application.ui.popScreen();
-                Application.ui.pushScreen(new RoleReviewScreen(() => {
-                    Application.ui.popScreen();
-                    onComplete();
-                }, () => {
-                    Application.ui.popScreen();
-                    Application.ui.pushScreen(new TokenSelectScreen((drawnTokens:Array<PlayerToken>) => {
-                        Application.ui.popScreen();
-                        this.tokens = drawnTokens;
-                        onComplete();
-                    }));
-                }));
-            }, undefined, counts));
+                this.tokens = drawnTokens;
+                onComplete();
+            }));
         }));
     }
 
@@ -46,10 +65,18 @@ export class Game {
         });
     }
 
+    static getTokenForRole(role:Role):PlayerToken | null {
+        let playerToken:PlayerToken | null = null;
+        this.tokens.forEach(token => {
+            if (token.getRole() == role) playerToken = token;
+        });
+        return playerToken;
+    }
+
     static isRoleAlive(role:Role):boolean {
         let alive:boolean = false;
         this.tokens.forEach(token => {
-            if (token instanceof PlayerToken && token.getRole() == role && !token.isDead()) alive = true;
+            if (token.getPerceivedRole() == role && !token.isDead()) alive = true;
         });
         return alive;
     }

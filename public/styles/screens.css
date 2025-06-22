@@ -468,3 +468,17 @@ cards-screen {
         color: black;
     }
 }
+
+role-replacement-screen {
+    .wrapper {
+       max-width: 800px;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .text {
+        font-size: 32px;
+    }
+}

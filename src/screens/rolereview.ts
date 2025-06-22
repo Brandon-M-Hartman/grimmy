@@ -1,5 +1,4 @@
 import { Game } from "../game";
-import { PlayerToken } from "../playertoken";
 import { Screen } from "../screen";
 
 export class RoleReviewScreen extends Screen {
@@ -19,14 +18,12 @@ export class RoleReviewScreen extends Screen {
         tokens.className = "token-container";
         container.appendChild(tokens);
 
-        Game.roles.forEach(role => {
+        Game.tokens.forEach(token => {
             const tokenWrapper = document.createElement('div');
             tokenWrapper.className = 'token-wrapper';
             tokens.appendChild(tokenWrapper);
 
-            const token:PlayerToken = new PlayerToken().makeDisplay(0.5);
-            token.setRole(role);
-            tokenWrapper.appendChild(token);
+            tokenWrapper.appendChild(token.makeDisplay(0.5));
         });
 
         const buttonsContainer = document.createElement('div');

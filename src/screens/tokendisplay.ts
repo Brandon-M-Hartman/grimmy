@@ -16,13 +16,13 @@ export class TokenDisplayScreen extends Screen {
         container.appendChild(tokenContainer);
 
         var dt:PlayerToken = new PlayerToken().makeDisplay(1.0);
-        dt.setRole(token.getRole());
+        dt.setRole(token.getPerceivedRole());
         tokenContainer.appendChild(dt);
 
         if (token.getRole()) {            
             var roleDescription = document.createElement('div');
             roleDescription.className = "role-description";
-            roleDescription.textContent = roleData[token.getRole()!].description;
+            roleDescription.textContent = roleData[token.getPerceivedRole()!].description;
             container.appendChild(roleDescription);
         }
 

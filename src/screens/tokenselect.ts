@@ -110,7 +110,7 @@ export class TokenSelectScreen extends Screen {
     }
 
     private updatePlayerInfo(token:PlayerToken):void {
-        this.playerInfo.textContent = (token.hasPlayerName() ? token.getPlayerName() : "Player") + " has selected " + Utils.capitalizeWords(roleData[token.getRole()!].name);
+        this.playerInfo.textContent = (token.hasPlayerName() ? token.getPlayerName() : "Player") + " has selected " + Utils.capitalizeWords(roleData[token.getPerceivedRole()!].name);
     }
 
 }

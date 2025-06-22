@@ -22,7 +22,7 @@ export class TokenOptionsScreen extends Screen {
         container.appendChild(buttons);
 
         var dt:PlayerToken = new PlayerToken().makeDisplay(0.9);
-        dt.setRole(token.getRole());
+        dt.setRole(token.getPerceivedRole());
         tokenContainer.appendChild(dt);
 
         var showButton:HTMLButtonElement = document.createElement('button');
