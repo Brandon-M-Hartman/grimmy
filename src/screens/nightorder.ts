@@ -4,6 +4,7 @@ import { Screen } from "../screen";
 import firstNightJson from '../../data/nightorder_first.json';
 import otherNightsJson from '../../data/nightorder_other.json';
 import { Utils } from "../utils";
+import { Game } from "../game";
 
 enum Night {
     FIRST,
@@ -13,6 +14,7 @@ enum Night {
 export class NightOrderScreen extends Screen {
 
     static selectedNight:Night = Night.FIRST;
+    static showRelevant:boolean = false;
 
     firstNightTab:HTMLDivElement;
     otherNightsTab:HTMLDivElement;
@@ -54,17 +56,40 @@ export class NightOrderScreen extends Screen {
             this.switchTabs(Night.OTHER);
         }
 
+        const relevancyOption = document.createElement('div');
+        relevancyOption.className = "relevancy";
+        if (Game.tokens.length == 0) relevancyOption.classList.add('disabled');
+        container.appendChild(relevancyOption);
+        
+        const relevancyCheck = document.createElement('input');
+        relevancyCheck.type = "checkbox";
+        relevancyCheck.checked = NightOrderScreen.showRelevant;
+        relevancyCheck.disabled = Game.tokens.length == 0;
+        relevancyOption.appendChild(relevancyCheck);
+
+        const relevancyLabel = document.createElement('label');
+        relevancyLabel.textContent = "Show only relevant roles";
+        relevancyOption.appendChild(relevancyLabel);
+        
+        relevancyOption.onclick = (e) => {
+            e.stopPropagation();
+            NightOrderScreen.showRelevant = !NightOrderScreen.showRelevant && Game.tokens.length > 0;
+            relevancyCheck.checked = NightOrderScreen.showRelevant;
+            this.updateRelevancy();
+        }
+
         this.firstNightList = document.createElement('ul');
         container.appendChild(this.firstNightList);
 
-        firstNightTasks.forEach(task => this.addTask(task, this.firstNightList));
-
         this.otherNightsList = document.createElement('ul');
         container.appendChild(this.otherNightsList);
-
+    
+        // add tasks to lists
+        firstNightTasks.forEach(task => this.addTask(task, this.firstNightList));
         otherNightTasks.forEach(task => this.addTask(task, this.otherNightsList));
 
         this.switchTabs(NightOrderScreen.selectedNight);
+        this.updateRelevancy();
     }
 
     addTask(task:NightOrderTask, list:HTMLUListElement):void {
@@ -77,6 +102,7 @@ export class NightOrderScreen extends Screen {
             listItem.appendChild(icon);
             const roleInfo = roleData[task.role as Role];
             listItem.classList.add(roleInfo.alignment == Alignment.EVIL ? 'evil' : 'good');
+            listItem.id = task.role!;
         }
 
         const text = document.createElement('span');
@@ -91,7 +117,7 @@ export class NightOrderScreen extends Screen {
         }
     }
 
-    switchTabs(night:Night) {
+    switchTabs(night:Night):void {
         NightOrderScreen.selectedNight = night;
 
         if (NightOrderScreen.selectedNight == Night.FIRST) {
@@ -105,6 +131,15 @@ export class NightOrderScreen extends Screen {
             this.firstNightTab.classList.remove('selected');
             this.otherNightsList.style.display = 'flex';
             this.firstNightList.style.display = 'none';
+        }
+    }
+
+    updateRelevancy():void {
+        // Loop through all the tasks and update visibility based on relevancy
+        for (let child of [...this.firstNightList.children, ...this.otherNightsList.children]) {
+            const task:HTMLElement = child as HTMLElement;
+            if (!task.id || task.id && Game.roles.includes(task.id as Role) || !NightOrderScreen.showRelevant) task.style.display = 'flex';
+            else task.style.display = 'none';
         }
     }
 }

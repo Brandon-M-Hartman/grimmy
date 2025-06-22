@@ -380,6 +380,29 @@ night-order-screen {
         }
     }
 
+    .relevancy {
+        display: flex;
+        align-items: center;
+        font-size: 26px;
+        gap: 10px;
+        cursor: pointer;
+
+        input {
+            width: 24px;
+            height: 24px;
+            cursor: inherit;
+        }
+
+        label {
+            cursor: inherit;
+        }
+
+        &.disabled {
+            cursor: default;
+            color: gray;
+        }
+    }
+
     ul {
         display: flex;
         flex-direction: column;

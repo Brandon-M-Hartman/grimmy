@@ -7,6 +7,7 @@ import { RoleSelectScreen } from "./screens/roleselect";
 import { TokenSelectScreen } from "./screens/tokenselect";
 
 export class Game {
+    static active:boolean = false;
     static roles:Array<Role> = [];
     static tokens:Array<PlayerToken> = [];
 
