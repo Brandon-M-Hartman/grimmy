@@ -1,4 +1,5 @@
 import { Application } from "../application";
+import { Game } from "../game";
 import { PlayerToken } from "../playertoken";
 import { Role, RoleCategory } from "../role";
 import { Screen } from "../screen";
@@ -83,12 +84,15 @@ export class RoleSelectScreen extends Screen {
                 tokenWrapper.className = 'token-wrapper';
                 townsfolkContainer.appendChild(tokenWrapper);
 
+                if (Game.isRoleInUse(role)) tokenWrapper.classList.add('disabled');
+
                 const token:PlayerToken = new PlayerToken().makeDisplay(0.5);
                 token.setRole(role);
                 tokenWrapper.appendChild(token);
                 this.townsfolkTokens.push(token);
                 if (this.selectMultiple) token.setSelected(false);
                 tokenWrapper.onclick = () => {
+                    if (tokenWrapper.classList.contains('disabled')) return;
                     if (!this.selectMultiple) callback(role);
                     else if (token.isSelected())
                     {
@@ -120,6 +124,8 @@ export class RoleSelectScreen extends Screen {
                 const tokenWrapper = document.createElement('div');
                 tokenWrapper.className = 'token-wrapper';
                 outsiderContainer.appendChild(tokenWrapper);
+                
+                if (Game.isRoleInUse(role)) tokenWrapper.classList.add('disabled');
 
                 const token:PlayerToken = new PlayerToken().makeDisplay(0.5);
                 token.setRole(role);
@@ -127,6 +133,7 @@ export class RoleSelectScreen extends Screen {
                 this.outsiderTokens.push(token);
                 if (this.selectMultiple) token.classList.add("unselected");          
                 tokenWrapper.onclick = () => {
+                    if (tokenWrapper.classList.contains('disabled')) return;
                     if (!this.selectMultiple) callback(role);
                     else if (token.isSelected())
                     {
@@ -158,6 +165,8 @@ export class RoleSelectScreen extends Screen {
                 const tokenWrapper = document.createElement('div');
                 tokenWrapper.className = 'token-wrapper';
                 minionContainer.appendChild(tokenWrapper);
+                
+                if (Game.isRoleInUse(role)) tokenWrapper.classList.add('disabled');
 
                 const token:PlayerToken = new PlayerToken().makeDisplay(0.5);
                 token.setRole(role);
@@ -165,6 +174,7 @@ export class RoleSelectScreen extends Screen {
                 this.minionTokens.push(token);
                 if (this.selectMultiple) token.classList.add("unselected");          
                 tokenWrapper.onclick = () => {
+                    if (tokenWrapper.classList.contains('disabled')) return;
                     if (!this.selectMultiple) callback(role);
                     else if (token.isSelected())
                     {
@@ -197,12 +207,15 @@ export class RoleSelectScreen extends Screen {
                 tokenWrapper.className = 'token-wrapper';
                 demonContainer.appendChild(tokenWrapper);
 
+                if (Game.isRoleInUse(role)) tokenWrapper.classList.add('disabled');
+
                 const token:PlayerToken = new PlayerToken().makeDisplay(0.5);
                 token.setRole(role);
                 tokenWrapper.appendChild(token);                
                 this.demonTokens.push(token);
                 if (this.selectMultiple) token.classList.add("unselected");          
                 tokenWrapper.onclick = () => {
+                    if (tokenWrapper.classList.contains('disabled')) return;
                     if (!this.selectMultiple) callback(role);
                     else if (token.isSelected())
                     {

@@ -81,6 +81,14 @@ export class Game {
         return alive;
     }
 
+    static isRoleInUse(role:Role):boolean {
+        let result:boolean = false;
+        this.tokens.forEach(token => {
+            if (token.getPerceivedRole() == role || token.getRole() == role) result = true;
+        });
+        return result;
+    }
+
     static togglePlayerTokenLock():void {
         this.lockPlayerTokens = !this.lockPlayerTokens;
         this.updateTokenMovable();
