@@ -2,6 +2,7 @@ import { Application } from "./application";
 import { LocalStorageService } from "./localstorage";
 import { PlayerToken } from "./playertoken";
 import { Role, RoleCategory } from "./role";
+import { DemonBluffsScreen } from "./screens/demonbluffs";
 import { NumPlayersScreen } from "./screens/numplayers";
 import { RoleReplacementScreen } from "./screens/rolereplacement";
 import { RoleReviewScreen } from "./screens/rolereview";
@@ -18,6 +19,7 @@ export class Game {
         // clear any existing roles/tokens
         this.roles = [];
         this.tokens = [];
+        DemonBluffsScreen.clearBluffs();
 
         Application.ui.pushScreen(new NumPlayersScreen((counts:Map<RoleCategory, number>) => {
             Application.ui.popScreen();
