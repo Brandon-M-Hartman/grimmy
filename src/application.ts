@@ -55,9 +55,11 @@ export class Application {
 
         const tokens = storage.getItem('tokens');
         if (tokens) {
+            // Convert the stored string array into PlayerToken objects
             const tokenArray:Array<PlayerToken> = [];
             tokens.forEach(tokenString => tokenArray.push(PlayerToken.from(JSON.parse(tokenString))));
 
+            // Setup the board with the PlayerTokens
             Game.tokens = tokenArray;
             this.townSquare.setupBoard();
         }

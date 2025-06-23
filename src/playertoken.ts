@@ -8,6 +8,7 @@ import { Token } from "./token";
 export class PlayerToken extends Token {
 
 	onRoleChanged:(role:Role | null) => void;
+	onStateChanged:() => void;
 	onReminderTokensCreated:() => void;
 	reminderTokens:Array<ReminderToken>;
 	
@@ -35,6 +36,7 @@ export class PlayerToken extends Token {
 		this.reminderTokens = [];
 		this.onRoleChanged = () => {};
 		this.onReminderTokensCreated = () => {};
+		this.onStateChanged = () => {};
 		this.selected = false;
 
 		this.icon = document.createElement("img");
@@ -130,11 +132,13 @@ export class PlayerToken extends Token {
 	public shroud() {
 		this.dead = true;
 		this.classList.add('dead');
+		this.onStateChanged();
 	}
 
 	public unshroud() {
 		this.dead = false;
 		this.classList.remove('dead');
+		this.onStateChanged();
 	}
 
 	public toggleShroud() {
@@ -150,6 +154,7 @@ export class PlayerToken extends Token {
 		this.playerName = name;		
 		this.nameTag.textContent = this.playerName;
 		this.nameTag.style.visibility = this.playerName.length == 0 ? 'hidden' : 'visible';
+		this.onStateChanged();
 	}
 
 	public getPlayerName():string {
@@ -232,11 +237,13 @@ export class PlayerToken extends Token {
 	}
 
 	static from(object:PlayerToken):PlayerToken {
-		//console.log(object);
+		// Create new player token and assign values from object
 		const token:PlayerToken = new PlayerToken();
 		token.setRole(object.playerRole);
 		if (object.perceivedRole) token.setPerceivedRole(object.perceivedRole);
 		token.setPosition(object.pos.x, object.pos.y);
+		if (object.dead) token.shroud();
+		token.setPlayerName(object.playerName);
 		
 		for (let i = 0; i < token.reminderTokens.length; i++) {
 			token.reminderTokens[i].setPosition(object.reminderTokens[i].pos.x, object.reminderTokens[i].pos.y);
