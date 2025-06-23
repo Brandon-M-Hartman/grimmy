@@ -2,8 +2,9 @@
 import { Token } from "./token";
 import { PlayerToken } from './playertoken';
 import { ReminderToken } from './remindertoken';
-import { Role, roleData } from "./role";
+import { Role } from "./role";
 import { Game } from "./game";
+import { LocalStorageService } from "./localstorage";
 
 export class TownSquare extends HTMLElement {
 	static enabled:boolean = true;
@@ -24,8 +25,25 @@ export class TownSquare extends HTMLElement {
 	}
 
 	addPlayerToken(token:PlayerToken):void {
-		token.onrolechanged = () => {
-			this.addReminderTokens(token);
+		token.onRoleChanged = () => {
+			token.reminderTokens.forEach(reminderToken => {
+				this.removeChild(reminderToken);
+				this.reminderTokens.splice(this.reminderTokens.indexOf(reminderToken), 1);
+				this.tokens.splice(this.tokens.indexOf(reminderToken), 1);
+			});
+
+			this.saveBoardState();
+		}
+
+		token.onReminderTokensCreated = () => {
+			token.reminderTokens.forEach(reminderToken => {
+				this.appendChild(reminderToken);
+				this.bindTokenEvents(reminderToken);
+				this.tokens.push(reminderToken);
+				this.reminderTokens.push(reminderToken);
+			});
+
+			this.saveBoardState();
 		}
 
 		token = token.makeFunctional();
@@ -47,39 +65,46 @@ export class TownSquare extends HTMLElement {
 	}
 
 	addReminderTokens(token:PlayerToken):void {
-		// remove old reminder tokens
 		token.reminderTokens.forEach(reminderToken => {
-			this.removeChild(reminderToken);
+			this.appendChild(reminderToken);
+			this.bindTokenEvents(reminderToken);
+			this.tokens.push(reminderToken);
+			this.reminderTokens.push(reminderToken);
 		});
 
+		// remove old reminder tokens
+		// token.reminderTokens.forEach(reminderToken => {
+		// 	this.removeChild(reminderToken);
+		// });
+
 		// clear references
-		token.reminderTokens = [];
+		//token.reminderTokens = [];
 		
 		// add new reminder tokens, if any
-		if (token.getRole()) {
-			for (let i = 0; i < roleData[token.getRole()!].reminders.length; i++) {
-				const reminderToken:ReminderToken = new ReminderToken(token.getRole()!, i);
-				reminderToken.bindEvents();
-				this.appendChild(reminderToken);
-				this.bindTokenEvents(reminderToken);
-				this.tokens.push(reminderToken);
-				this.reminderTokens.push(reminderToken);
-				token.reminderTokens.push(reminderToken);
-			}
-		}
+		// if (token.getRole()) {
+		// 	for (let i = 0; i < roleData[token.getRole()!].reminders.length; i++) {
+		// 		const reminderToken:ReminderToken = new ReminderToken(token.getRole()!, i);
+		// 		reminderToken.bindEvents();
+		// 		this.appendChild(reminderToken);
+		// 		this.bindTokenEvents(reminderToken);
+		// 		this.tokens.push(reminderToken);
+		// 		this.reminderTokens.push(reminderToken);
+		// 		token.reminderTokens.push(reminderToken);
+		// 	}
+		// }
 
-		// if the player's role is different from their perceived role, add the reminder tokens for perceived role too
-		if (token.getRole() != token.getPerceivedRole()) {
-			for (let i = 0; i < roleData[token.getPerceivedRole()!].reminders.length; i++) {
-				const reminderToken:ReminderToken = new ReminderToken(token.getPerceivedRole()!, i);
-				reminderToken.bindEvents();
-				this.appendChild(reminderToken);
-				this.bindTokenEvents(reminderToken);
-				this.tokens.push(reminderToken);
-				this.reminderTokens.push(reminderToken);
-				token.reminderTokens.push(reminderToken);
-			}
-		}
+		// // if the player's role is different from their perceived role, add the reminder tokens for perceived role too
+		// if (token.getRole() != token.getPerceivedRole()) {
+		// 	for (let i = 0; i < roleData[token.getPerceivedRole()!].reminders.length; i++) {
+		// 		const reminderToken:ReminderToken = new ReminderToken(token.getPerceivedRole()!, i);
+		// 		reminderToken.bindEvents();
+		// 		this.appendChild(reminderToken);
+		// 		this.bindTokenEvents(reminderToken);
+		// 		this.tokens.push(reminderToken);
+		// 		this.reminderTokens.push(reminderToken);
+		// 		token.reminderTokens.push(reminderToken);
+		// 	}
+		// }
 	}
 
 	arrangeTokens():void {
@@ -127,6 +152,7 @@ export class TownSquare extends HTMLElement {
 		});
 		token.addEventListener("dragend", () => {
 			this.draggingToken = false;
+			this.saveBoardState();
 		});
 	}
 
@@ -138,5 +164,12 @@ export class TownSquare extends HTMLElement {
 
 		// remove everything from board
 		while (this.firstChild) this.removeChild(this.firstChild);
+	}
+
+	saveBoardState():void {
+		const storage = LocalStorageService.getInstance();
+		const tokenArray:Array<string> = [];
+		Game.tokens.forEach(token => tokenArray.push(JSON.stringify(token)));
+		storage.setItem('tokens', tokenArray);
 	}
 }

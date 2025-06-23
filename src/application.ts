@@ -1,4 +1,6 @@
 import { Game } from "./game";
+import { LocalStorageService } from "./localstorage";
+import { PlayerToken } from "./playertoken";
 import { TownSquare } from "./townsquare";
 import { UI } from "./ui";
 import { Viewport } from "./viewport";
@@ -43,6 +45,22 @@ export class Application {
 
         Application.townSquare = new TownSquare();
         board.appendChild(Application.townSquare);
+        Application.loadFromStorage();
+    }
+
+    static loadFromStorage():void {    
+        const storage = LocalStorageService.getInstance();
+        const lockPlayerTokens = storage.getItem('lockPlayerTokens');
+        if (lockPlayerTokens) Game.setPlayerTokenLock(lockPlayerTokens);
+
+        const tokens = storage.getItem('tokens');
+        if (tokens) {
+            const tokenArray:Array<PlayerToken> = [];
+            tokens.forEach(tokenString => tokenArray.push(PlayerToken.from(JSON.parse(tokenString))));
+
+            Game.tokens = tokenArray;
+            this.townSquare.setupBoard();
+        }
     }
 
     static startNewGame():void {
@@ -50,6 +68,7 @@ export class Application {
         Game.setup(() => {
             this.townSquare.setupBoard();
             this.townSquare.arrangeTokens();
+            this.townSquare.saveBoardState();
         });
     }
 }

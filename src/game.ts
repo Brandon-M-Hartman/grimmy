@@ -1,4 +1,5 @@
 import { Application } from "./application";
+import { LocalStorageService } from "./localstorage";
 import { PlayerToken } from "./playertoken";
 import { Role, RoleCategory } from "./role";
 import { NumPlayersScreen } from "./screens/numplayers";
@@ -91,6 +92,13 @@ export class Game {
 
     static togglePlayerTokenLock():void {
         this.lockPlayerTokens = !this.lockPlayerTokens;
+        this.updateTokenMovable();
+        const storage = LocalStorageService.getInstance();
+        storage.setItem('lockPlayerTokens', this.lockPlayerTokens);
+    }
+
+    static setPlayerTokenLock(lock:boolean):void {
+        this.lockPlayerTokens = lock;
         this.updateTokenMovable();
     }
 
