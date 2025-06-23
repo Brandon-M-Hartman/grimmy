@@ -1,6 +1,7 @@
 import { Game } from "./game";
 import { LocalStorageService } from "./localstorage";
 import { PlayerToken } from "./playertoken";
+import { DemonBluffsScreen } from "./screens/demonbluffs";
 import { TownSquare } from "./townsquare";
 import { UI } from "./ui";
 import { Viewport } from "./viewport";
@@ -63,6 +64,9 @@ export class Application {
             Game.tokens = tokenArray;
             this.townSquare.setupBoard();
         }
+
+        const bluffs = storage.getItem('demonBluffs');
+        if (bluffs) DemonBluffsScreen.bluffs = bluffs;
     }
 
     static startNewGame():void {

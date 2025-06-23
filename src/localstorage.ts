@@ -1,6 +1,9 @@
+import { Role } from "./role";
+
 interface StoredData {
     lockPlayerTokens: boolean;
     tokens:Array<string>;
+    demonBluffs:Array<Role | null>;
 }
 
 export class LocalStorageService {
