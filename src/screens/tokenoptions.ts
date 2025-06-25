@@ -76,7 +76,7 @@ export class TokenOptionsScreen extends Screen {
             Application.ui.pushScreen(new RoleSelectScreen((roles:Array<Role>) => {
                 Application.ui.popScreen();
                 token.setRole(roles[0]);
-            }));
+            }, undefined, undefined, false));
         }
     }
 }
