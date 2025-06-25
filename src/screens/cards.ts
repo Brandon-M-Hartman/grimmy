@@ -12,6 +12,8 @@ export class CardsScreen extends Screen {
         this.container.classList.add("wrapper");
         this.contents.appendChild(this.container);
 
+        this.contents.onclick = () => Application.ui.popScreen();
+
         this.makeCardButton("You are", "#f99252");
         this.makeCardButton("This is the Demon", "#cb4d68");
         this.makeCardButton("These are your Minions", "#11adc1");
@@ -44,7 +46,5 @@ export class CardsScreen extends Screen {
         card.style.backgroundColor = color;
         if (Utils.isColorDark(color)) card.style.color = 'white';
         this.container.appendChild(card);
-
-        card.onclick = () => Application.ui.popScreen();
     }
 }
