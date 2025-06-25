@@ -1,4 +1,4 @@
-- Changing a player token's role should not be limited to unused roles
++ Changing a player token's role should not be limited to unused roles
 - Recenter view button
-- Some kind of saving
++ Some kind of saving
 - Selecting baron needs to affect outsider setup
