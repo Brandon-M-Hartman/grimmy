@@ -2,3 +2,4 @@
 - Recenter view button
 + Some kind of saving
 + Selecting baron needs to affect outsider setup
+- Cannot select existing bluffs as other bluffs

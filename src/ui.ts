@@ -121,5 +121,8 @@ export class UI extends HTMLElement {
         const recenterButton:HTMLElement = document.createElement('div');
         recenterButton.innerHTML = `<span class="iconify" data-icon="material-symbols:recenter-rounded" data-width="${iconSize}"></span>`;
         bottomRight.appendChild(recenterButton);
+        recenterButton.onclick = () => {
+            Application.viewport.recenter();
+        }
     }
 }

@@ -28,7 +28,7 @@ export class Viewport {
         this.zoom(-0.1, this.targetX, this.targetY);
     }
 
-	updateTransform = () => {
+	updateTransform():void {
 		this.board.style.transform = `scale(${this.scale})`;
 		this.board.style.left = `${this.x}px`;
 		this.board.style.top = `${this.y}px`;
@@ -38,7 +38,7 @@ export class Viewport {
 		this.background.style.backgroundSize = `${this.scale * 15}%`;
 	}
 
-    pan = (x:number, y:number) => {
+    pan(x:number, y:number):void {
         if (!this.enabled) return;
 
         gsap.killTweensOf(this);
@@ -50,7 +50,7 @@ export class Viewport {
 		this.background.style.backgroundPosition = `${newX}px ${newY}px`;
     }
 
-    endpan = (x:number, y:number) => {
+    endpan(x:number, y:number):void {
         if (!this.enabled) return;
 
         if (this.pinchScaled) {
@@ -64,7 +64,7 @@ export class Viewport {
 		this.targetY = this.y;
     }
 
-    zoom = (amount:number, centerX:number, centerY:number) => {
+    zoom(amount:number, centerX:number, centerY:number):void {
         if (!this.enabled) return;
 
         const rect = this.app.getBoundingClientRect();
@@ -81,12 +81,12 @@ export class Viewport {
 		this.targetY = mouseY - (mouseY - this.targetY) * scaleFactor;
 
 		gsap.killTweensOf(this);
-		gsap.to(this, { scale: this.targetScale, duration: 0.7, ease: "power2.out", onUpdate:this.updateTransform });
-		gsap.to(this, { x: this.targetX, duration: 0.7, ease: "power2.out", onUpdate:this.updateTransform });
-		gsap.to(this, { y: this.targetY, duration: 0.7, ease: "power2.out", onUpdate:this.updateTransform });
+		gsap.to(this, { scale: this.targetScale, duration: 0.7, ease: "power2.out", onUpdate:() => this.updateTransform() });
+		gsap.to(this, { x: this.targetX, duration: 0.7, ease: "power2.out", onUpdate:() => this.updateTransform() });
+		gsap.to(this, { y: this.targetY, duration: 0.7, ease: "power2.out", onUpdate:() => this.updateTransform() });
     }
 
-    pinchZoom = (scale:number, centerX:number, centerY:number) => {
+    pinchZoom(scale:number, centerX:number, centerY:number):void {
         if (!this.enabled) return;
 
         this.pinchScaled = true;
@@ -111,5 +111,14 @@ export class Viewport {
 
     getScale():number {
         return this.scale
+    }
+
+    recenter():void {
+        this.targetX = window.innerWidth/2;
+        this.targetY = window.innerHeight/2;
+
+		gsap.to(this, { scale: 0.5, duration: 0.7, ease: "power2.out", onUpdate:() => this.updateTransform() });
+		gsap.to(this, { x: this.targetX, duration: 0.7, ease: "power2.out", onUpdate:() => this.updateTransform() });
+		gsap.to(this, { y: this.targetY, duration: 0.7, ease: "power2.out", onUpdate:() => this.updateTransform() });
     }
 }
