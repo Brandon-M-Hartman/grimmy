@@ -38,7 +38,6 @@ app-ui {
         justify-content: center;
         width: 100%;
         height: 100%;
-        overflow-y: scroll;
         position: fixed;
     
         .overlay {
@@ -50,12 +49,13 @@ app-ui {
         }
 
         .contents {
-            max-width: 1200px;
+            width: 100%;
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
             gap: 1rem;
             z-index: 1;
+            overflow-y: scroll;
         }
     }
 }
@@ -79,6 +79,7 @@ token-options-screen {
         justify-content: center;
         align-content: center;
         flex-wrap: wrap;
+        max-width: 600px;
     }
       
     .token-container { 
@@ -312,6 +313,7 @@ token-select-screen {
         margin: 40px;
         max-width: 800px;
         display: flex;
+        justify-content: center;
         flex-direction: column;
         align-items: center;
         gap: 50px;

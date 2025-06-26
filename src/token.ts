@@ -1,9 +1,16 @@
 import Hammer from "hammerjs";
 import { Application } from "./application";
 
+export enum TokenType {
+	UNKNOWN,
+	PLAYER,
+	REMINDER
+}
+
 export class Token extends HTMLElement {
 
 	public pos = { x: 0, y: 0 };
+	public type:TokenType = TokenType.UNKNOWN;
 	
 	private dragEnabled:boolean = true;
 	private dragging:boolean = false;

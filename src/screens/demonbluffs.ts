@@ -1,4 +1,5 @@
 import { Application } from "../application";
+import { LocalStorageService } from "../localstorage";
 import { PlayerToken } from "../playertoken";
 import { Role, RoleCategory } from "../role";
 import { Screen } from "../screen";
@@ -51,6 +52,7 @@ export class DemonBluffsScreen extends Screen {
                     Application.ui.pushScreen(new RoleSelectScreen((roles:Array<Role>) => {
                         Application.ui.popScreen();
                         DemonBluffsScreen.bluffs[i] = roles[0];
+                        DemonBluffsScreen.saveToStorage();
                         this.build();
                     }, [RoleCategory.TOWNSFOLK, RoleCategory.OUTSIDER]));
                 });
@@ -67,10 +69,21 @@ export class DemonBluffsScreen extends Screen {
                     Application.ui.pushScreen(new RoleSelectScreen((roles:Array<Role>) => {
                         Application.ui.popScreen();
                         DemonBluffsScreen.bluffs[i] = roles[0];
+                        DemonBluffsScreen.saveToStorage();
                         this.build();
                     }, [RoleCategory.TOWNSFOLK, RoleCategory.OUTSIDER]));
                 });
             }
         }
+    }
+
+    static clearBluffs():void {
+        DemonBluffsScreen.bluffs = [null, null, null];
+        DemonBluffsScreen.saveToStorage();
+    }
+
+    static saveToStorage():void {
+        const storage = LocalStorageService.getInstance();
+        storage.setItem('demonBluffs', DemonBluffsScreen.bluffs);
     }
 }

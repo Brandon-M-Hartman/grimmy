@@ -39,4 +39,30 @@ app-ui {
         bottom: 0;
         right: 0;
     }
+
+    #bottom-center-ui {
+        bottom: 0;
+        left: calc(50% - 50px);
+
+        .delete-area {
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: all 0.2s ease-out;
+            opacity: 0;
+            pointer-events: none;
+
+            &.visible {
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.3);
+                scale: 1.15;
+            }
+
+            div:hover {
+                background-color: transparent;
+            }
+        }
+    }
 }

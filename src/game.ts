@@ -1,22 +1,25 @@
 import { Application } from "./application";
+import { LocalStorageService } from "./localstorage";
 import { PlayerToken } from "./playertoken";
-import { Role, RoleCategory } from "./role";
+import { ReminderToken } from "./remindertoken";
+import { Role, RoleCategory, roleData } from "./role";
+import { DemonBluffsScreen } from "./screens/demonbluffs";
 import { NumPlayersScreen } from "./screens/numplayers";
 import { RoleReplacementScreen } from "./screens/rolereplacement";
 import { RoleReviewScreen } from "./screens/rolereview";
 import { RoleSelectScreen } from "./screens/roleselect";
 import { TokenSelectScreen } from "./screens/tokenselect";
+import { Token } from "./token";
 
 export class Game {
     static lockPlayerTokens:boolean = false;
     static spectateMode:boolean = false;
     static roles:Array<Role> = [];
-    static tokens:Array<PlayerToken> = [];
 
     static setup(onComplete:() => void):void {
         // clear any existing roles/tokens
         this.roles = [];
-        this.tokens = [];
+        DemonBluffsScreen.clearBluffs();
 
         Application.ui.pushScreen(new NumPlayersScreen((counts:Map<RoleCategory, number>) => {
             Application.ui.popScreen();
@@ -30,13 +33,13 @@ export class Game {
             Game.createTokensFromRoles();
             Application.ui.popScreen();
 
-            if (Game.roles.includes(Role.DRUNK)) this.replaceDrunkRole(onComplete);
+            if (Game.roles.includes(Role.DRUNK)) this.replaceDrunkToken(onComplete);
             else this.reviewRoles(onComplete);
         }, undefined, counts));
     }
 
-    static replaceDrunkRole(onComplete:() => void) {
-        const drunkToken:PlayerToken = this.getTokenForRole(Role.DRUNK)!;
+    static replaceDrunkToken(onComplete:() => void) {
+        const drunkToken:PlayerToken = Application.townSquare.getTokenForRole(Role.DRUNK)!;
         Application.ui.pushScreen(new RoleReplacementScreen(drunkToken, () => {
             Application.ui.popScreen();
             this.reviewRoles(onComplete);
@@ -45,66 +48,61 @@ export class Game {
 
     static reviewRoles(onComplete:() => void) {
         Application.ui.pushScreen(new RoleReviewScreen(() => {
+            // Add to board
             Application.ui.popScreen();
+            this.createReminderTokensForRoles();
             onComplete();
         }, () => {
+            // Hand out
             Application.ui.popScreen();
             Application.ui.pushScreen(new TokenSelectScreen((drawnTokens:Array<PlayerToken>) => {
                 Application.ui.popScreen();
-                this.tokens = drawnTokens;
+                Application.townSquare.tokens = drawnTokens;
+                this.createReminderTokensForRoles();
                 onComplete();
             }));
         }));
     }
 
     static createTokensFromRoles():void {
+        const tokens:Array<Token> = [];
         this.roles.forEach(role => {
             const token:PlayerToken = new PlayerToken();
             token.setRole(role);
-            this.tokens.push(token);
+            tokens.push(token);
+        });
+        Application.townSquare.tokens = tokens;
+    }
+
+    static createReminderTokensForRoles():void {
+        // create reminder tokens
+        this.roles.forEach(role => {
+            Application.townSquare.tokens = Application.townSquare.tokens.concat(this.createReminderTokensForRole(role));
         });
     }
 
-    static getTokenForRole(role:Role):PlayerToken | null {
-        let playerToken:PlayerToken | null = null;
-        this.tokens.forEach(token => {
-            if (token.getRole() == role) playerToken = token;
-        });
-        return playerToken;
-    }
-
-    static isRoleAlive(role:Role):boolean {
-        let alive:boolean = false;
-        this.tokens.forEach(token => {
-            if (token.getPerceivedRole() == role && !token.isDead()) alive = true;
-        });
-        return alive;
-    }
-
-    static isRoleInUse(role:Role):boolean {
-        let result:boolean = false;
-        this.tokens.forEach(token => {
-            if (token.getPerceivedRole() == role || token.getRole() == role) result = true;
-        });
-        return result;
+    static createReminderTokensForRole(role:Role):Array<ReminderToken> {
+        const createdTokens:Array<ReminderToken> = [];
+        for (let i = 0; i < roleData[role].reminders.length; i++) {
+            createdTokens.push(new ReminderToken(role, i));
+        }
+        return createdTokens;
     }
 
     static togglePlayerTokenLock():void {
         this.lockPlayerTokens = !this.lockPlayerTokens;
-        this.updateTokenMovable();
+        Application.townSquare.updateTokenMovable();
+        const storage = LocalStorageService.getInstance();
+        storage.setItem('lockPlayerTokens', this.lockPlayerTokens);
+    }
+
+    static setPlayerTokenLock(lock:boolean):void {
+        this.lockPlayerTokens = lock;
+         Application.townSquare.updateTokenMovable();
     }
 
     static toggleSpectateMode():void {
         this.spectateMode = !this.spectateMode;
-        this.updateTokenMovable();
-    }
-
-    static updateTokenMovable():void {
-        this.tokens.forEach(token => {
-            token.setMovable(!this.lockPlayerTokens && !this.spectateMode);
-            token.reminderTokens.forEach(token => {
-                token.setMovable(!this.spectateMode);
-            });
-        });        
+         Application.townSquare.updateTokenMovable();
     }
 }

@@ -1,4 +1,9 @@
 import { Game } from "./game";
+import { LocalStorageService } from "./localstorage";
+import { PlayerToken } from "./playertoken";
+import { ReminderToken } from "./remindertoken";
+import { DemonBluffsScreen } from "./screens/demonbluffs";
+import { Token, TokenType } from "./token";
 import { TownSquare } from "./townsquare";
 import { UI } from "./ui";
 import { Viewport } from "./viewport";
@@ -9,6 +14,7 @@ export class Application {
     static townSquare:TownSquare;
     
     constructor() {
+        Application.townSquare = new TownSquare();
         Application.viewport = new Viewport();
         Application.ui = new UI();
 
@@ -41,8 +47,34 @@ export class Application {
             Application.viewport.zoom(e.deltaY * -0.001, e.clientX, e.clientY);
         }
 
-        Application.townSquare = new TownSquare();
         board.appendChild(Application.townSquare);
+        Application.loadFromStorage();
+    }
+
+    static loadFromStorage():void {    
+        const storage = LocalStorageService.getInstance();
+        const lockPlayerTokens = storage.getItem('lockPlayerTokens');
+        if (lockPlayerTokens) Game.setPlayerTokenLock(lockPlayerTokens);
+
+        const tokens = storage.getItem('tokens');
+        if (tokens) {
+            // Convert the stored string array into PlayerToken objects
+            const tokenArray:Array<Token> = [];
+            tokens.forEach(tokenString => {
+                const tokenParsed = JSON.parse(tokenString);
+                if (tokenParsed.type == TokenType.PLAYER) 
+                    tokenArray.push(PlayerToken.from(tokenParsed));
+                else
+                    tokenArray.push(ReminderToken.from(tokenParsed));
+            });
+
+            // Setup the board with the PlayerTokens
+            this.townSquare.tokens = tokenArray;
+            this.townSquare.setupBoard();
+        }
+
+        const bluffs = storage.getItem('demonBluffs');
+        if (bluffs) DemonBluffsScreen.bluffs = bluffs;
     }
 
     static startNewGame():void {
@@ -50,6 +82,7 @@ export class Application {
         Game.setup(() => {
             this.townSquare.setupBoard();
             this.townSquare.arrangeTokens();
+            this.townSquare.saveBoardState();
         });
     }
 }

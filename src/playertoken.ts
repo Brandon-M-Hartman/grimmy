@@ -1,16 +1,16 @@
 import { Application } from "./application";
-import { ReminderToken } from "./remindertoken";
 import { Role, roleData, RoleInfo } from "./role";
 import { TokenDisplayScreen } from "./screens/tokendisplay";
 import { TokenOptionsScreen } from "./screens/tokenoptions";
-import { Token } from "./token";
+import { Token, TokenType } from "./token";
 
 export class PlayerToken extends Token {
 
-	dead:boolean;
-	onrolechanged:(role:Role | null) => void;
-	reminderTokens:Array<ReminderToken>;
+	onRoleChanged:(role:Role | null) => void;
+	onStateChanged:() => void;
+	onReminderTokensCreated:() => void;
 	
+	private dead:boolean;
 	private roleInfo:RoleInfo | null;
     private playerRole:Role | null;
 	private perceivedRole:Role | null;
@@ -26,13 +26,15 @@ export class PlayerToken extends Token {
     constructor() {
         super();
 
+		this.type = TokenType.PLAYER;
 		this.playerName = "";
 		this.dead = false;
 		this.playerRole = null;
 		this.perceivedRole = null;
 		this.roleInfo = null;
-		this.reminderTokens = [];
-		this.onrolechanged = () => {};
+		this.onRoleChanged = () => {};
+		this.onReminderTokensCreated = () => {};
+		this.onStateChanged = () => {};
 		this.selected = false;
 
 		this.icon = document.createElement("img");
@@ -75,7 +77,6 @@ export class PlayerToken extends Token {
 
 	setRole(role:Role | null):void {
 		this.playerRole = role;
-		this.onrolechanged(role);
 
 		if (!role) {
 			this.roleInfo = null;
@@ -100,7 +101,9 @@ export class PlayerToken extends Token {
 	}
 
 	private updateRoleInfo(role:Role):void {
-		this.roleInfo = roleData[role];
+		this.onRoleChanged(role);
+
+		this.roleInfo = roleData[this.getPerceivedRole()!];
 		this.icon.src = 'assets/token/' + role + '.webp';
 		this.icon.style.visibility = 'visible';
 		this.setText(this.roleInfo.name.toUpperCase());
@@ -125,11 +128,13 @@ export class PlayerToken extends Token {
 	public shroud() {
 		this.dead = true;
 		this.classList.add('dead');
+		this.onStateChanged();
 	}
 
 	public unshroud() {
 		this.dead = false;
 		this.classList.remove('dead');
+		this.onStateChanged();
 	}
 
 	public toggleShroud() {
@@ -145,6 +150,7 @@ export class PlayerToken extends Token {
 		this.playerName = name;		
 		this.nameTag.textContent = this.playerName;
 		this.nameTag.style.visibility = this.playerName.length == 0 ? 'hidden' : 'visible';
+		this.onStateChanged();
 	}
 
 	public getPlayerName():string {
@@ -199,6 +205,18 @@ export class PlayerToken extends Token {
 			this.classList.add('unselected');
 			this.classList.remove('selected');
 		}
+	}
+
+	static from(object:PlayerToken):PlayerToken {
+		// Create new player token and assign values from object
+		const token:PlayerToken = new PlayerToken();
+		token.setRole(object.playerRole);
+		if (object.perceivedRole) token.setPerceivedRole(object.perceivedRole);
+		token.setPosition(object.pos.x, object.pos.y);
+		if (object.dead) token.shroud();
+		token.setPlayerName(object.playerName);
+
+		return token;
 	}
 
 }

@@ -31,7 +31,7 @@ export class TokenOptionsScreen extends Screen {
 
         const shroudButton:HTMLButtonElement = document.createElement('button');
         buttons.appendChild(shroudButton);
-        shroudButton.textContent = token.dead ? 'Unshroud' : 'Shroud';
+        shroudButton.textContent = token.isDead() ? 'Unshroud' : 'Shroud';
 
         const changeRoleButton:HTMLButtonElement = document.createElement('button');
         buttons.appendChild(changeRoleButton);
@@ -76,7 +76,7 @@ export class TokenOptionsScreen extends Screen {
             Application.ui.pushScreen(new RoleSelectScreen((roles:Array<Role>) => {
                 Application.ui.popScreen();
                 token.setRole(roles[0]);
-            }));
+            }, undefined, undefined, false));
         }
     }
 }
