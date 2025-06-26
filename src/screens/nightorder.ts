@@ -4,7 +4,6 @@ import { Screen } from "../screen";
 import firstNightJson from '../../data/nightorder_first.json';
 import otherNightsJson from '../../data/nightorder_other.json';
 import { Utils } from "../utils";
-import { Game } from "../game";
 
 enum Night {
     FIRST,
@@ -58,13 +57,13 @@ export class NightOrderScreen extends Screen {
 
         const relevancyOption = document.createElement('div');
         relevancyOption.className = "relevancy";
-        if (Game.tokens.length == 0) relevancyOption.classList.add('disabled');
+        if (Application.townSquare.getPlayerTokens().length == 0) relevancyOption.classList.add('disabled');
         container.appendChild(relevancyOption);
         
         const relevancyCheck = document.createElement('input');
         relevancyCheck.type = "checkbox";
         relevancyCheck.checked = NightOrderScreen.showRelevant;
-        relevancyCheck.disabled = Game.tokens.length == 0;
+        relevancyCheck.disabled = Application.townSquare.getPlayerTokens().length == 0;
         relevancyOption.appendChild(relevancyCheck);
 
         const relevancyLabel = document.createElement('label');
@@ -73,7 +72,7 @@ export class NightOrderScreen extends Screen {
         
         relevancyOption.onclick = (e) => {
             e.stopPropagation();
-            NightOrderScreen.showRelevant = !NightOrderScreen.showRelevant && Game.tokens.length > 0;
+            NightOrderScreen.showRelevant = !NightOrderScreen.showRelevant && Application.townSquare.getPlayerTokens().length > 0;
             relevancyCheck.checked = NightOrderScreen.showRelevant;
             this.updateRelevancy();
         }
@@ -138,7 +137,7 @@ export class NightOrderScreen extends Screen {
         // Loop through all the tasks and update visibility based on relevancy
         for (const child of [...this.firstNightList.children, ...this.otherNightsList.children]) {
             const task:HTMLElement = child as HTMLElement;
-            if (!task.id || task.id && Game.isRoleAlive(task.id as Role) || !NightOrderScreen.showRelevant) task.style.display = 'flex';
+            if (!task.id || task.id && Application.townSquare.isRoleAlive(task.id as Role) || !NightOrderScreen.showRelevant) task.style.display = 'flex';
             else task.style.display = 'none';
         }
     }

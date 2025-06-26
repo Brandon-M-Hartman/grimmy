@@ -1,5 +1,4 @@
 import { Application } from "../application";
-import { Game } from "../game";
 import { PlayerToken } from "../playertoken";
 import { Role, RoleCategory } from "../role";
 import { Screen } from "../screen";
@@ -90,7 +89,7 @@ export class RoleSelectScreen extends Screen {
                 tokenWrapper.className = 'token-wrapper';
                 townsfolkContainer.appendChild(tokenWrapper);
 
-                if (Game.isRoleInUse(role) && excludeTakenRoles) tokenWrapper.classList.add('disabled');
+                if (Application.townSquare.isRoleInUse(role) && excludeTakenRoles) tokenWrapper.classList.add('disabled');
 
                 const token:PlayerToken = new PlayerToken().makeDisplay(0.5);
                 token.setRole(role);
@@ -132,7 +131,7 @@ export class RoleSelectScreen extends Screen {
                 tokenWrapper.className = 'token-wrapper';
                 outsiderContainer.appendChild(tokenWrapper);
                 
-                if (Game.isRoleInUse(role) && excludeTakenRoles) tokenWrapper.classList.add('disabled');
+                if (Application.townSquare.isRoleInUse(role) && excludeTakenRoles) tokenWrapper.classList.add('disabled');
 
                 const token:PlayerToken = new PlayerToken().makeDisplay(0.5);
                 token.setRole(role);
@@ -174,7 +173,7 @@ export class RoleSelectScreen extends Screen {
                 tokenWrapper.className = 'token-wrapper';
                 minionContainer.appendChild(tokenWrapper);
                 
-                if (Game.isRoleInUse(role) && excludeTakenRoles) tokenWrapper.classList.add('disabled');
+                if (Application.townSquare.isRoleInUse(role) && excludeTakenRoles) tokenWrapper.classList.add('disabled');
 
                 const token:PlayerToken = new PlayerToken().makeDisplay(0.5);
                 token.setRole(role);
@@ -218,7 +217,7 @@ export class RoleSelectScreen extends Screen {
                 tokenWrapper.className = 'token-wrapper';
                 demonContainer.appendChild(tokenWrapper);
 
-                if (Game.isRoleInUse(role) && excludeTakenRoles) tokenWrapper.classList.add('disabled');
+                if (Application.townSquare.isRoleInUse(role) && excludeTakenRoles) tokenWrapper.classList.add('disabled');
 
                 const token:PlayerToken = new PlayerToken().makeDisplay(0.5);
                 token.setRole(role);

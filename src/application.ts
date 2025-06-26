@@ -1,7 +1,9 @@
 import { Game } from "./game";
 import { LocalStorageService } from "./localstorage";
 import { PlayerToken } from "./playertoken";
+import { ReminderToken } from "./remindertoken";
 import { DemonBluffsScreen } from "./screens/demonbluffs";
+import { Token, TokenType } from "./token";
 import { TownSquare } from "./townsquare";
 import { UI } from "./ui";
 import { Viewport } from "./viewport";
@@ -57,11 +59,17 @@ export class Application {
         const tokens = storage.getItem('tokens');
         if (tokens) {
             // Convert the stored string array into PlayerToken objects
-            const tokenArray:Array<PlayerToken> = [];
-            tokens.forEach(tokenString => tokenArray.push(PlayerToken.from(JSON.parse(tokenString))));
+            const tokenArray:Array<Token> = [];
+            tokens.forEach(tokenString => {
+                const tokenParsed = JSON.parse(tokenString);
+                if (tokenParsed.type == TokenType.PLAYER) 
+                    tokenArray.push(PlayerToken.from(tokenParsed));
+                else
+                    tokenArray.push(ReminderToken.from(tokenParsed));
+            });
 
             // Setup the board with the PlayerTokens
-            Game.tokens = tokenArray;
+            this.townSquare.tokens = tokenArray;
             this.townSquare.setupBoard();
         }
 

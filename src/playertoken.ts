@@ -1,16 +1,14 @@
 import { Application } from "./application";
-import { ReminderToken } from "./remindertoken";
 import { Role, roleData, RoleInfo } from "./role";
 import { TokenDisplayScreen } from "./screens/tokendisplay";
 import { TokenOptionsScreen } from "./screens/tokenoptions";
-import { Token } from "./token";
+import { Token, TokenType } from "./token";
 
 export class PlayerToken extends Token {
 
 	onRoleChanged:(role:Role | null) => void;
 	onStateChanged:() => void;
 	onReminderTokensCreated:() => void;
-	reminderTokens:Array<ReminderToken>;
 	
 	private dead:boolean;
 	private roleInfo:RoleInfo | null;
@@ -28,12 +26,12 @@ export class PlayerToken extends Token {
     constructor() {
         super();
 
+		this.type = TokenType.PLAYER;
 		this.playerName = "";
 		this.dead = false;
 		this.playerRole = null;
 		this.perceivedRole = null;
 		this.roleInfo = null;
-		this.reminderTokens = [];
 		this.onRoleChanged = () => {};
 		this.onReminderTokensCreated = () => {};
 		this.onStateChanged = () => {};
@@ -117,8 +115,6 @@ export class PlayerToken extends Token {
 		this.leftElement.style.visibility = this.roleInfo.left > 0 ? 'visible' : 'hidden';
 		this.rightElement.src = this.roleInfo.right > 0 ? 'assets/token/right-' + this.roleInfo.right + '.webp' : '';
 		this.rightElement.style.visibility = this.roleInfo.right > 0 ? 'visible' : 'hidden';
-
-		this.createReminderTokens();
 	}
 
     protected onTokenTapped():void {
@@ -211,31 +207,6 @@ export class PlayerToken extends Token {
 		}
 	}
 
-	private createReminderTokens():void {
-		// clear old reminder tokens first
-		this.reminderTokens = [];
-
-		if (this.getRole()) {
-			// create reminder tokens for role
-			for (let i = 0; i < roleData[this.getRole()!].reminders.length; i++) {
-				const reminderToken:ReminderToken = new ReminderToken(this.getRole()!, i);
-				reminderToken.bindEvents();
-				this.reminderTokens.push(reminderToken);
-			}
-		}
-
-		if (this.getPerceivedRole() != this.getRole()) {
-			// create reminder tokens for perceived role
-			for (let i = 0; i < roleData[this.getPerceivedRole()!].reminders.length; i++) {
-				const reminderToken:ReminderToken = new ReminderToken(this.getRole()!, i);
-				reminderToken.bindEvents();
-				this.reminderTokens.push(reminderToken);
-			}
-		}
-
-		this.onReminderTokensCreated();
-	}
-
 	static from(object:PlayerToken):PlayerToken {
 		// Create new player token and assign values from object
 		const token:PlayerToken = new PlayerToken();
@@ -244,10 +215,6 @@ export class PlayerToken extends Token {
 		token.setPosition(object.pos.x, object.pos.y);
 		if (object.dead) token.shroud();
 		token.setPlayerName(object.playerName);
-		
-		for (let i = 0; i < token.reminderTokens.length; i++) {
-			token.reminderTokens[i].setPosition(object.reminderTokens[i].pos.x, object.reminderTokens[i].pos.y);
-		}
 
 		return token;
 	}

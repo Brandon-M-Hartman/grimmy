@@ -1,5 +1,4 @@
 import { Application } from "../application";
-import { Game } from "../game";
 import { PlayerToken } from "../playertoken";
 import { roleData } from "../role";
 import { Screen } from "../screen";
@@ -22,7 +21,7 @@ export class TokenSelectScreen extends Screen {
         super();
 
         // Shuffle tokens in bag
-        this.tokenBag = Utils.shuffleArray(Game.tokens);
+        this.tokenBag = Utils.shuffleArray(Application.townSquare.getPlayerTokens());
 
         // Create all the elements
         const container = document.createElement('div');

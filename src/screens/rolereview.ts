@@ -1,4 +1,4 @@
-import { Game } from "../game";
+import { Application } from "../application";
 import { Screen } from "../screen";
 
 export class RoleReviewScreen extends Screen {
@@ -18,7 +18,7 @@ export class RoleReviewScreen extends Screen {
         tokens.className = "token-container";
         container.appendChild(tokens);
 
-        Game.tokens.forEach(token => {
+        Application.townSquare.getPlayerTokens().forEach(token => {
             const tokenWrapper = document.createElement('div');
             tokenWrapper.className = 'token-wrapper';
             tokens.appendChild(tokenWrapper);

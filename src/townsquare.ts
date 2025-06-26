@@ -5,6 +5,7 @@ import { ReminderToken } from './remindertoken';
 import { Role } from "./role";
 import { Game } from "./game";
 import { LocalStorageService } from "./localstorage";
+import { DemonBluffsScreen } from "./screens/demonbluffs";
 
 export class TownSquare extends HTMLElement {
 	static enabled:boolean = true;
@@ -21,28 +22,14 @@ export class TownSquare extends HTMLElement {
 	}
 
 	setupBoard():void {
-		Game.tokens.forEach(token => this.addPlayerToken(token));
+		this.tokens.forEach(token => {
+			if (token instanceof PlayerToken) this.addPlayerToken(token);
+			else if (token instanceof ReminderToken) this.addReminderToken(token);
+		});
 	}
 
 	addPlayerToken(token:PlayerToken):void {
 		token.onRoleChanged = () => {
-			token.reminderTokens.forEach(reminderToken => {
-				this.removeChild(reminderToken);
-				this.reminderTokens.splice(this.reminderTokens.indexOf(reminderToken), 1);
-				this.tokens.splice(this.tokens.indexOf(reminderToken), 1);
-			});
-
-			this.saveBoardState();
-		}
-
-		token.onReminderTokensCreated = () => {
-			token.reminderTokens.forEach(reminderToken => {
-				this.appendChild(reminderToken);
-				this.bindTokenEvents(reminderToken);
-				this.tokens.push(reminderToken);
-				this.reminderTokens.push(reminderToken);
-			});
-
 			this.saveBoardState();
 		}
 
@@ -50,10 +37,8 @@ export class TownSquare extends HTMLElement {
 
 		token = token.makeFunctional();
 		this.appendChild(token);
-		this.tokens.push(token);
 		this.playerTokens.push(token);
 		this.bindTokenEvents(token);
-		this.addReminderTokens(token);
 		
 		token.bindEvents();
 		token.setMovable(!Game.lockPlayerTokens);
@@ -66,13 +51,11 @@ export class TownSquare extends HTMLElement {
 		}
 	}
 
-	addReminderTokens(token:PlayerToken):void {
-		token.reminderTokens.forEach(reminderToken => {
-			this.appendChild(reminderToken);
-			this.bindTokenEvents(reminderToken);
-			this.tokens.push(reminderToken);
-			this.reminderTokens.push(reminderToken);
-		});
+	addReminderToken(token:ReminderToken):void {
+		this.appendChild(token);
+		this.reminderTokens.push(token);
+		this.bindTokenEvents(token);
+		token.bindEvents();
 	}
 
 	arrangeTokens():void {
@@ -88,7 +71,7 @@ export class TownSquare extends HTMLElement {
 
 		const reminders:Array<ReminderToken> = [...this.reminderTokens];
 		reminders.forEach(token => {
-			if (token.type == Role.DRUNK) reminders.splice(reminders.indexOf(token), 1);
+			if (token.role == Role.DRUNK) reminders.splice(reminders.indexOf(token), 1);
 		});
 
 		// arrange reminder tokens on the side
@@ -99,14 +82,14 @@ export class TownSquare extends HTMLElement {
 		}
 
 		// place drunk reminder token on drunk player token
-		const drunkToken:PlayerToken | null = Game.getTokenForRole(Role.DRUNK);
+		const drunkToken:PlayerToken | null = this.getTokenForRole(Role.DRUNK);
 		if (drunkToken)
 		{
 			const dir = { x: drunkToken.pos.x, y: drunkToken.pos.y };
 			const len = Math.sqrt(dir.x*dir.x + dir.y*dir.y);
 			dir.x /= len;
 			dir.y /= len;
-			drunkToken.reminderTokens[0].setPosition(drunkToken.pos.x - dir.x * 180, drunkToken.pos.y - dir.y * 180);
+			this.getReminderTokensForRole(Role.DRUNK)[0].setPosition(drunkToken.pos.x - dir.x * 180, drunkToken.pos.y - dir.y * 180);
 		}
 	}
 
@@ -135,9 +118,65 @@ export class TownSquare extends HTMLElement {
 	}
 
 	saveBoardState():void {
+		console.log(this.tokens);
 		const storage = LocalStorageService.getInstance();
 		const tokenArray:Array<string> = [];
-		Game.tokens.forEach(token => tokenArray.push(JSON.stringify(token)));
+		this.tokens.forEach(token => tokenArray.push(JSON.stringify(token)));
 		storage.setItem('tokens', tokenArray);
+	}
+
+	getTokenForRole(role:Role):PlayerToken | null {
+        let playerToken:PlayerToken | null = null;
+        this.getPlayerTokens().forEach(token => {
+            if (token.getRole() == role) playerToken = token;
+        });
+        return playerToken;
+    }
+
+	getReminderTokensForRole(role:Role):Array<ReminderToken> {
+        let tokens:Array<ReminderToken> = [];
+        this.getReminderTokens().forEach(token => {
+            if (token.getRole() == role) tokens.push(token);
+        });
+        return tokens;
+    }
+
+	isRoleAlive(role:Role):boolean {
+		let alive:boolean = false;
+		this.getPlayerTokens().forEach(token => {
+			if (token.getPerceivedRole() == role && !token.isDead()) alive = true;
+		});
+		return alive;
+	}
+	
+	isRoleInUse(role:Role):boolean {
+		let result:boolean = false;
+		this.getPlayerTokens().forEach(token => {
+			if (token.getPerceivedRole() == role || token.getRole() == role) result = true;
+		});
+		if (DemonBluffsScreen.bluffs.includes(role)) result = true;
+		return result;
+	}
+
+	updateTokenMovable():void {
+        this.tokens.forEach(token => {
+            token.setMovable(!Game.lockPlayerTokens && !Game.spectateMode);
+        });        
+    }
+
+	getPlayerTokens():Array<PlayerToken> {
+		const playerTokens:Array<PlayerToken> = [];
+		this.tokens.forEach(token => {
+			if (token instanceof PlayerToken) playerTokens.push(token);
+		});
+		return playerTokens;
+	}
+
+	getReminderTokens():Array<ReminderToken> {
+		const reminderTokens:Array<ReminderToken> = [];
+		this.tokens.forEach(token => {
+			if (token instanceof ReminderToken) reminderTokens.push(token);
+		});
+		return reminderTokens;
 	}
 }
