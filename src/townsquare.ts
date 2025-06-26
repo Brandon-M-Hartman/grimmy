@@ -29,8 +29,15 @@ export class TownSquare extends HTMLElement {
 	}
 
 	addPlayerToken(token:PlayerToken):void {
-		token.onRoleChanged = () => {
+		token.onRoleChanged = (role:Role | null) => {
 			this.saveBoardState();
+			if (role) {
+				const reminderTokens:Array<ReminderToken> = Game.createReminderTokensForRole(role);
+				reminderTokens.forEach(token => {
+					this.addReminderToken(token);
+					this.tokens.push(token);
+				});
+			}
 		}
 
 		token.onStateChanged = () => this.saveBoardState();
@@ -45,17 +52,17 @@ export class TownSquare extends HTMLElement {
 		token.onclick = null;
 	}
 
-	reorderTokens():void {
-		for (let i = 0; i < this.tokens.length; i++) {
-			this.tokens[i].style.zIndex = i.toString();
-		}
-	}
-
 	addReminderToken(token:ReminderToken):void {
 		this.appendChild(token);
 		this.reminderTokens.push(token);
 		this.bindTokenEvents(token);
 		token.bindEvents();
+	}
+
+	reorderTokens():void {
+		for (let i = 0; i < this.tokens.length; i++) {
+			this.tokens[i].style.zIndex = i.toString();
+		}
 	}
 
 	arrangeTokens():void {

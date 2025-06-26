@@ -75,14 +75,18 @@ export class Game {
     }
 
     static createReminderTokensForRoles():void {
-        // then create reminder tokens
+        // create reminder tokens
         this.roles.forEach(role => {
-            for (let i = 0; i < roleData[role].reminders.length; i++) {
-                const reminderToken:ReminderToken = new ReminderToken(role, i);
-                reminderToken.bindEvents();
-                Application.townSquare.tokens.push(reminderToken);
-            }
+            Application.townSquare.tokens = Application.townSquare.tokens.concat(this.createReminderTokensForRole(role));
         });
+    }
+
+    static createReminderTokensForRole(role:Role):Array<ReminderToken> {
+        const createdTokens:Array<ReminderToken> = [];
+        for (let i = 0; i < roleData[role].reminders.length; i++) {
+            createdTokens.push(new ReminderToken(role, i));
+        }
+        return createdTokens;
     }
 
     static togglePlayerTokenLock():void {
