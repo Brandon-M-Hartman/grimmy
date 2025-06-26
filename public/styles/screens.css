@@ -79,6 +79,7 @@ token-options-screen {
         justify-content: center;
         align-content: center;
         flex-wrap: wrap;
+        max-width: 600px;
     }
       
     .token-container { 

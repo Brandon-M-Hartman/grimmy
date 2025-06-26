@@ -148,7 +148,7 @@ export class TownSquare extends HTMLElement {
     }
 
 	getReminderTokensForRole(role:Role):Array<ReminderToken> {
-        let tokens:Array<ReminderToken> = [];
+        const tokens:Array<ReminderToken> = [];
         this.getReminderTokens().forEach(token => {
             if (token.getRole() == role) tokens.push(token);
         });
