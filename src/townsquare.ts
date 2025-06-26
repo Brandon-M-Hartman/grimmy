@@ -10,7 +10,7 @@ import { DemonBluffsScreen } from "./screens/demonbluffs";
 export class TownSquare extends HTMLElement {
 	static enabled:boolean = true;
 
-	draggingToken:boolean = false;
+	draggingToken:Token | null = null;
 	tokens:Array<Token> = [];
 	playerTokens:Array<PlayerToken> = [];
 	reminderTokens:Array<ReminderToken> = [];
@@ -59,6 +59,12 @@ export class TownSquare extends HTMLElement {
 		token.bindEvents();
 	}
 
+	removeToken(token:Token):void {
+		this.removeChild(token);
+		this.tokens.splice(this.tokens.indexOf(token), 1);
+		this.saveBoardState();
+	}
+
 	reorderTokens():void {
 		for (let i = 0; i < this.tokens.length; i++) {
 			this.tokens[i].style.zIndex = i.toString();
@@ -102,14 +108,16 @@ export class TownSquare extends HTMLElement {
 
 	bindTokenEvents(token:Token):void {
 		token.addEventListener("dragstart", () => {
-			this.draggingToken = true;
+			this.draggingToken = token;
 			const index = this.tokens.indexOf(token);
 			this.tokens.splice(index, 1);
 			this.tokens.push(token);
 			this.reorderTokens();
+			this.dispatchEvent(new CustomEvent("start-dragging-token", { detail: token }));
 		});
 		token.addEventListener("dragend", () => {
-			this.draggingToken = false;
+			this.draggingToken = null;
+			this.dispatchEvent(new CustomEvent("stop-dragging-token"));
 			this.saveBoardState();
 		});
 	}
@@ -184,5 +192,9 @@ export class TownSquare extends HTMLElement {
 			if (token instanceof ReminderToken) reminderTokens.push(token);
 		});
 		return reminderTokens;
+	}
+
+	getDraggingToken():Token | null {
+		return this.draggingToken;
 	}
 }

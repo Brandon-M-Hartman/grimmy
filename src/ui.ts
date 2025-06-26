@@ -5,6 +5,7 @@ import { CardsScreen } from './screens/cards';
 import { DemonBluffsScreen } from './screens/demonbluffs';
 import { MenuScreen } from './screens/menu';
 import { NightOrderScreen } from './screens/nightorder';
+import { Token } from './token';
 
 export class UI extends HTMLElement {
 
@@ -83,6 +84,11 @@ export class UI extends HTMLElement {
         bottomRight.className = "icons";
         this.appendChild(bottomRight);
 
+        const bottomCenter:HTMLElement = document.createElement('div');
+        bottomCenter.id = "bottom-center-ui";
+        bottomCenter.className = "icons";
+        this.appendChild(bottomCenter);
+
         // add icons
 
         const menuButton:HTMLElement = document.createElement('div');
@@ -104,6 +110,18 @@ export class UI extends HTMLElement {
         cardsButton.innerHTML = `<span class="iconify" data-icon="bxs:card" data-width="${iconSize}"></span>`;
         bottomLeft.appendChild(cardsButton);
         cardsButton.onclick = () => Application.ui.pushScreen(new CardsScreen());
+
+        const deleteArea:HTMLElement = document.createElement('div');
+        deleteArea.className = "delete-area";
+        bottomCenter.appendChild(deleteArea);
+        deleteArea.onpointerup = () => {
+            const draggingToken:Token | null = Application.townSquare.getDraggingToken();
+            if (draggingToken) Application.townSquare.removeToken(draggingToken);
+        }
+
+        const deleteIcon:HTMLElement = document.createElement('div');
+        deleteIcon.innerHTML = `<span class="iconify" data-icon="tabler:trash" data-width="${iconSize}"></span>`;
+        deleteArea.appendChild(deleteIcon);
 
         const spectateButton:HTMLElement = document.createElement('div');
         spectateButton.innerHTML = `<span class="iconify" data-icon="pepicons-pop:eye" data-width="${iconSize}"></span>`;
@@ -132,5 +150,13 @@ export class UI extends HTMLElement {
             recenterButton.style.display = x > window.innerWidth * distToRecenter && x < window.innerWidth * (1.0 - distToRecenter) && 
                                            y > window.innerHeight * distToRecenter && y < window.innerHeight * (1.0 - distToRecenter) ? 'none' : 'block';
         }
+
+        Application.townSquare.addEventListener("start-dragging-token", () => {
+            deleteArea.classList.add('visible');
+        });
+
+        Application.townSquare.addEventListener("stop-dragging-token", () => {
+            deleteArea.classList.remove('visible');
+        });
     }
 }

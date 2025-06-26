@@ -14,6 +14,7 @@ export class Application {
     static townSquare:TownSquare;
     
     constructor() {
+        Application.townSquare = new TownSquare();
         Application.viewport = new Viewport();
         Application.ui = new UI();
 
@@ -46,7 +47,6 @@ export class Application {
             Application.viewport.zoom(e.deltaY * -0.001, e.clientX, e.clientY);
         }
 
-        Application.townSquare = new TownSquare();
         board.appendChild(Application.townSquare);
         Application.loadFromStorage();
     }
