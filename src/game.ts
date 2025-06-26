@@ -89,6 +89,7 @@ export class Game {
         this.tokens.forEach(token => {
             if (token.getPerceivedRole() == role || token.getRole() == role) result = true;
         });
+        if (DemonBluffsScreen.bluffs.includes(role)) result = true;
         return result;
     }
 
