@@ -125,7 +125,6 @@ export class TownSquare extends HTMLElement {
 	}
 
 	saveBoardState():void {
-		console.log(this.tokens);
 		const storage = LocalStorageService.getInstance();
 		const tokenArray:Array<string> = [];
 		this.tokens.forEach(token => tokenArray.push(JSON.stringify(token)));
