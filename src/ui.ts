@@ -120,9 +120,17 @@ export class UI extends HTMLElement {
 
         const recenterButton:HTMLElement = document.createElement('div');
         recenterButton.innerHTML = `<span class="iconify" data-icon="material-symbols:recenter-rounded" data-width="${iconSize}"></span>`;
+        recenterButton.style.display = 'none';
         bottomRight.appendChild(recenterButton);
         recenterButton.onclick = () => {
             Application.viewport.recenter();
+            recenterButton.style.display = 'none';
+        }
+
+        Application.viewport.onPanned = (x:number, y:number) => {
+            const distToRecenter:number = 0.35
+            recenterButton.style.display = x > window.innerWidth * distToRecenter && x < window.innerWidth * (1.0 - distToRecenter) && 
+                                           y > window.innerHeight * distToRecenter && y < window.innerHeight * (1.0 - distToRecenter) ? 'none' : 'block';
         }
     }
 }

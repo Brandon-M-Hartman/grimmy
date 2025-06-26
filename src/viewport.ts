@@ -6,6 +6,7 @@ export class Viewport {
     public x:number = 0;
     public y:number = 0;
     public enabled:boolean = true;
+    public onPanned:(x:number, y:number) => void;
 
     private app:HTMLElement;
     private background:HTMLElement;
@@ -19,6 +20,7 @@ export class Viewport {
         this.background = document.getElementById('background')!;
         this.app = document.getElementById('app')!;
         this.board = document.getElementById('board')!;
+        this.onPanned = () => {};
 
         this.targetX = window.innerWidth/2;
         this.targetY = window.innerHeight/2;
@@ -48,6 +50,8 @@ export class Viewport {
 		this.board.style.left = `${newX}px`;
 		this.board.style.top = `${newY}px`;
 		this.background.style.backgroundPosition = `${newX}px ${newY}px`;
+
+        this.onPanned(newX, newY);
     }
 
     endpan(x:number, y:number):void {
