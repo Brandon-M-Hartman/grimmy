@@ -110,7 +110,7 @@ export class Viewport {
         this.x = this.targetX;
         this.y = this.targetY;
         
-        requestAnimationFrame(this.updateTransform);
+        requestAnimationFrame(() => this.updateTransform());
     }
 
     getScale():number {
