@@ -167,6 +167,7 @@ export class Token extends HTMLElement {
 
 	protected onTokenTapped():void {
 		this.dispatchEvent(new Event("tapped"));
+		this.onTapped();
 		// override in child class
 	}
 
@@ -174,6 +175,8 @@ export class Token extends HTMLElement {
 		this.dispatchEvent(new Event("double-tapped"));
 		// override in child class
 	}
+
+	onTapped = () => {};
 
 	connectedCallback() {
 		this.makeText();

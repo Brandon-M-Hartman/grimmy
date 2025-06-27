@@ -58,6 +58,8 @@
         position: relative;
         display: block;        
         transition: opacity 0.2s ease-out;
+        touch-action: all;
+        pointer-events: all;
 
         .container {
             transform: none;
