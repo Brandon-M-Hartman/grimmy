@@ -177,7 +177,8 @@ export class TownSquare extends HTMLElement {
 
 	updateTokenMovable():void {
         this.tokens.forEach(token => {
-            token.setMovable(!Game.lockPlayerTokens && !Game.spectateMode);
+            if (token instanceof PlayerToken) token.setMovable(!Game.lockPlayerTokens && !Game.spectateMode);
+			else token.setMovable(!Game.spectateMode);
         });        
     }
 
