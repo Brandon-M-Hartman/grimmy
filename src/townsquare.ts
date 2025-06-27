@@ -151,7 +151,7 @@ export class TownSquare extends HTMLElement {
 	getTokenForRole(role:Role):PlayerToken | null {
         let playerToken:PlayerToken | null = null;
         this.getPlayerTokens().forEach(token => {
-            if (token.getRole() == role) playerToken = token;
+            if (token.getPerceivedRole() == role || token.getRole() == role) playerToken = token;
         });
         return playerToken;
     }
