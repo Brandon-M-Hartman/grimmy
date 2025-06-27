@@ -5,7 +5,10 @@ import { Screen } from "../screen";
 import { RoleSelectScreen } from "./roleselect";
 
 export class RoleReplacementScreen extends Screen {
-    constructor(token:PlayerToken, onComplete?:() => void) {
+
+    replacementRole:Role|null = null;
+
+    constructor(role:Role, onComplete?:(role:Role) => void) {
         super();
 
         const container = document.createElement('div');
@@ -17,8 +20,10 @@ export class RoleReplacementScreen extends Screen {
         text.className = "text";
         container.appendChild(text);
 
-        container.appendChild(token.makeDisplay(0.75));
+        const token:PlayerToken = new PlayerToken().makeDisplay(0.7);
+        token.setRole(role);
         token.style.cursor = 'pointer';
+        container.appendChild(token);
 
         const buttons = document.createElement('div');
         container.appendChild(buttons);
@@ -31,13 +36,14 @@ export class RoleReplacementScreen extends Screen {
         token.onclick = () => {
             Application.ui.pushScreen(new RoleSelectScreen((roles:Array<Role>) => {
                 Application.ui.popScreen();
+                this.replacementRole = roles[0];
                 token.setPerceivedRole(roles[0]);
-                continueButton.style.display = 'block';
+                if (this.replacementRole) continueButton.style.display = 'block';
             }, [RoleCategory.TOWNSFOLK]));
         }
 
         continueButton.onclick = () => {
-            if (onComplete) onComplete();
+            if (onComplete) onComplete(this.replacementRole!);
         }
     }
 }

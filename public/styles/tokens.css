@@ -55,7 +55,7 @@
     }
 
     &.display {
-        position: relative;
+        position: initial;
         display: block;        
         transition: opacity 0.2s ease-out;
         touch-action: all;

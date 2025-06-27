@@ -40,8 +40,9 @@ export class Game {
 
     static replaceDrunkToken(onComplete:() => void) {
         const drunkToken:PlayerToken = Application.townSquare.getTokenForRole(Role.DRUNK)!;
-        Application.ui.pushScreen(new RoleReplacementScreen(drunkToken, () => {
+        Application.ui.pushScreen(new RoleReplacementScreen(Role.DRUNK, (replacementRole:Role) => {
             Application.ui.popScreen();
+            drunkToken.setPerceivedRole(replacementRole);
             this.reviewRoles(onComplete);
         }));
     }

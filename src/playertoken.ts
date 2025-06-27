@@ -24,6 +24,7 @@ export class PlayerToken extends Token {
 	private playerName:string;
 	private nameTag:HTMLElement;
 	private selected:boolean;
+	private displayMode:boolean;
 
     constructor() {
         super();
@@ -38,6 +39,7 @@ export class PlayerToken extends Token {
 		this.onReminderTokensCreated = () => {};
 		this.onStateChanged = () => {};
 		this.selected = false;
+		this.displayMode = false;
 
 		this.icon = document.createElement("img");
 		this.icon.className = "icon";
@@ -130,10 +132,12 @@ export class PlayerToken extends Token {
 	}
 
     protected onTokenTapped():void {
+		if (this.displayMode) return;
 		Application.ui.pushScreen(new TokenOptionsScreen(this));
 	}
 
 	protected onTokenDoubleTapped():void {
+		if (this.displayMode) return;
 		Application.ui.pushScreen(new TokenDisplayScreen(this));
 	}
 
@@ -178,6 +182,7 @@ export class PlayerToken extends Token {
 		this.style.scale = `${scale}`;
 		this.nameTag.style.display = 'none';
 		this.onclick = null;
+		this.displayMode = true;
 		return this;
 	}
 
@@ -186,6 +191,7 @@ export class PlayerToken extends Token {
 		this.style.scale = `1`;
 		this.nameTag.style.display = 'block';
 		this.onclick = null;
+		this.displayMode = false;
 		return this;
 	}
 

@@ -2,6 +2,7 @@ import { Application } from "../application";
 import { PlayerToken } from "../playertoken";
 import { Role } from "../role";
 import { Screen } from "../screen"
+import { RoleReplacementScreen } from "./rolereplacement";
 import { RoleSelectScreen } from "./roleselect";
 import { TokenDisplayScreen } from "./tokendisplay";
 
@@ -76,6 +77,12 @@ export class TokenOptionsScreen extends Screen {
             Application.ui.pushScreen(new RoleSelectScreen((roles:Array<Role>) => {
                 Application.ui.popScreen();
                 token.setRole(roles[0]);
+                if (roles[0] == Role.DRUNK) {
+                    Application.ui.pushScreen(new RoleReplacementScreen(roles[0], (replacementRole:Role) => {
+                        Application.ui.popScreen();
+                        token.setPerceivedRole(replacementRole);
+                    }));
+                }
             }, undefined, undefined, false));
         }
     }

@@ -36,9 +36,12 @@ export class TownSquare extends HTMLElement {
 			this.saveBoardState();
 			if (role) {
 				const reminderTokens:Array<ReminderToken> = Game.createReminderTokensForRole(role);
-				reminderTokens.forEach(token => {
-					this.addReminderToken(token);
-					this.tokens.push(token);
+				reminderTokens.forEach(reminderToken => {
+					this.addReminderToken(reminderToken);
+					this.tokens.push(reminderToken);
+
+					if (reminderToken.role == Role.DRUNK)
+						this.placeReminderOnToken(reminderToken, token);
 				});
 			}
 		}
@@ -88,6 +91,7 @@ export class TownSquare extends HTMLElement {
 			token.setPosition(Math.cos(angle) * dist, Math.sin(angle) * dist);
 		}
 
+		// remove drunk reminder token
 		const reminders:Array<ReminderToken> = [...this.reminderTokens];
 		reminders.forEach(token => {
 			if (token.role == Role.DRUNK) reminders.splice(reminders.indexOf(token), 1);
@@ -100,16 +104,11 @@ export class TownSquare extends HTMLElement {
 			token.setPosition(dist + (i % 2) * 160 + 400, Math.floor(i/2) * 160 - dist/2);
 		}
 
-		// place drunk reminder token on drunk player token
+		// add drunk reminder token on drunk player token
+		const drunkReminders:Array<ReminderToken> = this.getReminderTokensForRole(Role.DRUNK);
 		const drunkToken:PlayerToken | null = this.getTokenForRole(Role.DRUNK);
-		if (drunkToken)
-		{
-			const dir = { x: drunkToken.pos.x, y: drunkToken.pos.y };
-			const len = Math.sqrt(dir.x*dir.x + dir.y*dir.y);
-			dir.x /= len;
-			dir.y /= len;
-			this.getReminderTokensForRole(Role.DRUNK)[0].setPosition(drunkToken.pos.x - dir.x * 180, drunkToken.pos.y - dir.y * 180);
-		}
+		if (drunkReminders.length > 0 && drunkToken)
+			this.placeReminderOnToken(drunkReminders[0], drunkToken);
 	}
 
 	bindTokenEvents(token:Token):void {
@@ -232,5 +231,13 @@ export class TownSquare extends HTMLElement {
 				otherNightOrder++;
 			}
 		});
+	}
+
+	placeReminderOnToken(reminderToken:ReminderToken, playerToken:PlayerToken):void {
+		const dir = { x: playerToken.pos.x, y: playerToken.pos.y };
+		const len = Math.sqrt(dir.x*dir.x + dir.y*dir.y);
+		dir.x /= len;
+		dir.y /= len;
+		reminderToken.setPosition(playerToken.pos.x - dir.x * 180, playerToken.pos.y - dir.y * 180);
 	}
 }
