@@ -107,7 +107,7 @@ export class TownSquare extends HTMLElement {
 	}
 
 	bindTokenEvents(token:Token):void {
-		token.addEventListener("dragstart", () => {
+		token.addEventListener("token-drag-start", () => {
 			this.draggingToken = token;
 			const index = this.tokens.indexOf(token);
 			this.tokens.splice(index, 1);
@@ -115,10 +115,13 @@ export class TownSquare extends HTMLElement {
 			this.reorderTokens();
 			this.dispatchEvent(new CustomEvent("start-dragging-token", { detail: token }));
 		});
-		token.addEventListener("dragend", () => {
+		token.addEventListener("token-drag-end", (e) => {
 			this.draggingToken = null;
-			this.dispatchEvent(new CustomEvent("stop-dragging-token"));
+			this.dispatchEvent(new CustomEvent("stop-dragging-token", { detail: { token: token, pos: (<CustomEvent>e).detail }}));
 			this.saveBoardState();
+		});
+		token.addEventListener("token-dragging", (e) => {
+			this.dispatchEvent(new CustomEvent("dragging-token", { detail: { token: token, pos: (<CustomEvent>e).detail }}));
 		});
 	}
 

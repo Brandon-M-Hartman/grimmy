@@ -43,19 +43,19 @@ app-ui {
     #bottom-center-ui {
         bottom: 0;
         left: calc(50% - 50px);
+        pointer-events: none;
+        touch-action: none;
 
         .delete-area {
             background-color: rgba(255, 255, 255, 0.1);
             transition: all 0.2s ease-out;
             opacity: 0;
-            pointer-events: none;
 
             &.visible {
                 opacity: 1;
-                pointer-events: all;
             }
 
-            &:hover {
+            &.hover {
                 background-color: rgba(255, 255, 255, 0.3);
                 scale: 1.15;
             }

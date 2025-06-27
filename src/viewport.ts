@@ -125,4 +125,10 @@ export class Viewport {
 		gsap.to(this, { x: this.targetX, duration: 0.7, ease: "power2.out", onUpdate:() => this.updateTransform() });
 		gsap.to(this, { y: this.targetY, duration: 0.7, ease: "power2.out", onUpdate:() => this.updateTransform() });
     }
+
+    convertToScreen(pos:{ x:number, y:number }):{ x:number, y:number } {
+        const screenX = (pos.x * this.scale) + this.x;
+        const screenY = (pos.y * this.scale) + this.y;
+        return { x: screenX, y: screenY };
+    }
 }
