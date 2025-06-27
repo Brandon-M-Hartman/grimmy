@@ -219,6 +219,18 @@ export class PlayerToken extends Token {
 		}
 	}
 
+	public setFirstNightOrder(order:number):void {
+		this.nightOrderBadgeFirst.textContent = order.toString();
+		if (order == 0) this.nightOrderBadgeFirst.classList.add('hidden');
+		else this.nightOrderBadgeFirst.classList.remove('hidden');
+	}
+
+	public setOtherNightOrder(order:number):void {
+		this.nightOrderBadgeOther.textContent = order.toString();
+		if (order == 0) this.nightOrderBadgeOther.classList.add('hidden');
+		else this.nightOrderBadgeOther.classList.remove('hidden');
+	}
+
 	static from(object:PlayerToken):PlayerToken {
 		// Create new player token and assign values from object
 		const token:PlayerToken = new PlayerToken();

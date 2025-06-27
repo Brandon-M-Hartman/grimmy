@@ -109,13 +109,19 @@ player-token {
         }
 
         div.badge {
-            visibility: hidden;
+            opacity: 0;
         }
     }
 
     &.display {
         div.badge {
-            visibility: hidden;
+            opacity: 0;
+        }
+    }
+
+    &.spectate {
+        div.badge {
+            opacity: 0;
         }
     }
 
@@ -151,6 +157,7 @@ player-token {
         justify-content: center;
         font-weight: bold;
         top: 15px;
+        transition: opacity 0.3s ease-out;
 
         &.firstNightOrder {
             left: 0;
@@ -160,6 +167,10 @@ player-token {
         &.otherNightOrder {
             right: 0;
             background-color: rgb(189, 23, 23);
+        }
+
+        &.hidden {
+            opacity: 0;
         }
     }
 }

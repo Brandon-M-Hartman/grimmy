@@ -6,6 +6,7 @@ import { Role } from "./role";
 import { Game } from "./game";
 import { LocalStorageService } from "./localstorage";
 import { DemonBluffsScreen } from "./screens/demonbluffs";
+import { firstNightTasks, NightOrderTaskType, otherNightTasks } from "./screens/nightorder";
 
 export class TownSquare extends HTMLElement {
 	static enabled:boolean = true;
@@ -26,6 +27,8 @@ export class TownSquare extends HTMLElement {
 			if (token instanceof PlayerToken) this.addPlayerToken(token);
 			else if (token instanceof ReminderToken) this.addReminderToken(token);
 		});
+
+		this.updateNightOrderBadges();
 	}
 
 	addPlayerToken(token:PlayerToken):void {
@@ -40,7 +43,10 @@ export class TownSquare extends HTMLElement {
 			}
 		}
 
-		token.onStateChanged = () => this.saveBoardState();
+		token.onStateChanged = () => {
+			this.saveBoardState();
+			this.updateNightOrderBadges();
+		}
 
 		token = token.makeFunctional();
 		this.appendChild(token);
@@ -179,6 +185,9 @@ export class TownSquare extends HTMLElement {
         this.tokens.forEach(token => {
             if (token instanceof PlayerToken) token.setMovable(!Game.lockPlayerTokens && !Game.spectateMode);
 			else token.setMovable(!Game.spectateMode);
+
+			if (Game.spectateMode) token.classList.add('spectate');
+			else token.classList.remove('spectate');
         });        
     }
 
@@ -200,5 +209,28 @@ export class TownSquare extends HTMLElement {
 
 	getDraggingToken():Token | null {
 		return this.draggingToken;
+	}
+
+	updateNightOrderBadges():void {
+		this.getPlayerTokens().forEach(token => {
+			token.setFirstNightOrder(0);
+			token.setOtherNightOrder(0);
+		});
+
+		let firstNightOrder:number = 1;
+		firstNightTasks.forEach(task => {
+			if (task.type == NightOrderTaskType.ROLE && this.isRoleInUse(task.role!)) {
+				this.getTokenForRole(task.role!)?.setFirstNightOrder(firstNightOrder);
+				firstNightOrder++;
+			}
+		});
+
+		let otherNightOrder:number = 1;
+		otherNightTasks.forEach(task => {
+			if (task.type == NightOrderTaskType.ROLE && this.isRoleAlive(task.role!)) {
+				this.getTokenForRole(task.role!)?.setOtherNightOrder(otherNightOrder);
+				otherNightOrder++;
+			}
+		});
 	}
 }
