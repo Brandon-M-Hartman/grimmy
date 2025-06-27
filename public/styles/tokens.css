@@ -107,6 +107,16 @@ player-token {
             transform: scale(40%) translateY(-120px);
             opacity: 1;
         }
+
+        div.badge {
+            visibility: hidden;
+        }
+    }
+
+    &.display {
+        div.badge {
+            visibility: hidden;
+        }
     }
 
     span.player-name {
@@ -124,6 +134,32 @@ player-token {
     &.dragging {
         span.player-name {
             opacity: 0;
+        }
+    }
+
+    div.badge {
+        position: absolute;
+        background-color: black;
+        color: white;
+        font-size: 35px;
+        z-index: 10;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        top: 15px;
+
+        &.firstNightOrder {
+            left: 0;
+            background-color: rgb(49, 120, 212);
+        }
+
+        &.otherNightOrder {
+            right: 0;
+            background-color: rgb(189, 23, 23);
         }
     }
 }

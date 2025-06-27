@@ -19,6 +19,8 @@ export class PlayerToken extends Token {
 	private leftElement:HTMLImageElement;
 	private rightElement:HTMLImageElement;
 	private setupElement:HTMLImageElement;
+	private nightOrderBadgeFirst:HTMLDivElement;
+	private nightOrderBadgeOther:HTMLDivElement;
 	private playerName:string;
 	private nameTag:HTMLElement;
 	private selected:boolean;
@@ -69,6 +71,16 @@ export class PlayerToken extends Token {
 		this.nameTag.className = "player-name";
 		this.container.appendChild(this.nameTag);
 		this.setPlayerName("");
+
+		this.nightOrderBadgeFirst = document.createElement('div');
+		this.nightOrderBadgeFirst.className = "badge firstNightOrder";
+		this.nightOrderBadgeFirst.textContent = "0";
+		this.container.appendChild(this.nightOrderBadgeFirst);
+
+		this.nightOrderBadgeOther = document.createElement('div');
+		this.nightOrderBadgeOther.className = "badge otherNightOrder";
+		this.nightOrderBadgeOther.textContent = "0";
+		this.container.appendChild(this.nightOrderBadgeOther);
 	}
 
 	getRole():Role | null {
