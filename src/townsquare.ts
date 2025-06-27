@@ -6,6 +6,7 @@ import { Role } from "./role";
 import { Game } from "./game";
 import { LocalStorageService } from "./localstorage";
 import { DemonBluffsScreen } from "./screens/demonbluffs";
+import { firstNightTasks, NightOrderTaskType, otherNightTasks } from "./screens/nightorder";
 
 export class TownSquare extends HTMLElement {
 	static enabled:boolean = true;
@@ -26,6 +27,8 @@ export class TownSquare extends HTMLElement {
 			if (token instanceof PlayerToken) this.addPlayerToken(token);
 			else if (token instanceof ReminderToken) this.addReminderToken(token);
 		});
+
+		this.updateNightOrderBadges();
 	}
 
 	addPlayerToken(token:PlayerToken):void {
@@ -40,7 +43,10 @@ export class TownSquare extends HTMLElement {
 			}
 		}
 
-		token.onStateChanged = () => this.saveBoardState();
+		token.onStateChanged = () => {
+			this.saveBoardState();
+			this.updateNightOrderBadges();
+		}
 
 		token = token.makeFunctional();
 		this.appendChild(token);
@@ -107,7 +113,7 @@ export class TownSquare extends HTMLElement {
 	}
 
 	bindTokenEvents(token:Token):void {
-		token.addEventListener("dragstart", () => {
+		token.addEventListener("token-drag-start", () => {
 			this.draggingToken = token;
 			const index = this.tokens.indexOf(token);
 			this.tokens.splice(index, 1);
@@ -115,10 +121,13 @@ export class TownSquare extends HTMLElement {
 			this.reorderTokens();
 			this.dispatchEvent(new CustomEvent("start-dragging-token", { detail: token }));
 		});
-		token.addEventListener("dragend", () => {
+		token.addEventListener("token-drag-end", (e) => {
 			this.draggingToken = null;
-			this.dispatchEvent(new CustomEvent("stop-dragging-token"));
+			this.dispatchEvent(new CustomEvent("stop-dragging-token", { detail: { token: token, pos: (<CustomEvent>e).detail }}));
 			this.saveBoardState();
+		});
+		token.addEventListener("token-dragging", (e) => {
+			this.dispatchEvent(new CustomEvent("dragging-token", { detail: { token: token, pos: (<CustomEvent>e).detail }}));
 		});
 	}
 
@@ -174,7 +183,11 @@ export class TownSquare extends HTMLElement {
 
 	updateTokenMovable():void {
         this.tokens.forEach(token => {
-            token.setMovable(!Game.lockPlayerTokens && !Game.spectateMode);
+            if (token instanceof PlayerToken) token.setMovable(!Game.lockPlayerTokens && !Game.spectateMode);
+			else token.setMovable(!Game.spectateMode);
+
+			if (Game.spectateMode) token.classList.add('spectate');
+			else token.classList.remove('spectate');
         });        
     }
 
@@ -196,5 +209,28 @@ export class TownSquare extends HTMLElement {
 
 	getDraggingToken():Token | null {
 		return this.draggingToken;
+	}
+
+	updateNightOrderBadges():void {
+		this.getPlayerTokens().forEach(token => {
+			token.setFirstNightOrder(0);
+			token.setOtherNightOrder(0);
+		});
+
+		let firstNightOrder:number = 1;
+		firstNightTasks.forEach(task => {
+			if (task.type == NightOrderTaskType.ROLE && this.isRoleInUse(task.role!)) {
+				this.getTokenForRole(task.role!)?.setFirstNightOrder(firstNightOrder);
+				firstNightOrder++;
+			}
+		});
+
+		let otherNightOrder:number = 1;
+		otherNightTasks.forEach(task => {
+			if (task.type == NightOrderTaskType.ROLE && this.isRoleAlive(task.role!)) {
+				this.getTokenForRole(task.role!)?.setOtherNightOrder(otherNightOrder);
+				otherNightOrder++;
+			}
+		});
 	}
 }

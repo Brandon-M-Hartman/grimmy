@@ -4,6 +4,8 @@
     user-select: none;
     transform-origin: center;
     transition: transform 0.1s ease-out;
+    touch-action: none;
+    pointer-events: none;
 
     &.dragging {
         filter: drop-shadow(0px 25px 10px rgba(0, 0, 0, 0.25));
@@ -22,7 +24,7 @@
 
     img {
         position: absolute;
-        z-index: 2;  
+        z-index: 2;
 
         &.reminder {
             transform: scale(0.515);
@@ -56,6 +58,8 @@
         position: relative;
         display: block;        
         transition: opacity 0.2s ease-out;
+        touch-action: all;
+        pointer-events: all;
 
         .container {
             transform: none;
@@ -95,9 +99,29 @@ player-token {
     &.dead {
         filter: grayscale(1);
 
+        &.dragging {
+            filter: grayscale(1) drop-shadow(0px 25px 10px rgba(0, 0, 0, 0.25));
+        }
+
         .shroud {
             transform: scale(40%) translateY(-120px);
             opacity: 1;
+        }
+
+        div.badge {
+            opacity: 0;
+        }
+    }
+
+    &.display {
+        div.badge {
+            opacity: 0;
+        }
+    }
+
+    &.spectate {
+        div.badge {
+            opacity: 0;
         }
     }
 
@@ -115,6 +139,37 @@ player-token {
 
     &.dragging {
         span.player-name {
+            opacity: 0;
+        }
+    }
+
+    div.badge {
+        position: absolute;
+        background-color: black;
+        color: white;
+        font-size: 35px;
+        z-index: 10;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        top: 15px;
+        transition: opacity 0.3s ease-out;
+
+        &.firstNightOrder {
+            left: 0;
+            background-color: rgb(49, 120, 212);
+        }
+
+        &.otherNightOrder {
+            right: 0;
+            background-color: rgb(189, 23, 23);
+        }
+
+        &.hidden {
             opacity: 0;
         }
     }

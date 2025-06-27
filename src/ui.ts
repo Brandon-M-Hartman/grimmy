@@ -5,7 +5,6 @@ import { CardsScreen } from './screens/cards';
 import { DemonBluffsScreen } from './screens/demonbluffs';
 import { MenuScreen } from './screens/menu';
 import { NightOrderScreen } from './screens/nightorder';
-import { Token } from './token';
 
 export class UI extends HTMLElement {
 
@@ -114,10 +113,6 @@ export class UI extends HTMLElement {
         const deleteArea:HTMLElement = document.createElement('div');
         deleteArea.className = "delete-area";
         bottomCenter.appendChild(deleteArea);
-        deleteArea.onpointerup = () => {
-            const draggingToken:Token | null = Application.townSquare.getDraggingToken();
-            if (draggingToken) Application.townSquare.removeToken(draggingToken);
-        }
 
         const deleteIcon:HTMLElement = document.createElement('div');
         deleteIcon.innerHTML = `<span class="iconify" data-icon="tabler:trash" data-width="${iconSize}"></span>`;
@@ -155,8 +150,23 @@ export class UI extends HTMLElement {
             deleteArea.classList.add('visible');
         });
 
-        Application.townSquare.addEventListener("stop-dragging-token", () => {
+        Application.townSquare.addEventListener("stop-dragging-token", (e) => {
             deleteArea.classList.remove('visible');
+            const screenPos:{ x:number, y:number} = Application.viewport.convertToScreen((<CustomEvent>e).detail.pos);
+            if (screenPos.y > window.innerHeight * 0.9 && 
+                screenPos.x > window.innerWidth * 0.45 && 
+                screenPos.x < window.innerWidth * 0.55)
+                Application.townSquare.removeToken((<CustomEvent>e).detail.token);
+        });
+
+        Application.townSquare.addEventListener("dragging-token", (e) => {
+            const screenPos:{ x:number, y:number} = Application.viewport.convertToScreen((<CustomEvent>e).detail.pos);
+            if (screenPos.y > window.innerHeight * 0.9 && 
+                screenPos.x > window.innerWidth * 0.45 && 
+                screenPos.x < window.innerWidth * 0.55) 
+                deleteArea.classList.add('hover');
+            else 
+                deleteArea.classList.remove('hover');
         });
     }
 }

@@ -149,18 +149,18 @@ type NightOrderTask = {
     info: string;
 };
 
-enum NightOrderTaskType {
+export enum NightOrderTaskType {
     ROLE = "role",
     SETUP = "setup"
 }
 
 type NightOrderTasks = Array<NightOrderTask>;
-const firstNightTasks: NightOrderTasks = firstNightJson.map((task) => ({
+export const firstNightTasks: NightOrderTasks = firstNightJson.map((task) => ({
   ...task,
   type: task.type as NightOrderTaskType,
   role: task.role as Role,
 }));
-const otherNightTasks: NightOrderTasks = otherNightsJson.map((task) => ({
+export const otherNightTasks: NightOrderTasks = otherNightsJson.map((task) => ({
   ...task,
   type: task.type as NightOrderTaskType,
   role: task.role as Role,

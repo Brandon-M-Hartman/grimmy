@@ -65,7 +65,7 @@ export class Token extends HTMLElement {
 				this.pos.x = (rect.left - boardRect.x) / Application.viewport.scale;
 				this.pos.y = (rect.top - boardRect.y) / Application.viewport.scale;
 				this.classList.add("dragging");
-				this.dispatchEvent(new CustomEvent("dragstart"));
+				this.dispatchEvent(new CustomEvent("token-drag-start"));
 			}
 		});
 
@@ -84,6 +84,7 @@ export class Token extends HTMLElement {
 
 			this.style.left = `${newX}px`;
 			this.style.top = `${newY}px`;
+			this.dispatchEvent(new CustomEvent("token-dragging", { detail: { x: newX, y: newY }}));
 		});
 
 		hammer.on('panend', (e) => {
@@ -104,7 +105,7 @@ export class Token extends HTMLElement {
 		
 			this.dragging = false;
 			this.classList.remove("dragging");
-			this.dispatchEvent(new CustomEvent("dragend"));
+			this.dispatchEvent(new CustomEvent("token-drag-end", { detail: { x: this.pos.x, y: this.pos.y }}));
 		});
 	}
 
@@ -166,6 +167,7 @@ export class Token extends HTMLElement {
 
 	protected onTokenTapped():void {
 		this.dispatchEvent(new Event("tapped"));
+		this.onTapped();
 		// override in child class
 	}
 
@@ -173,6 +175,8 @@ export class Token extends HTMLElement {
 		this.dispatchEvent(new Event("double-tapped"));
 		// override in child class
 	}
+
+	onTapped = () => {};
 
 	connectedCallback() {
 		this.makeText();

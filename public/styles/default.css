@@ -20,7 +20,7 @@ html, body {
     color: rgba(255, 255, 255, 0.87);
     background-color: #000000;
     overflow: hidden;
-    font-family: 'Trade Gothic', Helvetica, sans-serif
+    font-family: 'Trade Gothic', Helvetica, sans-serif;
 }
 
 button {
