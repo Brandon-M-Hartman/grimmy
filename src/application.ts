@@ -48,6 +48,7 @@ export class Application {
         }
 
         board.appendChild(Application.townSquare);
+
         Application.loadFromStorage();
     }
 

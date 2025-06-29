@@ -5,6 +5,7 @@ import { CardsScreen } from './screens/cards';
 import { DemonBluffsScreen } from './screens/demonbluffs';
 import { MenuScreen } from './screens/menu';
 import { NightOrderScreen } from './screens/nightorder';
+import { TokenDrawer } from './tokendrawer';
 
 export class UI extends HTMLElement {
 
@@ -168,5 +169,8 @@ export class UI extends HTMLElement {
             else 
                 deleteArea.classList.remove('hover');
         });
+
+        const tokenDrawer = new TokenDrawer();
+        this.appendChild(tokenDrawer);
     }
 }
