@@ -7,6 +7,7 @@ import { Game } from "./game";
 import { LocalStorageService } from "./localstorage";
 import { DemonBluffsScreen } from "./screens/demonbluffs";
 import { firstNightTasks, NightOrderTaskType, otherNightTasks } from "./screens/nightorder";
+import { TokenDrawer } from "./tokendrawer";
 
 export class TownSquare extends HTMLElement {
 	static enabled:boolean = true;
@@ -51,7 +52,7 @@ export class TownSquare extends HTMLElement {
 			this.updateNightOrderBadges();
 		}
 
-		token = token.makeFunctional();
+		token.makeFunctional();
 		this.appendChild(token);
 		this.playerTokens.push(token);
 		this.bindTokenEvents(token);
@@ -66,11 +67,23 @@ export class TownSquare extends HTMLElement {
 		this.reminderTokens.push(token);
 		this.bindTokenEvents(token);
 		token.bindEvents();
+		token.classList.remove('display');
+        token.style.scale = '1';
+	}
+
+	addToken(token:Token):void {
+		this.tokens.push(token);
+		if (token instanceof PlayerToken) this.addPlayerToken(token);
+		else if (token instanceof ReminderToken) this.addReminderToken(token);
+		this.updateTokenMovable();
+		this.updateNightOrderBadges();
+		this.saveBoardState();
 	}
 
 	removeToken(token:Token):void {
 		this.removeChild(token);
 		this.tokens.splice(this.tokens.indexOf(token), 1);
+		this.updateNightOrderBadges();
 		this.saveBoardState();
 	}
 
@@ -150,7 +163,7 @@ export class TownSquare extends HTMLElement {
 	getTokenForRole(role:Role):PlayerToken | null {
         let playerToken:PlayerToken | null = null;
         this.getPlayerTokens().forEach(token => {
-            if (token.getPerceivedRole() == role || token.getRole() == role) playerToken = token;
+            if (token.getPerceivedRole() == role && !token.isDead()) playerToken = token;
         });
         return playerToken;
     }
@@ -174,7 +187,7 @@ export class TownSquare extends HTMLElement {
 	isRoleInUse(role:Role):boolean {
 		let result:boolean = false;
 		this.getPlayerTokens().forEach(token => {
-			if (token.getPerceivedRole() == role || token.getRole() == role) result = true;
+			if (token.getPerceivedRole() == role) result = true;
 		});
 		if (DemonBluffsScreen.bluffs.includes(role)) result = true;
 		return result;
@@ -182,8 +195,8 @@ export class TownSquare extends HTMLElement {
 
 	updateTokenMovable():void {
         this.tokens.forEach(token => {
-            if (token instanceof PlayerToken) token.setMovable(!Game.lockPlayerTokens && !Game.spectateMode);
-			else token.setMovable(!Game.spectateMode);
+            if (token instanceof PlayerToken) token.setMovable(!Game.lockPlayerTokens && !Game.spectateMode && !TokenDrawer.open);
+			else token.setMovable(!Game.spectateMode && !TokenDrawer.open);
 
 			if (Game.spectateMode) token.classList.add('spectate');
 			else token.classList.remove('spectate');

@@ -65,4 +65,65 @@ app-ui {
             }
         }
     }
+
+    token-drawer {
+        position: absolute;
+        bottom: -500px;
+        left: 0;
+        margin: 0 80px;
+        margin-bottom: 25px;
+        width: calc(100vw - 160px);
+        box-sizing: border-box;
+        display: flex;
+        gap: 10px;
+        flex-direction: column;
+        transition: bottom 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+        &.visible {
+            bottom: 0;
+        }
+
+        .token-area {
+            position: relative;
+            background-color: rgba(0, 0, 0, 0.25);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .player-tokens {
+            display: flex;
+            gap: 10px;
+            position: relative;
+            padding: 15px;
+            justify-content: center;
+
+            .token-wrapper {
+                min-width: 128px;
+                height: 128px;
+                cursor: pointer;
+
+                .token {
+                    transform-origin: top left;
+                }
+            }
+        }
+
+        .reminder-tokens {
+            display: flex;
+            gap: 10px;
+            position: relative;
+            padding: 15px;
+            justify-content: center;
+
+            .token-wrapper {
+                min-width: 64px;
+                min-height: 64px;
+                cursor: pointer;
+
+                .token {
+                    transform-origin: top left;
+                }
+            }
+        }
+    }
 }

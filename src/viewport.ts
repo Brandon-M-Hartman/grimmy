@@ -131,4 +131,10 @@ export class Viewport {
         const screenY = (pos.y * this.scale) + this.y;
         return { x: screenX, y: screenY };
     }
+
+    convertToBoard(pos:{ x:number, y:number }):{ x:number, y:number } {
+        const boardX = (pos.x - this.x) / this.scale;
+        const boardY = (pos.y - this.y) / this.scale;
+        return { x: boardX, y: boardY };
+    }
 }
