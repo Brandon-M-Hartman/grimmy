@@ -116,6 +116,8 @@ export class TokenDrawer extends HTMLElement {
             if (!this.draggingToken) return;
             Application.ui.removeChild(this.draggingToken);
 
+            if (e.center.y >= this.getBoundingClientRect().y) return;
+            
             const boardPos = Application.viewport.convertToBoard(e.center);
             this.draggingToken.setPosition(boardPos.x, boardPos.y);
             Application.townSquare.addToken(this.draggingToken);
