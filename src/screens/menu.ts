@@ -50,6 +50,9 @@ export class MenuScreen extends Screen {
         const supportButton = document.createElement('button');
         supportButton.textContent = "Support this tool";
         buttons.appendChild(supportButton);
+        supportButton.onclick = () => {
+            window.open('https://ko-fi.com/miltage', '_blank');
+        }
 
         const supportLogo = document.createElement('img');
         supportLogo.src = "assets/ko-fi.png";
