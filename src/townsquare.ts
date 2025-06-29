@@ -59,7 +59,6 @@ export class TownSquare extends HTMLElement {
 		token.bindEvents();
 		token.setMovable(!Game.lockPlayerTokens);
 		token.onclick = null;
-		this.updateNightOrderBadges();
 	}
 
 	addReminderToken(token:ReminderToken):void {
@@ -75,6 +74,8 @@ export class TownSquare extends HTMLElement {
 		this.tokens.push(token);
 		if (token instanceof PlayerToken) this.addPlayerToken(token);
 		else if (token instanceof ReminderToken) this.addReminderToken(token);
+		this.updateNightOrderBadges();
+		this.saveBoardState();
 	}
 
 	removeToken(token:Token):void {

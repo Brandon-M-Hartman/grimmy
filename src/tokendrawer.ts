@@ -117,11 +117,12 @@ export class TokenDrawer extends HTMLElement {
         hammer.on('panend', (e) => {
             if (!this.draggingToken) return;
             Application.ui.removeChild(this.draggingToken);
-            Application.townSquare.addToken(this.draggingToken);
 
             const boardPos = Application.viewport.convertToBoard(e.center);
-            this.draggingToken.style.left = `${boardPos.x}px`;
-            this.draggingToken.style.top = `${boardPos.y}px`;
+            //this.draggingToken.style.left = `${boardPos.x}px`;
+            //this.draggingToken.style.top = `${boardPos.y}px`;
+            this.draggingToken.setPosition(boardPos.x, boardPos.y);
+            Application.townSquare.addToken(this.draggingToken);
         });
     }
 
@@ -130,8 +131,8 @@ export class TokenDrawer extends HTMLElement {
         this.reminderTokenAreaScroll += this.reminderTokenAreaVel;
 
         const maxScroll = 0;
-        const paMinScroll = Math.min(this.offsetWidth - this.playerTokenContainer.scrollWidth - 20, 0);
-        const raMinScroll = Math.min(this.offsetWidth - this.reminderTokenContainer.scrollWidth - 20, 0);
+        const paMinScroll = Math.min(this.offsetWidth - this.playerTokenContainer.scrollWidth, 0);
+        const raMinScroll = Math.min(this.offsetWidth - this.reminderTokenContainer.scrollWidth, 0);
         this.playerTokenAreaScroll = Math.max(paMinScroll, Math.min(maxScroll, this.playerTokenAreaScroll));
         this.reminderTokenAreaScroll = Math.max(raMinScroll, Math.min(maxScroll, this.reminderTokenAreaScroll));
 
