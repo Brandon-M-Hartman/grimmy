@@ -130,11 +130,20 @@ export class TokenDrawer extends HTMLElement {
         this.playerTokenAreaScroll += this.playerTokenAreaVel;
         this.reminderTokenAreaScroll += this.reminderTokenAreaVel;
 
-        const maxScroll = 0;
-        const paMinScroll = Math.min(this.offsetWidth - this.playerTokenContainer.scrollWidth, 0);
-        const raMinScroll = Math.min(this.offsetWidth - this.reminderTokenContainer.scrollWidth, 0);
-        this.playerTokenAreaScroll = Math.max(paMinScroll, Math.min(maxScroll, this.playerTokenAreaScroll));
-        this.reminderTokenAreaScroll = Math.max(raMinScroll, Math.min(maxScroll, this.reminderTokenAreaScroll));
+        const containerWidth = this.getBoundingClientRect().width;
+        const ptContentWidth = this.playerTokenContainer.scrollWidth;
+        const rtContentWidth = this.reminderTokenContainer.scrollWidth;
+
+        const ptOverflow = Math.max(0, ptContentWidth - containerWidth);
+        const rtOverflow = Math.max(0, rtContentWidth - containerWidth);
+        const ptMaxScroll = ptOverflow;
+        const ptMinScroll = -ptOverflow;
+        const rtMaxScroll = rtOverflow;
+        const rtMinScroll = -rtOverflow;
+
+        // Clamp scroll positions
+        this.playerTokenAreaScroll = Math.max(ptMinScroll, Math.min(ptMaxScroll, this.playerTokenAreaScroll));
+        this.reminderTokenAreaScroll = Math.max(rtMinScroll, Math.min(rtMaxScroll, this.reminderTokenAreaScroll));
 
         this.playerTokenAreaVel *= 0.9;
         this.reminderTokenAreaVel *= 0.9;

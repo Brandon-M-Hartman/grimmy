@@ -95,6 +95,7 @@ app-ui {
             gap: 10px;
             position: relative;
             padding: 15px;
+            justify-content: center;
 
             .token-wrapper {
                 min-width: 128px;
@@ -112,6 +113,7 @@ app-ui {
             gap: 10px;
             position: relative;
             padding: 15px;
+            justify-content: center;
 
             .token-wrapper {
                 min-width: 64px;
