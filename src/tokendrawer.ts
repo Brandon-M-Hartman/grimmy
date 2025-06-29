@@ -66,8 +66,6 @@ export class TokenDrawer extends HTMLElement {
                 this.bindTokenEvents(reminderToken);
             }
         });
-
-        requestAnimationFrame(() => this.update());
     }
 
     bindTokenEvents(token:Token):void {
@@ -119,8 +117,6 @@ export class TokenDrawer extends HTMLElement {
             Application.ui.removeChild(this.draggingToken);
 
             const boardPos = Application.viewport.convertToBoard(e.center);
-            //this.draggingToken.style.left = `${boardPos.x}px`;
-            //this.draggingToken.style.top = `${boardPos.y}px`;
             this.draggingToken.setPosition(boardPos.x, boardPos.y);
             Application.townSquare.addToken(this.draggingToken);
         });
@@ -150,13 +146,14 @@ export class TokenDrawer extends HTMLElement {
         this.playerTokenContainer.style.left = `${this.playerTokenAreaScroll}px`;
         this.reminderTokenContainer.style.left = `${this.reminderTokenAreaScroll}px`;
 
-        requestAnimationFrame(() => this.update());
+        if (this.visible) requestAnimationFrame(() => this.update());
     }
 
     toggleVisibility():void {
         this.visible = !this.visible;
         if (this.visible) this.classList.add('visible');
         else this.classList.remove('visible');
+        requestAnimationFrame(() => this.update());
     }
 }
 
