@@ -7,6 +7,7 @@ import { Game } from "./game";
 import { LocalStorageService } from "./localstorage";
 import { DemonBluffsScreen } from "./screens/demonbluffs";
 import { firstNightTasks, NightOrderTaskType, otherNightTasks } from "./screens/nightorder";
+import { TokenDrawer } from "./tokendrawer";
 
 export class TownSquare extends HTMLElement {
 	static enabled:boolean = true;
@@ -74,6 +75,7 @@ export class TownSquare extends HTMLElement {
 		this.tokens.push(token);
 		if (token instanceof PlayerToken) this.addPlayerToken(token);
 		else if (token instanceof ReminderToken) this.addReminderToken(token);
+		this.updateTokenMovable();
 		this.updateNightOrderBadges();
 		this.saveBoardState();
 	}
@@ -193,8 +195,8 @@ export class TownSquare extends HTMLElement {
 
 	updateTokenMovable():void {
         this.tokens.forEach(token => {
-            if (token instanceof PlayerToken) token.setMovable(!Game.lockPlayerTokens && !Game.spectateMode);
-			else token.setMovable(!Game.spectateMode);
+            if (token instanceof PlayerToken) token.setMovable(!Game.lockPlayerTokens && !Game.spectateMode && !TokenDrawer.open);
+			else token.setMovable(!Game.spectateMode && !TokenDrawer.open);
 
 			if (Game.spectateMode) token.classList.add('spectate');
 			else token.classList.remove('spectate');

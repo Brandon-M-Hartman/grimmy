@@ -7,6 +7,8 @@ import { Token } from "./token";
 
 export class TokenDrawer extends HTMLElement {
 
+    static open:boolean = false;
+
     draggingToken:Token | null = null;
     draggingArea:TokenArea; 
     playerTokenContainer:HTMLElement;
@@ -153,8 +155,10 @@ export class TokenDrawer extends HTMLElement {
 
     toggleVisibility():void {
         this.visible = !this.visible;
+        TokenDrawer.open = this.visible;
         if (this.visible) this.classList.add('visible');
         else this.classList.remove('visible');
+        Application.townSquare.updateTokenMovable();
         requestAnimationFrame(() => this.update());
     }
 }
