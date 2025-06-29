@@ -8,28 +8,42 @@ import { Token } from "./token";
 export class TokenDrawer extends HTMLElement {
 
     draggingToken:Token | null = null;
+    draggingArea:TokenArea; 
+    playerTokenContainer:HTMLElement;
+    reminderTokenContainer:HTMLElement;
+    playerTokenAreaScroll:number = 0;
+    playerTokenAreaVel:number = 0;
+    reminderTokenAreaScroll:number = 0;
+    reminderTokenAreaVel:number = 0;
 
     constructor() {
         super();
 
-        const playerTokenContainer = document.createElement('div');
-        playerTokenContainer.className = "token-area player-tokens";
-        playerTokenContainer.style.touchAction = 'none';
-        this.appendChild(playerTokenContainer);
+        this.draggingArea = TokenArea.PLAYER;
 
-        playerTokenContainer.onmouseenter = (e) => {
-            console.log(e);
-        }
+        const playerTokenArea = document.createElement('div');
+        playerTokenArea.className = "token-area";
+        playerTokenArea.style.touchAction = 'none';
+        this.appendChild(playerTokenArea);
 
-        const reminderTokenContainer = document.createElement('div');
-        reminderTokenContainer.className = "token-area reminder-tokens";
-        reminderTokenContainer.style.touchAction = 'none';
-        this.appendChild(reminderTokenContainer);
+        this.playerTokenContainer = document.createElement('div');
+        this.playerTokenContainer.className = "player-tokens";
+        playerTokenArea.appendChild(this.playerTokenContainer);
+
+        const reminderTokenArea = document.createElement('div');
+        reminderTokenArea.className = "token-area";
+        reminderTokenArea.style.touchAction = 'none';
+        this.appendChild(reminderTokenArea);
+
+        this.reminderTokenContainer = document.createElement('div');
+        this.reminderTokenContainer.className = "reminder-tokens";
+        this.reminderTokenContainer.style.touchAction = 'none';
+        reminderTokenArea.appendChild(this.reminderTokenContainer);
 
         TroubleBrewing.forEach(role => {
             const tokenWrapper = document.createElement('div');
             tokenWrapper.className = 'token-wrapper';
-            playerTokenContainer.appendChild(tokenWrapper);
+            this.playerTokenContainer.appendChild(tokenWrapper);
 
             const token:PlayerToken = new PlayerToken().makeDisplay(0.5);
             token.setRole(role);
@@ -40,7 +54,7 @@ export class TokenDrawer extends HTMLElement {
             for (let i = 0; i < roleData[role].reminders.length; i++) {
                 const tokenWrapper = document.createElement('div');
                 tokenWrapper.className = 'token-wrapper';
-                reminderTokenContainer.appendChild(tokenWrapper);
+                this.reminderTokenContainer.appendChild(tokenWrapper);
 
                 const reminderToken:ReminderToken = new ReminderToken(role, i);
                 tokenWrapper.appendChild(reminderToken);
@@ -51,32 +65,49 @@ export class TokenDrawer extends HTMLElement {
                 this.bindTokenEvents(reminderToken);
             }
         });
+
+        requestAnimationFrame(() => this.update());
     }
 
     bindTokenEvents(token:Token):void {
         const hammer = new Hammer(token);
-        hammer.get('pan').set({ threshold: 5 });
+        hammer.get('pan').set({ threshold: 0, direction: Hammer.DIRECTION_ALL });
+
+        let lastPanX = 0;
 
         hammer.on('panstart', (e) => {
-            if (token instanceof PlayerToken) {
-                this.draggingToken = new PlayerToken().makeDisplay(0.5);
-                (<PlayerToken>this.draggingToken).setRole((<PlayerToken>token).getRole());
-            }
-            else {
-                this.draggingToken = new ReminderToken((<ReminderToken>token).getRole(), (<ReminderToken>token).getIndex());
-                this.draggingToken.classList.add('display');
-                this.draggingToken.style.scale = '0.5';
-            }
+            lastPanX = e.center.x;
+            // Drag token if user is dragging vertically
+            if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+                if (token instanceof PlayerToken) {
+                    this.draggingToken = new PlayerToken().makeDisplay(0.5);
+                    (this.draggingToken as PlayerToken).setRole(token.getRole());
+                } else if (token instanceof ReminderToken) {
+                    this.draggingToken = new ReminderToken(token.getRole(), token.getIndex());
+                    this.draggingToken.classList.add('display');
+                    this.draggingToken.style.scale = '0.5';
+                }
 
-            Application.ui.appendChild(this.draggingToken);
-
-            this.draggingToken.style.position = 'absolute';
-            this.draggingToken.style.left = `${e.center.x - 128}px`;
-            this.draggingToken.style.top = `${e.center.y - 128}px`;
+                Application.ui.appendChild(this.draggingToken!);
+                this.draggingToken!.style.position = 'absolute';
+                this.draggingToken!.style.left = `${e.center.x - 128}px`;
+                this.draggingToken!.style.top = `${e.center.y - 128}px`;
+            } else {
+                // Drag to scroll
+                this.draggingToken = null;
+                this.draggingArea = token instanceof PlayerToken ? TokenArea.PLAYER : TokenArea.REMINDER;
+            }
         });
 
         hammer.on('panmove', (e) => {
-            if (!this.draggingToken) return;
+            if (!this.draggingToken) {
+                const delta = e.center.x - lastPanX;
+                if (this.draggingArea == TokenArea.PLAYER) this.playerTokenAreaVel = delta;
+                else this.reminderTokenAreaVel = delta;
+                lastPanX = e.center.x;
+                return;
+            }
+            
             this.draggingToken.style.position = 'absolute';
             this.draggingToken.style.left = `${e.center.x - 128}px`;
             this.draggingToken.style.top = `${e.center.y - 128}px`;
@@ -92,4 +123,36 @@ export class TokenDrawer extends HTMLElement {
             this.draggingToken.style.top = `${boardPos.y}px`;
         });
     }
+
+    update():void {
+        this.playerTokenAreaScroll += this.playerTokenAreaVel;
+        this.reminderTokenAreaScroll += this.reminderTokenAreaVel;
+
+        const maxScroll = 0;
+        const paMinScroll = Math.min(this.offsetWidth - this.playerTokenContainer.scrollWidth - 20, 0);
+        const raMinScroll = Math.min(this.offsetWidth - this.reminderTokenContainer.scrollWidth - 20, 0);
+        this.playerTokenAreaScroll = Math.max(paMinScroll, Math.min(maxScroll, this.playerTokenAreaScroll));
+        this.reminderTokenAreaScroll = Math.max(raMinScroll, Math.min(maxScroll, this.reminderTokenAreaScroll));
+
+        this.playerTokenAreaVel *= 0.9;
+        this.reminderTokenAreaVel *= 0.9;
+
+        if (Math.abs(this.playerTokenAreaVel) < 0.1) {
+            this.playerTokenAreaVel = 0;
+        }
+
+        if (Math.abs(this.reminderTokenAreaVel) < 0.1) {
+            this.reminderTokenAreaVel = 0;
+        }
+
+        this.playerTokenContainer.style.left = `${this.playerTokenAreaScroll}px`;
+        this.reminderTokenContainer.style.left = `${this.reminderTokenAreaScroll}px`;
+
+        requestAnimationFrame(() => this.update());
+    }
+}
+
+enum TokenArea {
+    PLAYER,
+    REMINDER
 }

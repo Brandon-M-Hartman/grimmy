@@ -72,7 +72,6 @@ app-ui {
         left: 0;
         margin: 0 80px;
         margin-bottom: 25px;
-        height: 250px;
         width: calc(100vw - 160px);
         box-sizing: border-box;
         display: flex;
@@ -80,28 +79,20 @@ app-ui {
         flex-direction: column;
 
         .token-area {
-            display: flex;
-            gap: 10px;
             position: relative;
             background-color: rgba(0, 0, 0, 0.25);
             border-radius: 12px;
-            padding: 15px;
             overflow: hidden;
-            overflow-x: scroll;
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* IE 10+ */
-        }
-
-        .token-area::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Edge */
         }
 
         .player-tokens {
-            height: 160px;
+            display: flex;
+            gap: 10px;
+            position: relative;
+            padding: 15px;
 
             .token-wrapper {
                 min-width: 128px;
-                min-height: 128px;
                 height: 128px;
                 cursor: pointer;
 
@@ -112,8 +103,10 @@ app-ui {
         }
 
         .reminder-tokens {
-            padding: 10px 15px;
-            height: 80px;
+            display: flex;
+            gap: 10px;
+            position: relative;
+            padding: 15px;
 
             .token-wrapper {
                 min-width: 64px;
