@@ -77,7 +77,7 @@ export class TokenDrawer extends HTMLElement {
         hammer.on('panstart', (e) => {
             lastPanX = e.center.x;
             // Drag token if user is dragging vertically
-            if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+            if (Math.abs(e.deltaY) > Math.abs(e.deltaX) * 0.75) {
                 if (token instanceof PlayerToken) {
                     this.draggingToken = new PlayerToken().makeDisplay(0.5);
                     (this.draggingToken as PlayerToken).setRole(token.getRole());
@@ -117,7 +117,7 @@ export class TokenDrawer extends HTMLElement {
             Application.ui.removeChild(this.draggingToken);
 
             if (e.center.y >= this.getBoundingClientRect().y) return;
-            
+
             const boardPos = Application.viewport.convertToBoard(e.center);
             this.draggingToken.setPosition(boardPos.x, boardPos.y);
             Application.townSquare.addToken(this.draggingToken);
