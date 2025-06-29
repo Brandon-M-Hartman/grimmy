@@ -74,20 +74,30 @@ app-ui {
         margin-bottom: 25px;
         height: 250px;
         width: calc(100vw - 160px);
-        background-color: rgba(0, 0, 0, 0.25);
-        border-radius: 12px;
-        padding: 15px;
         box-sizing: border-box;
-        overflow: hidden;
-        overflow-x: scroll;
         display: flex;
         gap: 10px;
         flex-direction: column;
 
-        .player-tokens {
+        .token-area {
             display: flex;
             gap: 10px;
             position: relative;
+            background-color: rgba(0, 0, 0, 0.25);
+            border-radius: 12px;
+            padding: 15px;
+            overflow: hidden;
+            overflow-x: scroll;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE 10+ */
+        }
+
+        .token-area::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Edge */
+        }
+
+        .player-tokens {
+            height: 160px;
 
             .token-wrapper {
                 min-width: 128px;
@@ -102,9 +112,8 @@ app-ui {
         }
 
         .reminder-tokens {
-            display: flex;
-            gap: 10px;
-            position: relative;
+            padding: 10px 15px;
+            height: 80px;
 
             .token-wrapper {
                 min-width: 64px;

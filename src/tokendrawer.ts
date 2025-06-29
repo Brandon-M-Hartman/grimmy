@@ -13,11 +13,17 @@ export class TokenDrawer extends HTMLElement {
         super();
 
         const playerTokenContainer = document.createElement('div');
-        playerTokenContainer.className = "player-tokens";
+        playerTokenContainer.className = "token-area player-tokens";
+        playerTokenContainer.style.touchAction = 'none';
         this.appendChild(playerTokenContainer);
 
+        playerTokenContainer.onmouseenter = (e) => {
+            console.log(e);
+        }
+
         const reminderTokenContainer = document.createElement('div');
-        reminderTokenContainer.className = "reminder-tokens";
+        reminderTokenContainer.className = "token-area reminder-tokens";
+        reminderTokenContainer.style.touchAction = 'none';
         this.appendChild(reminderTokenContainer);
 
         TroubleBrewing.forEach(role => {
@@ -49,7 +55,7 @@ export class TokenDrawer extends HTMLElement {
 
     bindTokenEvents(token:Token):void {
         const hammer = new Hammer(token);
-        hammer.get('pan').set({ threshold: 0 });
+        hammer.get('pan').set({ threshold: 5 });
 
         hammer.on('panstart', (e) => {
             if (token instanceof PlayerToken) {
