@@ -27,6 +27,10 @@ export class ReminderToken extends Token {
         return this.role;
     }
 
+    getIndex():number {
+        return this.index;
+    }
+
     static from(object:ReminderToken):ReminderToken {
 		// Create new player token and assign values from object
 		const token:ReminderToken = new ReminderToken(object.role, object.index);

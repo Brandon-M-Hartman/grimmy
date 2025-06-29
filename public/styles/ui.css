@@ -72,7 +72,7 @@ app-ui {
         left: 0;
         margin: 0 80px;
         margin-bottom: 25px;
-        height: 200px;
+        height: 250px;
         width: calc(100vw - 160px);
         background-color: rgba(0, 0, 0, 0.25);
         border-radius: 12px;
@@ -80,6 +80,9 @@ app-ui {
         box-sizing: border-box;
         overflow: hidden;
         overflow-x: scroll;
+        display: flex;
+        gap: 10px;
+        flex-direction: column;
 
         .player-tokens {
             display: flex;
@@ -89,6 +92,23 @@ app-ui {
             .token-wrapper {
                 min-width: 128px;
                 min-height: 128px;
+                height: 128px;
+                cursor: pointer;
+
+                .token {
+                    transform-origin: top left;
+                }
+            }
+        }
+
+        .reminder-tokens {
+            display: flex;
+            gap: 10px;
+            position: relative;
+
+            .token-wrapper {
+                min-width: 64px;
+                min-height: 64px;
                 cursor: pointer;
 
                 .token {

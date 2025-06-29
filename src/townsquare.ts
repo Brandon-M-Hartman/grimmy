@@ -51,12 +51,11 @@ export class TownSquare extends HTMLElement {
 			this.updateNightOrderBadges();
 		}
 
-		token = token.makeFunctional();
+		token.makeFunctional();
 		this.appendChild(token);
 		this.playerTokens.push(token);
 		this.bindTokenEvents(token);
 		
-		token.makeFunctional();
 		token.bindEvents();
 		token.setMovable(!Game.lockPlayerTokens);
 		token.onclick = null;
@@ -68,6 +67,14 @@ export class TownSquare extends HTMLElement {
 		this.reminderTokens.push(token);
 		this.bindTokenEvents(token);
 		token.bindEvents();
+		token.classList.remove('display');
+        token.style.scale = '1';
+	}
+
+	addToken(token:Token):void {
+		this.tokens.push(token);
+		if (token instanceof PlayerToken) this.addPlayerToken(token);
+		else if (token instanceof ReminderToken) this.addReminderToken(token);
 	}
 
 	removeToken(token:Token):void {
