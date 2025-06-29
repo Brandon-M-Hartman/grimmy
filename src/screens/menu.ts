@@ -34,6 +34,19 @@ export class MenuScreen extends Screen {
             Application.startNewGame();
         }
 
+        const clearBoardButton = document.createElement('button');
+        clearBoardButton.textContent = "Clear board";
+        buttons.appendChild(clearBoardButton);
+        clearBoardButton.onclick = (e) => {
+            e.stopPropagation();
+            Application.townSquare.clear();
+            Application.ui.popScreen();
+        }
+
+        const clearIcon:HTMLElement = document.createElement('div');
+        clearIcon.innerHTML = `<span class="iconify" data-icon="majesticons:eraser" data-width="${iconSize}"></span>`;
+        clearBoardButton.appendChild(clearIcon);
+
         const lockTokensButton = document.createElement('button');
         lockTokensButton.textContent = Game.lockPlayerTokens ? "Unlock player tokens" : "Lock player tokens";
         buttons.appendChild(lockTokensButton);
