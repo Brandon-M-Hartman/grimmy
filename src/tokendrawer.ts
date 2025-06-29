@@ -15,6 +15,7 @@ export class TokenDrawer extends HTMLElement {
     playerTokenAreaVel:number = 0;
     reminderTokenAreaScroll:number = 0;
     reminderTokenAreaVel:number = 0;
+    visible:boolean = false;
 
     constructor() {
         super();
@@ -149,6 +150,12 @@ export class TokenDrawer extends HTMLElement {
         this.reminderTokenContainer.style.left = `${this.reminderTokenAreaScroll}px`;
 
         requestAnimationFrame(() => this.update());
+    }
+
+    toggleVisibility():void {
+        this.visible = !this.visible;
+        if (this.visible) this.classList.add('visible');
+        else this.classList.remove('visible');
     }
 }
 

@@ -11,6 +11,7 @@ export class UI extends HTMLElement {
 
     private screens:Array<Screen>;
     private screenContainer:HTMLElement;
+    private tokenDrawer:TokenDrawer;
 
     constructor() {
         super();
@@ -27,6 +28,9 @@ export class UI extends HTMLElement {
         addEventListener('pointerdown', (e) => {
             e.stopPropagation();
         });
+
+        this.tokenDrawer = new TokenDrawer();
+        this.appendChild(this.tokenDrawer);
 
         this.addIcons();
         this.hide();
@@ -141,6 +145,11 @@ export class UI extends HTMLElement {
             recenterButton.style.display = 'none';
         }
 
+        const tokensDrawerButton:HTMLElement = document.createElement('div');
+        tokensDrawerButton.innerHTML = `<span class="iconify" data-icon="material-symbols:circle" data-width="${iconSize}"></span>`;
+        bottomRight.appendChild(tokensDrawerButton);
+        tokensDrawerButton.onclick = () => this.tokenDrawer.toggleVisibility();
+
         Application.viewport.onPanned = (x:number, y:number) => {
             const distToRecenter:number = 0.35
             recenterButton.style.display = x > window.innerWidth * distToRecenter && x < window.innerWidth * (1.0 - distToRecenter) && 
@@ -169,8 +178,5 @@ export class UI extends HTMLElement {
             else 
                 deleteArea.classList.remove('hover');
         });
-
-        const tokenDrawer = new TokenDrawer();
-        this.appendChild(tokenDrawer);
     }
 }

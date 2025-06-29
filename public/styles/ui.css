@@ -68,7 +68,7 @@ app-ui {
 
     token-drawer {
         position: absolute;
-        bottom: 0;
+        bottom: -500px;
         left: 0;
         margin: 0 80px;
         margin-bottom: 25px;
@@ -77,6 +77,11 @@ app-ui {
         display: flex;
         gap: 10px;
         flex-direction: column;
+        transition: bottom 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+        &.visible {
+            bottom: 0;
+        }
 
         .token-area {
             position: relative;
