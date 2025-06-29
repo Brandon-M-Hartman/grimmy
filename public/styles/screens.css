@@ -235,20 +235,14 @@ menu-screen {
                 background-color: #161e4a;
                 border: 2px solid #6f8ce3;
                 display: flex;
-                gap: 10px;
-                align-items: center;
-                justify-content: center;
-                flex-direction: row-reverse;
+                gap: 20px;
 
                 img {
                     height: 30px;
                 }
 
                 div {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    flex-direction: row-reverse;
+                    display: inline-block;
                 }
             }
         }
