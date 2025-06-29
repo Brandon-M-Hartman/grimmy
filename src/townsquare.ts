@@ -153,7 +153,7 @@ export class TownSquare extends HTMLElement {
 	getTokenForRole(role:Role):PlayerToken | null {
         let playerToken:PlayerToken | null = null;
         this.getPlayerTokens().forEach(token => {
-            if (token.getPerceivedRole() == role || token.getRole() == role) playerToken = token;
+            if (token.getPerceivedRole() == role && !token.isDead()) playerToken = token;
         });
         return playerToken;
     }
@@ -177,7 +177,7 @@ export class TownSquare extends HTMLElement {
 	isRoleInUse(role:Role):boolean {
 		let result:boolean = false;
 		this.getPlayerTokens().forEach(token => {
-			if (token.getPerceivedRole() == role || token.getRole() == role) result = true;
+			if (token.getPerceivedRole() == role) result = true;
 		});
 		if (DemonBluffsScreen.bluffs.includes(role)) result = true;
 		return result;
