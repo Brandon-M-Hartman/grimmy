@@ -236,6 +236,7 @@ menu-screen {
                 border: 2px solid #6f8ce3;
                 display: flex;
                 gap: 20px;
+                padding: 18px 24px;
 
                 img {
                     height: 30px;
