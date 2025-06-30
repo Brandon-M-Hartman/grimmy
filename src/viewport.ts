@@ -38,6 +38,8 @@ export class Viewport {
 		// Match background to "logical" board position, scaled
 		this.background.style.backgroundPosition = `${this.x}px ${this.y}px`;
 		this.background.style.backgroundSize = `${this.scale * 15}%`;
+
+        this.onPanned(this.x, this.y);
 	}
 
     pan(x:number, y:number):void {
@@ -66,6 +68,8 @@ export class Viewport {
 		this.y += y;
 		this.targetX = this.x;
 		this.targetY = this.y;
+
+        this.onPanned(this.x, this.y);
     }
 
     zoom(amount:number, centerX:number, centerY:number):void {

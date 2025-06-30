@@ -12,6 +12,12 @@ export class UI extends HTMLElement {
     private screens:Array<Screen>;
     private screenContainer:HTMLElement;
     private tokenDrawer:TokenDrawer;
+    private menuButton:HTMLElement;
+    private nightButton:HTMLElement;
+    private bluffsButton:HTMLElement;
+    private cardsButton:HTMLElement;
+    private recenterButton:HTMLElement;
+    private tokensDrawerButton:HTMLElement;
 
     constructor() {
         super();
@@ -31,6 +37,14 @@ export class UI extends HTMLElement {
 
         this.tokenDrawer = new TokenDrawer();
         this.appendChild(this.tokenDrawer);
+
+        // Create buttons
+        this.menuButton = document.createElement('div');
+        this.nightButton = document.createElement('div');
+        this.bluffsButton = document.createElement('div');
+        this.cardsButton = document.createElement('div');
+        this.recenterButton = document.createElement('div');
+        this.tokensDrawerButton = document.createElement('div');
 
         this.addIcons();
         this.hide();
@@ -95,25 +109,21 @@ export class UI extends HTMLElement {
 
         // add icons
 
-        const menuButton:HTMLElement = document.createElement('div');
-        menuButton.innerHTML = `<span class="iconify" data-icon="ion:menu" data-width="${iconSize}"></span>`;
-        topRight.appendChild(menuButton);
-        menuButton.onclick = () => Application.ui.pushScreen(new MenuScreen());
+        this.menuButton.innerHTML = `<span class="iconify" data-icon="ion:menu" data-width="${iconSize}"></span>`;
+        topRight.appendChild(this.menuButton);
+        this.menuButton.onclick = () => Application.ui.pushScreen(new MenuScreen());
 
-        const nightButton:HTMLElement = document.createElement('div');
-        nightButton.innerHTML = `<span class="iconify" data-icon="tabler:moon-filled" data-width="${iconSize}"></span>`;
-        bottomLeft.appendChild(nightButton);
-        nightButton.onclick = () => Application.ui.pushScreen(new NightOrderScreen());
+        this.nightButton.innerHTML = `<span class="iconify" data-icon="tabler:moon-filled" data-width="${iconSize}"></span>`;
+        bottomLeft.appendChild(this.nightButton);
+        this.nightButton.onclick = () => Application.ui.pushScreen(new NightOrderScreen());
 
-        const bluffsButton:HTMLElement = document.createElement('div');
-        bluffsButton.innerHTML = `<span class="iconify" data-icon="bxs:mask" data-width="${iconSize}"></span>`;
-        bottomLeft.appendChild(bluffsButton);
-        bluffsButton.onclick = () => Application.ui.pushScreen(new DemonBluffsScreen());
+        this.bluffsButton.innerHTML = `<span class="iconify" data-icon="bxs:mask" data-width="${iconSize}"></span>`;
+        bottomLeft.appendChild(this.bluffsButton);
+        this.bluffsButton.onclick = () => Application.ui.pushScreen(new DemonBluffsScreen());
 
-        const cardsButton:HTMLElement = document.createElement('div');
-        cardsButton.innerHTML = `<span class="iconify" data-icon="bxs:card" data-width="${iconSize}"></span>`;
-        bottomLeft.appendChild(cardsButton);
-        cardsButton.onclick = () => Application.ui.pushScreen(new CardsScreen());
+        this.cardsButton.innerHTML = `<span class="iconify" data-icon="bxs:card" data-width="${iconSize}"></span>`;
+        bottomLeft.appendChild(this.cardsButton);
+        this.cardsButton.onclick = () => Application.ui.pushScreen(new CardsScreen());
 
         const deleteArea:HTMLElement = document.createElement('div');
         deleteArea.className = "delete-area";
@@ -129,32 +139,22 @@ export class UI extends HTMLElement {
         spectateButton.onclick = () => {
             Game.toggleSpectateMode();
             spectateButton.firstElementChild?.setAttribute('data-icon', Game.spectateMode ? 'pepicons-pop:eye-closed' : 'pepicons-pop:eye');
-            menuButton.style.display = Game.spectateMode ? 'none' : 'flex';
-            nightButton.style.display = Game.spectateMode ? 'none' : 'flex';
-            bluffsButton.style.display = Game.spectateMode ? 'none' : 'flex';
-            cardsButton.style.display = Game.spectateMode ? 'none' : 'flex';
-            recenterButton.style.display = Game.spectateMode ? 'none' : 'flex';
+            this.updateIconVisibility();
         };
 
-        const recenterButton:HTMLElement = document.createElement('div');
-        recenterButton.innerHTML = `<span class="iconify" data-icon="material-symbols:recenter-rounded" data-width="${iconSize}"></span>`;
-        recenterButton.style.display = 'none';
-        bottomRight.appendChild(recenterButton);
-        recenterButton.onclick = () => {
+        this.recenterButton.innerHTML = `<span class="iconify" data-icon="material-symbols:recenter-rounded" data-width="${iconSize}"></span>`;
+        this.recenterButton.style.display = 'none';
+        bottomRight.appendChild(this.recenterButton);
+        this.recenterButton.onclick = () => {
             Application.viewport.recenter();
-            recenterButton.style.display = 'none';
+            this.updateIconVisibility();
         }
 
-        const tokensDrawerButton:HTMLElement = document.createElement('div');
-        tokensDrawerButton.innerHTML = `<span class="iconify" data-icon="material-symbols:circle" data-width="${iconSize}"></span>`;
-        bottomRight.appendChild(tokensDrawerButton);
-        tokensDrawerButton.onclick = () => this.tokenDrawer.toggleVisibility();
+        this.tokensDrawerButton.innerHTML = `<span class="iconify" data-icon="material-symbols:circle" data-width="${iconSize}"></span>`;
+        bottomRight.appendChild(this.tokensDrawerButton);
+        this.tokensDrawerButton.onclick = () => this.tokenDrawer.toggleVisibility();
 
-        Application.viewport.onPanned = (x:number, y:number) => {
-            const distToRecenter:number = 0.35
-            recenterButton.style.display = x > window.innerWidth * distToRecenter && x < window.innerWidth * (1.0 - distToRecenter) && 
-                                           y > window.innerHeight * distToRecenter && y < window.innerHeight * (1.0 - distToRecenter) ? 'none' : 'block';
-        }
+        Application.viewport.onPanned = () => this.updateIconVisibility();
 
         Application.townSquare.addEventListener("start-dragging-token", () => {
             deleteArea.classList.add('visible');
@@ -178,5 +178,19 @@ export class UI extends HTMLElement {
             else 
                 deleteArea.classList.remove('hover');
         });
+    }
+
+    private updateIconVisibility():void {
+        this.menuButton.style.display = Game.spectateMode ? 'none' : 'flex';
+        this.nightButton.style.display = Game.spectateMode ? 'none' : 'flex';
+        this.bluffsButton.style.display = Game.spectateMode ? 'none' : 'flex';
+        this.cardsButton.style.display = Game.spectateMode ? 'none' : 'flex';
+        this.tokensDrawerButton.style.display = Game.spectateMode ? 'none' : 'flex';
+
+        const distToRecenter:number = 0.35;
+        this.recenterButton.style.display = Game.spectateMode || Application.viewport.x > window.innerWidth * distToRecenter && 
+                                            Application.viewport.x < window.innerWidth * (1.0 - distToRecenter) && 
+                                            Application.viewport.y > window.innerHeight * distToRecenter && 
+                                            Application.viewport.y < window.innerHeight * (1.0 - distToRecenter) ? 'none' : 'flex';
     }
 }
