@@ -30,7 +30,7 @@ export class RoleSelectScreen extends Screen {
         this.selectMultiple = counts != undefined;
 
         this.contents.onclick = () => {
-            Application.ui.popScreen();
+            if (!counts) Application.ui.popScreen();
         };
 
         const container = document.createElement('div');
