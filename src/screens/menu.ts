@@ -1,6 +1,7 @@
 import { Application } from "../application";
 import { Game } from "../game";
 import { Screen } from "../screen";
+import { AboutScreen } from "./about";
 
 export class MenuScreen extends Screen {
     constructor() {
@@ -43,9 +44,16 @@ export class MenuScreen extends Screen {
             Application.ui.popScreen();
         }
 
-        const source = new MenuButton("assets/github.png", "Source code");
-        buttons.appendChild(source);
-        source.onclick = () => {
+        const aboutButton = new MenuButton("mingcute:question-fill", "About");
+        buttons.appendChild(aboutButton);
+        aboutButton.onclick = (e) => {
+            e.stopPropagation();
+            Application.ui.popAndPushScreen(new AboutScreen());
+        }
+
+        const sourceButton = new MenuButton("assets/github.png", "Source code");
+        buttons.appendChild(sourceButton);
+        sourceButton.onclick = () => {
             window.open('https://github.com/Miltage/grimmy', '_blank');
         }
 

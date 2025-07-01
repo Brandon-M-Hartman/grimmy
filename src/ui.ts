@@ -50,7 +50,7 @@ export class UI extends HTMLElement {
         this.hide();
     }
 
-    pushScreen(screen: Screen):void {
+    pushScreen(screen:Screen):void {
         this.screenContainer.appendChild(screen);
         this.screens.push(screen);
         this.show();
@@ -61,6 +61,11 @@ export class UI extends HTMLElement {
         const screen:Screen = this.screens.pop()!;
         this.screenContainer.removeChild(screen);
         if (this.screens.length == 0) this.hide();
+    }
+
+    popAndPushScreen(screen:Screen):void {
+        this.popScreen();
+        this.pushScreen(screen);
     }
 
     show():void {
