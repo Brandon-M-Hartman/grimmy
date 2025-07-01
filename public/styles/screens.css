@@ -252,15 +252,21 @@ menu-screen {
 
 num-players-screen {
     .wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         text-align: center;
-        align-content: center;
+        width: 100%;
+        padding: 20px;
 
         .controls {
             font-size: 60px;
             display: flex;
             flex-direction: column;
             gap: 20px;
-            width: 500px;
+            width: 100%;
+            max-width: 500px;
             margin: 40px 0;
 
             .control {

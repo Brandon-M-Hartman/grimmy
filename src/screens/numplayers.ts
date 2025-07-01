@@ -103,10 +103,13 @@ export class NumPlayersScreen extends Screen {
         this.demonCount.className = "count";
         container.appendChild(this.demonCount);
 
+        const buttonContainer = document.createElement('div');
+        container.appendChild(buttonContainer);
+
         const continueButton = document.createElement('button');
         continueButton.textContent = "Continue";
         continueButton.className = "button";
-        container.appendChild(continueButton);
+        buttonContainer.appendChild(continueButton);
         continueButton.onclick = () => this.finalize();
 
         this.update();
