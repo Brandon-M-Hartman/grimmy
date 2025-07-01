@@ -11,7 +11,7 @@ export class UI extends HTMLElement {
 
     private screens:Array<Screen>;
     private screenContainer:HTMLElement;
-    private tokenDrawer:TokenDrawer;
+    public tokenDrawer:TokenDrawer;
     private menuButton:HTMLElement;
     private nightButton:HTMLElement;
     private bluffsButton:HTMLElement;

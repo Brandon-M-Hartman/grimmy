@@ -114,6 +114,11 @@ export class Game {
             this.currentEdition = EDITIONS[editionId];
             const storage = LocalStorageService.getInstance();
             storage.setItem('currentEdition', editionId);
+            
+            // Update token drawer to use new edition
+            if (Application.ui?.tokenDrawer) {
+                Application.ui.tokenDrawer.buildTokens();
+            }
         }
     }
 

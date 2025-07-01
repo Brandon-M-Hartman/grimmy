@@ -1,5 +1,5 @@
 import { Application } from "./application";
-import { TroubleBrewing } from "./editions";
+import { Game } from "./game";
 import { PlayerToken } from "./playertoken";
 import { ReminderToken } from "./remindertoken";
 import { roleData } from "./role";
@@ -43,7 +43,15 @@ export class TokenDrawer extends HTMLElement {
         this.reminderTokenContainer.style.touchAction = 'none';
         reminderTokenArea.appendChild(this.reminderTokenContainer);
 
-        TroubleBrewing.forEach(role => {
+        this.buildTokens();
+    }
+
+    buildTokens():void {
+        // Clear existing tokens
+        this.playerTokenContainer.innerHTML = '';
+        this.reminderTokenContainer.innerHTML = '';
+
+        Game.currentEdition.roles.forEach(role => {
             const tokenWrapper = document.createElement('div');
             tokenWrapper.className = 'token-wrapper';
             this.playerTokenContainer.appendChild(tokenWrapper);
