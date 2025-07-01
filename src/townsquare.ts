@@ -41,7 +41,7 @@ export class TownSquare extends HTMLElement {
 					this.addReminderToken(reminderToken);
 					this.tokens.push(reminderToken);
 
-					if (reminderToken.role == Role.DRUNK)
+					if (reminderToken.role == "drunk")
 						this.placeReminderOnToken(reminderToken, token);
 				});
 			}
@@ -107,7 +107,7 @@ export class TownSquare extends HTMLElement {
 		// remove drunk reminder token
 		const reminders:Array<ReminderToken> = [...this.reminderTokens];
 		reminders.forEach(token => {
-			if (token.role == Role.DRUNK) reminders.splice(reminders.indexOf(token), 1);
+			if (token.role == "drunk") reminders.splice(reminders.indexOf(token), 1);
 		});
 
 		// arrange reminder tokens on the side
@@ -118,8 +118,8 @@ export class TownSquare extends HTMLElement {
 		}
 
 		// add drunk reminder token on drunk player token
-		const drunkReminders:Array<ReminderToken> = this.getReminderTokensForRole(Role.DRUNK);
-		const drunkToken:PlayerToken | null = this.getTokenForRole(Role.DRUNK);
+		const drunkReminders:Array<ReminderToken> = this.getReminderTokensForRole("drunk");
+		const drunkToken:PlayerToken | null = this.getTokenForRole("drunk");
 		if (drunkReminders.length > 0 && drunkToken)
 			this.placeReminderOnToken(drunkReminders[0], drunkToken);
 	}

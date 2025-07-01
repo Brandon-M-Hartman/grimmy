@@ -16,6 +16,7 @@ import { NightOrderScreen } from "./screens/nightorder";
 import { CardsScreen } from "./screens/cards";
 import { RoleReplacementScreen } from "./screens/rolereplacement";
 import { AboutScreen } from "./screens/about";
+import { SettingsScreen } from "./screens/settings";
 
 // Define custom elements
 customElements.define('player-token', PlayerToken);
@@ -35,6 +36,7 @@ customElements.define('night-order-screen', NightOrderScreen);
 customElements.define('cards-screen', CardsScreen);
 customElements.define('role-replacement-screen', RoleReplacementScreen);
 customElements.define('about-screen', AboutScreen);
+customElements.define('settings-screen', SettingsScreen);
 
 // Create the application
 new Application();

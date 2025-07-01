@@ -54,6 +54,10 @@ export class Application {
 
     static loadFromStorage():void {    
         const storage = LocalStorageService.getInstance();
+        
+        const currentEdition = storage.getItem('currentEdition');
+        if (currentEdition && typeof currentEdition === 'string') Game.setEdition(currentEdition);
+        
         const lockPlayerTokens = storage.getItem('lockPlayerTokens');
         if (lockPlayerTokens) Game.setPlayerTokenLock(lockPlayerTokens);
 

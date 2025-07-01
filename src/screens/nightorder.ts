@@ -62,7 +62,8 @@ export class NightOrderScreen extends Screen {
         
         const relevancyCheck = document.createElement('input');
         relevancyCheck.type = "checkbox";
-        relevancyCheck.checked = NightOrderScreen.showRelevant;
+        relevancyCheck.checked = true;
+        NightOrderScreen.showRelevant = true;
         relevancyCheck.disabled = Application.townSquare.getPlayerTokens().length == 0;
         relevancyOption.appendChild(relevancyCheck);
 

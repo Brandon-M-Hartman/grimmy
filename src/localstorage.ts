@@ -4,6 +4,7 @@ interface StoredData {
     lockPlayerTokens: boolean;
     tokens:Array<string>;
     demonBluffs:Array<Role | null>;
+    currentEdition: string;
 }
 
 export class LocalStorageService {

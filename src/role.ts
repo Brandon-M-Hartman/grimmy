@@ -1,29 +1,7 @@
 import json from '../data/roles.json';
 
-export enum Role {
-    MONK = "monk",
-    SLAYER = "slayer",
-    CHEF = "chef",
-    FORTUNE_TELLER = "fortuneteller",
-    EMPATH = "empath",
-    UNDERTAKER = "undertaker",
-    SOLDIER = "soldier",
-    INVESTIGATOR = "investigator",
-    VIRGIN = "virgin",
-    WASHERWOMAN = "washerwoman",
-    LIBRARIAN = "librarian",
-    RAVENKEEPER = "ravenkeeper",
-    MAYOR = "mayor",
-    BUTLER = "butler",
-    DRUNK = "drunk",
-    RECLUSE = "recluse",
-    SAINT = "saint",
-    IMP = "imp",
-    POISONER = "poisoner",
-    SPY = "spy",
-    BARON = "baron",
-    SCARLET_WOMAN = "scarletwoman"
-}
+// Role is now just a string type representing the role ID
+export type Role = string;
 
 export enum RoleCategory {
     TOWNSFOLK,
@@ -35,6 +13,7 @@ export enum RoleCategory {
 export interface RoleInfo {
     name: string;
     alignment: Alignment;
+    category: string;
     description: string;
     top: number;
     left: number;

@@ -2,6 +2,7 @@ import { Application } from "../application";
 import { Game } from "../game";
 import { Screen } from "../screen";
 import { AboutScreen } from "./about";
+import { SettingsScreen } from "./settings";
 
 export class MenuScreen extends Screen {
     constructor() {
@@ -42,6 +43,13 @@ export class MenuScreen extends Screen {
             e.stopPropagation();
             Game.togglePlayerTokenLock();
             Application.ui.popScreen();
+        }
+
+        const settingsButton = new MenuButton("material-symbols:settings", "Settings");
+        buttons.appendChild(settingsButton);
+        settingsButton.onclick = (e) => {
+            e.stopPropagation();
+            Application.ui.popAndPushScreen(new SettingsScreen());
         }
 
         const aboutButton = new MenuButton("mingcute:question-fill", "About");

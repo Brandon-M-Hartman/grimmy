@@ -1,4 +1,5 @@
 import { Application } from "../application";
+import { Game } from "../game";
 import { PlayerToken } from "../playertoken";
 import { Role, RoleCategory } from "../role";
 import { Screen } from "../screen";
@@ -83,7 +84,7 @@ export class RoleSelectScreen extends Screen {
             townsfolkContainer.className = "token-container";
             container.appendChild(townsfolkContainer);
 
-            const townsfolkRoles:Array<Role> = [Role.WASHERWOMAN, Role.LIBRARIAN, Role.INVESTIGATOR, Role.CHEF, Role.EMPATH, Role.FORTUNE_TELLER, Role.UNDERTAKER, Role.MONK, Role.RAVENKEEPER, Role.VIRGIN, Role.SLAYER, Role.SOLDIER, Role.MAYOR];
+            const townsfolkRoles:Array<Role> = Game.getRolesByCategory(RoleCategory.TOWNSFOLK);
             townsfolkRoles.forEach(role => {
                 const tokenWrapper = document.createElement('div');
                 tokenWrapper.className = 'token-wrapper';
@@ -125,7 +126,7 @@ export class RoleSelectScreen extends Screen {
             outsiderContainer.className = "token-container";
             container.appendChild(outsiderContainer);
 
-            const outsiderRoles:Array<Role> = [Role.BUTLER, Role.DRUNK, Role.RECLUSE, Role.SAINT];
+            const outsiderRoles:Array<Role> = Game.getRolesByCategory(RoleCategory.OUTSIDER);
             outsiderRoles.forEach(role => {
                 const tokenWrapper = document.createElement('div');
                 tokenWrapper.className = 'token-wrapper';
@@ -167,7 +168,7 @@ export class RoleSelectScreen extends Screen {
             minionContainer.className = "token-container";
             container.appendChild(minionContainer);
 
-            const minionRoles:Array<Role> = [Role.POISONER, Role.SPY, Role.SCARLET_WOMAN, Role.BARON];
+            const minionRoles:Array<Role> = Game.getRolesByCategory(RoleCategory.MINION);
             minionRoles.forEach(role => {
                 const tokenWrapper = document.createElement('div');
                 tokenWrapper.className = 'token-wrapper';
@@ -189,13 +190,13 @@ export class RoleSelectScreen extends Screen {
                         token.setSelected(false);
                         this.selectedMinions.splice(this.selectedMinions.indexOf(token.getRole()!), 1);
                         this.updateSelections();
-                        if (role == Role.BARON) this.onBaronSelectionChanged(false);
+                        if (role == "baron") this.onBaronSelectionChanged(false);
                     }
                     else if (this.selectedMinions.length < this.counts!.get(RoleCategory.MINION)!) {
                         token.setSelected(true);
                         this.selectedMinions.push(token.getRole()!);
                         this.updateSelections();
-                        if (role == Role.BARON) this.onBaronSelectionChanged(true);
+                        if (role == "baron") this.onBaronSelectionChanged(true);
                     }
                 }
             });
@@ -211,7 +212,7 @@ export class RoleSelectScreen extends Screen {
             demonContainer.className = "token-container";
             container.appendChild(demonContainer);
             
-            const demonRoles:Array<Role> = [Role.IMP];
+            const demonRoles:Array<Role> = Game.getRolesByCategory(RoleCategory.DEMON);
             demonRoles.forEach(role => {
                 const tokenWrapper = document.createElement('div');
                 tokenWrapper.className = 'token-wrapper';
@@ -266,7 +267,7 @@ export class RoleSelectScreen extends Screen {
             token.setSelected(false);
         });
 
-        if (this.selectedMinions.includes(Role.BARON)) this.onBaronSelectionChanged(false);
+        if (this.selectedMinions.includes("baron")) this.onBaronSelectionChanged(false);
 
         this.selectedTownsfolk = [];
         this.selectedOutsiders = [];
@@ -280,7 +281,7 @@ export class RoleSelectScreen extends Screen {
             this.selectedMinions.push(token.getRole()!);
         });
 
-        if (this.selectedMinions.includes(Role.BARON)) this.onBaronSelectionChanged(true);
+        if (this.selectedMinions.includes("baron")) this.onBaronSelectionChanged(true);
 
         const townsfolkCount = this.counts?.get(RoleCategory.TOWNSFOLK) ?? 0;
         const townsfolkChoices:Array<PlayerToken> = Utils.shuffleArray(this.townsfolkTokens).slice(0, townsfolkCount);

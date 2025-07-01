@@ -3,6 +3,7 @@ import { LocalStorageService } from "./localstorage";
 import { PlayerToken } from "./playertoken";
 import { ReminderToken } from "./remindertoken";
 import { Role, RoleCategory, roleData } from "./role";
+import { Edition, DEFAULT_EDITION, EDITIONS } from "./editions";
 import { DemonBluffsScreen } from "./screens/demonbluffs";
 import { NumPlayersScreen } from "./screens/numplayers";
 import { RoleReplacementScreen } from "./screens/rolereplacement";
@@ -15,6 +16,7 @@ export class Game {
     static lockPlayerTokens:boolean = false;
     static spectateMode:boolean = false;
     static roles:Array<Role> = [];
+    static currentEdition:Edition = DEFAULT_EDITION;
 
     static setup(onComplete:() => void):void {
         // clear any existing roles/tokens
@@ -33,14 +35,14 @@ export class Game {
             Game.createTokensFromRoles();
             Application.ui.popScreen();
 
-            if (Game.roles.includes(Role.DRUNK)) this.replaceDrunkToken(onComplete);
+            if (Game.roles.includes("drunk")) this.replaceDrunkToken(onComplete);
             else this.reviewRoles(onComplete);
         }, undefined, counts));
     }
 
     static replaceDrunkToken(onComplete:() => void) {
-        const drunkToken:PlayerToken = Application.townSquare.getTokenForRole(Role.DRUNK)!;
-        Application.ui.pushScreen(new RoleReplacementScreen(Role.DRUNK, (replacementRole:Role) => {
+        const drunkToken:PlayerToken = Application.townSquare.getTokenForRole("drunk")!;
+        Application.ui.pushScreen(new RoleReplacementScreen("drunk", (replacementRole:Role) => {
             Application.ui.popScreen();
             drunkToken.setPerceivedRole(replacementRole);
             this.reviewRoles(onComplete);
@@ -105,5 +107,37 @@ export class Game {
     static toggleSpectateMode():void {
         this.spectateMode = !this.spectateMode;
          Application.townSquare.updateTokenMovable();
+    }
+
+    static setEdition(editionId: string):void {
+        if (EDITIONS[editionId]) {
+            this.currentEdition = EDITIONS[editionId];
+            const storage = LocalStorageService.getInstance();
+            storage.setItem('currentEdition', editionId);
+        }
+    }
+
+    static getRolesByCategory(category: RoleCategory): Array<Role> {
+        return this.currentEdition.roles.filter(role => {
+            const roleInfo = roleData[role];
+            if (!roleInfo) return false;
+            
+            switch (category) {
+                case RoleCategory.TOWNSFOLK:
+                    return roleInfo.alignment === 0 && roleInfo.category === 'townsfolk';
+                case RoleCategory.OUTSIDER:
+                    return roleInfo.alignment === 0 && roleInfo.category === 'outsider';
+                case RoleCategory.MINION:
+                    return roleInfo.alignment === 1 && roleInfo.category === 'minion';
+                case RoleCategory.DEMON:
+                    return roleInfo.alignment === 1 && roleInfo.category === 'demon';
+                default:
+                    return false;
+            }
+        });
+    }
+
+    static hasRole(role: Role): boolean {
+        return this.currentEdition.roles.includes(role);
     }
 }

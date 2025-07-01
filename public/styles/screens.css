@@ -519,3 +519,116 @@ about-screen {
         padding: 40px;
     }
 }
+
+settings-screen {
+    .wrapper {
+        max-width: 600px;
+        margin: 40px;
+    }
+
+    .title {
+        font-size: 24px;
+        margin-bottom: 30px;
+    }
+
+    .settings-container {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .setting-section {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .setting-label {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .edition-buttons {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .edition-button {
+        padding: 12px 20px;
+        font-size: 16px;
+        background-color: #444;
+        color: white;
+        border: 2px solid transparent;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background-color: #555;
+        }
+
+        &.selected {
+            background-color: #007acc;
+            border-color: #0099ff;
+        }
+    }
+
+    .custom-script-section {
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #444;
+        border-radius: 8px;
+        background-color: #2a2a2a;
+    }
+
+    .custom-script-input {
+        width: 100%;
+        min-height: 200px;
+        padding: 12px;
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+        background-color: #1a1a1a;
+        color: white;
+        border: 1px solid #555;
+        border-radius: 4px;
+        resize: vertical;
+        
+        &::placeholder {
+            color: #888;
+        }
+    }
+
+    .custom-script-load {
+        margin-top: 10px;
+        padding: 10px 20px;
+        font-size: 14px;
+        background-color: #007acc;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        
+        &:hover {
+            background-color: #0099ff;
+        }
+    }
+
+    .error-message {
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #cc3333;
+        color: white;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .success-message {
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #33cc33;
+        color: white;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+}

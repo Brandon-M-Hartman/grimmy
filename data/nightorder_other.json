@@ -1,52 +1,452 @@
 [
   {
     "type": "role",
+    "role": "toymaker",
+    "info": "If it is a night when a Demon attack could end the game, and the Demon is marked “Final night: No Attack,” then the Demon does not act tonight. (Do not wake them.)"
+  },
+  {
+    "type": "role",
+    "role": "duchess",
+    "info": "Wake each player marked “Visitor” or “False Info” one at a time. Show them the Duchess token, then fingers (1, 2, 3) equaling the number of evil players marked “Visitor” or, if you are waking the player marked “False Info,” show them any number of fingers except the number of evil players marked “Visitor.”"
+  },
+  {
+    "type": "role",
+    "role": "amnesiac",
+    "info": "Reminder: Insert the Amnesiac and their ability, if relevant, in the appropriate position in the night order."
+  },
+  {
+    "type": "role",
+    "role": "apprentice",
+    "info": "Reminder: Wake the apprentice tonight, at the appropriate time, if their ability happens on nights other than the first."
+  },
+  {
+    "type": "role",
+    "role": "bonecollector",
+    "info": "Wake the Bone Collector. They either shake their head no or point at any dead player. Put the Bone Collector to sleep. If they pointed at a dead player, the chosen player regains their ability—mark their character token with the Bone Collector’s HAS ABILITY reminder. (They may need to be woken tonight to use their ability.) The Bone Collector loses their ability—mark them with their NO ABILITY reminder. The next dusk, the chosen player loses their ability—remove the HAS ABILITY reminder."
+  },
+  {
+    "type": "role",
+    "role": "barista",
+    "info": "Each night, remove previous reminders and then put the Barista’s SOBER AND HEALTHY reminder or their ACTS TWICE reminder by any character token. Wake that character’s player and show them the THIS CHARACTER SELECTED YOU info token, the Barista token, then one finger (to show they are sober and healthy) or two fingers (to show they act twice). Put that player to sleep."
+  },
+  {
+    "type": "role",
+    "role": "bureaucrat",
+    "info": "Wake the Bureaucrat. They point at any player besides themselves. Mark the chosen player with the Bureaucrat’s 3 VOTES reminder. Put the Bureaucrat to sleep."
+  },
+  {
+    "type": "role",
+    "role": "thief",
+    "info": "Wake the Thief. They point at any player. Mark the chosen player with the Thief’s NEGATIVE VOTE reminder. Put the Thief to sleep."
+  },
+  {
+    "type": "role",
+    "role": "harlot",
+    "info": "Each night, wake the Harlot. The Harlot points at any player. Put the Harlot to sleep. Wake the chosen player, show them the THIS CHARACTER SELECTED YOU' info token, then the Harlot token. That player either nods their head yes or shakes their head no. Put that player to sleep. If they shook their head no, then nothing happens. Continue with the night phase. If they nodded their head yes, wake the Harlot and show them the chosen player’s character token. Put the Harlot to sleep. You may decide that both players die—mark them with DEAD reminders."
+  },
+  {
+    "type": "role",
+    "role": "philosopher",
+    "info": "The Philosopher might choose a character. If necessary, swap their character token."
+  },
+  {
+    "type": "role",
+    "role": "poppygrower",
+    "info": "If the Poppy Grower died today or tonight, wake the Minions, show the THIS IS THE DEMON info token and point to the Demon. Put them to sleep. Wake the Demon, show the THESE ARE YOUR MINIONS info token and point to the Minions. Put the Demon to sleep."
+  },
+  {
+    "type": "role",
+    "role": "sailor",
+    "info": "The Sailor chooses a living player."
+  },
+  {
+    "type": "role",
+    "role": "engineer",
+    "info": "The Engineer might choose Minions or Demons.  If they do: Put the Engineer to sleep. Wake a target, show them the YOU ARE token and their new character token, then put that target to sleep. Repeat for all players that changed characters."
+  },
+  {
+    "type": "role",
+    "role": "preacher",
+    "info": "The Preacher chooses a player.  If they chose a Minion: Put the Preacher to sleep. Wake the target. Show the THIS CHARACTER SELECTED YOU token and the Preacher token."
+  },
+  {
+    "type": "role",
     "role": "poisoner",
-    "info": "The Poisoner selects a a new player to poison. The player previously poisoned is no longer poisoned."
+    "info": "The Poisoner chooses a player."
+  },
+  {
+    "type": "role",
+    "role": "courtier",
+    "info": "The Courtier might choose a character."
+  },
+  {
+    "type": "role",
+    "role": "innkeeper",
+    "info": "The Innkeeper chooses 2 players."
+  },
+  {
+    "type": "role",
+    "role": "gambler",
+    "info": "The Gambler chooses a player & a character."
+  },
+  {
+    "type": "role",
+    "role": "snakecharmer",
+    "info": "The Snake Charmer chooses a player. If they chose the Demon: Show the YOU ARE & Demon tokens. Give a thumbs down. Swap the Snake Charmer & Demon tokens. Put the old Snake Charmer to sleep. Wake the old Demon. Show the YOU ARE and Snake Charmer tokens & give a thumbs up."
   },
   {
     "type": "role",
     "role": "monk",
-    "info": "The Monk selects a player to protect (not themselves). The player previously protected is no longer protected."
+    "info": "The Monk chooses a player."
   },
   {
     "type": "role",
-    "role": "spy",
-    "info": "Show the Grimoire to the Spy for as long as they need."
+    "role": "devilsadvocate",
+    "info": "The Devil's Advocate chooses a living player."
+  },
+  {
+    "type": "role",
+    "role": "witch",
+    "info": "The Witch chooses a player."
+  },
+  {
+    "type": "role",
+    "role": "cerenovus",
+    "info": "The Cerenovus chooses a player & a character.  Put the Cerenovus to sleep. Wake the target. Show the THIS CHARACTER SELECTED YOU token, the Cerenovus token, then the madness-character token."
+  },
+  {
+    "type": "role",
+    "role": "pithag",
+    "info": "The Pit-Hag chooses a player & a character. If they chose a character that is not in play: Put the Pit-Hag to sleep. Wake the target. Show the YOU ARE token & their new character token."
+  },
+  {
+    "type": "role",
+    "role": "fearmonger",
+    "info": "The Fearmonger chooses a player.  If the player wasn't already marked with the FEAR reminder, declare that \"the Fearmonger has chosen a player.\""
+  },
+  {
+    "type": "role",
+    "role": "harpy",
+    "info": "The Harpy chooses two players.   Put the Harpy to sleep. Wake the 1st target. Show the THIS CHARACTER SELECTED YOU token, the Harpy token, then point to the 2nd target."
+  },
+  {
+    "type": "role",
+    "role": "mezepheles",
+    "info": "If a player is marked with the TURNS EVIL reminder, wake them. Show the YOU ARE info token and a thumbs down. The Mezepheles loses their ability"
   },
   {
     "type": "role",
     "role": "scarletwoman",
-    "info": "If the Scarlet Woman becomes the Demon tonight:\nShow the 'You are' card, then show the Demon token."
+    "info": "If the Scarlet Woman became the Demon today, show them the YOU ARE token, then the Demon token."
+  },
+  {
+    "type": "role",
+    "role": "summoner",
+    "info": "Change the Summoner reminder token to the relevant night. If it is night 3, the Summoner chooses a player and a Demon. Put the Summoner to sleep. Wake the chosen player. Show the YOU ARE token, a thumbs down and the chosen Demon token."
+  },
+  {
+    "type": "role",
+    "role": "lunatic",
+    "info": "Do whatever needs to be done to simulate the Demon acting. Put the Lunatic to sleep. Wake the Demon. Show the Lunatic token & point to them, then their target(s)."
+  },
+  {
+    "type": "role",
+    "role": "exorcist",
+    "info": "The Exorcist chooses a player.  Put the Exorcist to sleep. If the Exorcist chose the Demon: Wake the Demon. Show the THIS CHARACTER SELECTED YOU & Exorcist tokens. Point to the Exorcist."
+  },
+  {
+    "type": "role",
+    "role": "lycanthrope",
+    "info": "The Lycanthrope chooses a player"
+  },
+  {
+    "type": "role",
+    "role": "legion",
+    "info": "A player might die."
   },
   {
     "type": "role",
     "role": "imp",
-    "info": "The Imp selects a player. That player dies.\nIf the Imp chose themself:\nSelect a Minion to become the new Imp.\nWake that player, show them the 'You are' card, then show the Imp token."
+    "info": "The Imp chooses a player.  If the Imp chose themselves: Replace 1 alive Minion token with a spare Imp token. Put the old Imp to sleep. Wake the new Imp. Show the YOU ARE token, then show the Imp token."
+  },
+  {
+    "type": "role",
+    "role": "zombuul",
+    "info": "If no one died today, the Zombuul chooses a player."
+  },
+  {
+    "type": "role",
+    "role": "pukka",
+    "info": "The Pukka chooses a player.  The previously poisoned player dies then becomes healthy."
+  },
+  {
+    "type": "role",
+    "role": "shabaloth",
+    "info": "A previously chosen player might be resurrected.  The Shabaloth chooses 2 players."
+  },
+  {
+    "type": "role",
+    "role": "po",
+    "info": "The Po may choose a player OR chooses 3 players if they chose no-one last night.  or"
+  },
+  {
+    "type": "role",
+    "role": "fanggu",
+    "info": "The Fang Gu chooses a player.  If they chose an Outsider (once only): Replace the Outsider token with the spare Fang Gu token. Put the Fang Gu to sleep. Wake the target. Show the YOU ARE and Fang Gu tokens & give a thumbs-down."
+  },
+  {
+    "type": "role",
+    "role": "nodashii",
+    "info": "The No Dashii chooses a player."
+  },
+  {
+    "type": "role",
+    "role": "vortox",
+    "info": "The Vortox chooses a player."
+  },
+  {
+    "type": "role",
+    "role": "lordoftyphon",
+    "info": "Wake the Lord Of Typhon. They point at any player. That player dies — mark them with the DEAD reminder. Put the Lord Of Typhon to sleep. "
+  },
+  {
+    "type": "role",
+    "role": "vigormortis",
+    "info": "The Vigormortis chooses a player.  If that player is a Minion, poison a neighboring Townsfolk."
+  },
+  {
+    "type": "role",
+    "role": "ojo",
+    "info": "The Ojo chooses a character."
+  },
+  {
+    "type": "role",
+    "role": "alhadikhia",
+    "info": "The Al-Hadikhia chooses three players.    Wake the player marked 1 and say \"the Al-Hadikhia has chosen\", then the player's name, then \"Do you choose to live?\" They either nod or shake their head. Put them to sleep and add or remove shrouds accordingly. Repeat for players marked 2 and 3. If all three players are now alive, add a shroud to all three."
+  },
+  {
+    "type": "role",
+    "role": "lleech",
+    "info": "The Lleech chooses a player."
+  },
+  {
+    "type": "role",
+    "role": "lilmonsta",
+    "info": "Wake all Minions, allow them to choose a babysitter  A player might die"
+  },
+  {
+    "type": "role",
+    "role": "yaggababble",
+    "info": "For each time the Yaggababble said the phrase today, you may choose a player. They die."
+  },
+  {
+    "type": "role",
+    "role": "kazali",
+    "info": "The Kazali chooses a player."
+  },
+  {
+    "type": "role",
+    "role": "assassin",
+    "info": "The Assassin might choose a player."
+  },
+  {
+    "type": "role",
+    "role": "godfather",
+    "info": "If an Outsider died today, the Godfather chooses a player."
+  },
+  {
+    "type": "role",
+    "role": "organgrinder",
+    "info": "Wake up the Organ Grinder. Mark them with a \"Drunk\" or \"Sober\" reminder token. Put the Organ Grinder to sleep."
+  },
+  {
+    "type": "role",
+    "role": "gossip",
+    "info": "If the Gossip is due to kill a player, they die."
+  },
+  {
+    "type": "role",
+    "role": "acrobat",
+    "info": "Wake the Acrobat. The Acrobat chooses a player. If the chosen player is drunk or poisoned, mark the Acrobat with a death shroud."
+  },
+  {
+    "type": "role",
+    "role": "hatter",
+    "info": "If the Hatter died today or tonight, wake Minions and Demons, allow them to choose new characters."
+  },
+  {
+    "type": "role",
+    "role": "barber",
+    "info": "If the Barber died today or tonight, show the Demon the THIS CHARACTER SELECTED YOU & Barber tokens. If the Demon chose 2 players, wake one at a time. Show the YOU ARE token & their new character token."
+  },
+  {
+    "type": "role",
+    "role": "sweetheart",
+    "info": "If the Sweetheart died, a player became drunk immediately. If you haven't done this yet, do so now."
+  },
+  {
+    "type": "role",
+    "role": "sage",
+    "info": "If the Demon killed the Sage, wake the Sage and point to 2 players, 1 of which is the Demon."
+  },
+  {
+    "type": "role",
+    "role": "banshee",
+    "info": "Announce that the Banshee has died."
+  },
+  {
+    "type": "role",
+    "role": "professor",
+    "info": "The Professor might choose a dead player."
+  },
+  {
+    "type": "role",
+    "role": "choirboy",
+    "info": "If the Demon killed the King, point to the Demon player."
+  },
+  {
+    "type": "role",
+    "role": "huntsman",
+    "info": "The Huntsman might choose a player.  If that player was the Damsel: Put the Huntsman to sleep. Wake the Damsel and show them the YOU ARE info token and their new character token."
+  },
+  {
+    "type": "role",
+    "role": "damsel",
+    "info": "If the Damsel was chosen by the Huntsman, show them the YOU ARE info token and their new character token."
+  },
+  {
+    "type": "role",
+    "role": "farmer",
+    "info": "If the Farmer died tonight, wake an alive good player. Show them the YOU ARE info token and a Farmer character token. Replace their previous token with the Farmer token."
+  },
+  {
+    "type": "role",
+    "role": "tinker",
+    "info": "The Tinker might die."
+  },
+  {
+    "type": "role",
+    "role": "moonchild",
+    "info": "If the Moonchild is due to kill a good player, they die."
+  },
+  {
+    "type": "role",
+    "role": "grandmother",
+    "info": "If the grandchild was killed by the Demon, the Grandmother dies too."
   },
   {
     "type": "role",
     "role": "ravenkeeper",
-    "info": "If the Ravenkeeper died tonight:\nThe Ravenkeeper selects a player. Show that player's character token."
-  },
-  {
-    "type": "role",
-    "role": "undertaker",
-    "info": "If a player was executed today:\nShow that player's character token."
+    "info": "If the Ravenkeeper died tonight, the Ravenkeeper chooses a player. Show that player's character token."
   },
   {
     "type": "role",
     "role": "empath",
-    "info": "Show the hand signal for the number of alive evil players neighbouring the Empath."
+    "info": "Give a finger signal."
   },
   {
     "type": "role",
     "role": "fortuneteller",
-    "info": "The Fortune Teller selects two players. Nod 'yes' if one of these players is the Demon or Red Herring. Otherwise shake head 'no'."
+    "info": "The Fortune Teller chooses 2 players. Nod if either is the Demon (or the RED HERRING)."
+  },
+  {
+    "type": "role",
+    "role": "undertaker",
+    "info": "If a player was executed today, show their character token."
+  },
+  {
+    "type": "role",
+    "role": "dreamer",
+    "info": "The Dreamer points to a player. Show 1 good & 1 evil character token, 1 of which is their character."
+  },
+  {
+    "type": "role",
+    "role": "flowergirl",
+    "info": "Either nod or shake your head."
+  },
+  {
+    "type": "role",
+    "role": "towncrier",
+    "info": "Either nod or shake your head."
+  },
+  {
+    "type": "role",
+    "role": "oracle",
+    "info": "Give a finger signal."
+  },
+  {
+    "type": "role",
+    "role": "seamstress",
+    "info": "The Seamstress might choose 2 players. Nod or shake your head."
+  },
+  {
+    "type": "role",
+    "role": "juggler",
+    "info": "Give a finger signal."
+  },
+  {
+    "type": "role",
+    "role": "balloonist",
+    "info": "Show a player with a different character type to previously"
+  },
+  {
+    "type": "role",
+    "role": "villageidiot",
+    "info": "Wake the Village Idiots one at a time, they choose a player, show either good or evil thumbs according to the alignment of that player."
+  },
+  {
+    "type": "role",
+    "role": "king",
+    "info": "If the dead outnumber the living, show the character token of an alive player."
+  },
+  {
+    "type": "role",
+    "role": "bountyhunter",
+    "info": "If the KNOWN player died today or tonight, point to a new KNOWN player."
+  },
+  {
+    "type": "role",
+    "role": "nightwatchman",
+    "info": "The Nightwatchman might choose a player  Put the Nightwatchman to sleep. Wake the target and show the THIS PLAYER IS and Nightwatchman tokens and point to the Nightwatchman."
+  },
+  {
+    "type": "role",
+    "role": "cultleader",
+    "info": "The Cult Leader might change alignment. If so, show the YOU ARE info token and a thumbs up or down for their new alignment."
   },
   {
     "type": "role",
     "role": "butler",
-    "info": "The Butler selects a player to be their master."
+    "info": "The Butler chooses a player."
+  },
+  {
+    "type": "role",
+    "role": "spy",
+    "info": "Show the Grimoire for as long as the Spy needs."
+  },
+  {
+    "type": "role",
+    "role": "highpriestess",
+    "info": "Point to a player."
+  },
+  {
+    "type": "role",
+    "role": "general",
+    "info": "Give a thumb signal."
+  },
+  {
+    "type": "role",
+    "role": "chambermaid",
+    "info": "The Chambermaid chooses 2 living players. Give a finger signal."
+  },
+  {
+    "type": "role",
+    "role": "mathematician",
+    "info": "Give a finger signal."
+  },
+  {
+    "type": "role",
+    "role": "leviathan",
+    "info": "Optionally, declare that \"The Leviathan is in play.\" Replace the reminder token."
   }
 ]
