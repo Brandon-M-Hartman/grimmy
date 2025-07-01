@@ -51,12 +51,6 @@ export class MenuScreen extends Screen {
             Application.ui.popAndPushScreen(new AboutScreen());
         }
 
-        const sourceButton = new MenuButton("assets/github.png", "Source code");
-        buttons.appendChild(sourceButton);
-        sourceButton.onclick = () => {
-            window.open('https://github.com/Miltage/grimmy', '_blank');
-        }
-
         const supportButton = new MenuButton("assets/ko-fi.png", "Support this tool");
         buttons.appendChild(supportButton);
         supportButton.onclick = () => {

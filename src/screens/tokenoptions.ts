@@ -42,9 +42,9 @@ export class TokenOptionsScreen extends Screen {
         buttons.appendChild(changeNameButton);
         changeNameButton.textContent = 'Change name';
 
-        const upsideDownButton:HTMLButtonElement = document.createElement('button');
-        buttons.appendChild(upsideDownButton);
-        upsideDownButton.textContent = 'Turn upside down';
+        //const upsideDownButton:HTMLButtonElement = document.createElement('button');
+        //buttons.appendChild(upsideDownButton);
+        //upsideDownButton.textContent = 'Turn upside down';
 
         this.contents.onclick = () => {
             Application.ui.popScreen();
